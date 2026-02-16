@@ -1,0 +1,331 @@
+/* =========================================
+   1. CONTENEDOR PRINCIPAL Y ESTÉTICA
+   ========================================= */
+.grid-game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: #1a1a1b;
+  min-height: 90vh;
+  color: #f4e4bc;
+  font-family: 'Special Elite', cursive;
+  position: relative;
+}
+
+.header-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.game-title {
+  font-size: 3.5rem;
+  color: #f4e4bc;
+  text-shadow: 4px 4px #d91b1b;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  line-height: 1;
+}
+
+/* =========================================
+   2. BOTONES Y CONTROLES
+   ========================================= */
+.btn-surrender {
+  background-color: transparent;
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+  padding: 8px 20px;
+  font-family: 'Special Elite', cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.btn-surrender:hover {
+  background-color: #e74c3c;
+  color: white;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+.btn-restart {
+  background-color: #d91b1b;
+  color: #fff;
+  border: 2px solid #f4e4bc;
+  padding: 10px 25px;
+  font-family: 'Special Elite', cursive;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border-radius: 4px;
+}
+
+.btn-restart:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+/* =========================================
+   3. TABLERO (GRID 4x4)
+   ========================================= */
+.game-board {
+  display: grid;
+  grid-template-columns: 140px repeat(3, 1fr); 
+  grid-template-rows: 80px repeat(3, 150px); 
+  gap: 8px;
+  width: 100%;
+  max-width: 1000px;
+  border: 12px solid #4e342e;
+  padding: 10px;
+  background-color: #2c1e1b;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  border-radius: 6px;
+  transition: filter 0.5s;
+}
+
+.game-board.disabled {
+  filter: grayscale(0.8) blur(2px);
+  pointer-events: none;
+}
+
+.grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  background-color: #3e2723; 
+  border: 2px solid #5d4037;
+  color: #f4e4bc;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.grid-header-corner {
+  background: #d91b1b;
+  border: 2px solid #4e342e;
+  font-size: 2rem;
+  color: #fff;
+}
+
+/* Celdas de Juego */
+.grid-cell {
+  background-color: #f4e4bc;
+  background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+  border: 3px dashed #4e342e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-cell:hover {
+  background-color: #fff8e1;
+  border-color: #d91b1b;
+  border-style: solid;
+}
+
+.cell-placeholder {
+  font-size: 3rem;
+  color: rgba(78, 52, 46, 0.2);
+  font-weight: bold;
+}
+
+.cell-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+/* Estado: CELDA LLENA POR JUGADOR */
+.grid-cell.filled {
+  border: 4px solid #2ecc71;
+  border-style: solid;
+  padding: 0;
+  background: #000;
+}
+
+/* =========================================
+   4. SISTEMA DE SOLUCIÓN Y PISTAS
+   ========================================= */
+/* PISTA (HINT) */
+@keyframes greenPulse {
+  0% { box-shadow: inset 0 0 0 rgba(46, 204, 113, 0); border-color: #4e342e; }
+  50% { box-shadow: inset 0 0 30px rgba(46, 204, 113, 0.8); border-color: #2ecc71; border-style: solid; }
+  100% { box-shadow: inset 0 0 0 rgba(46, 204, 113, 0); border-color: #4e342e; }
+}
+
+.grid-cell.hint-active {
+  animation: greenPulse 1.5s infinite;
+  background-color: rgba(46, 204, 113, 0.1);
+}
+
+.hint-active .cell-placeholder {
+  color: #2ecc71;
+  text-shadow: 0 0 5px #2ecc71;
+  opacity: 1;
+}
+
+/* CELDAS REVELADAS (SOLUCIÓN) */
+.grid-cell.revealed-cell {
+  border: 4px solid #f39c12; /* Borde Naranja */
+  border-style: solid;
+  filter: sepia(0.6) contrast(1.1);
+}
+
+.revealed-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(243, 156, 18, 0.9);
+  color: black;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 2px 0;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   5. INTERFAZ DE USUARIO Y OVERLAYS
+   ========================================= */
+.game-message {
+  font-family: monospace;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  padding: 15px 25px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.game-message.info { background: rgba(244, 228, 188, 0.1); color: #f4e4bc; border-color: #f4e4bc; }
+.game-message.success { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border-color: #2ecc71; }
+.game-message.error { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border-color: #e74c3c; }
+
+.endgame-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px 60px;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 0 100px rgba(0,0,0,1);
+  min-width: 320px;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.endgame-overlay.win { background: rgba(39, 174, 96, 0.95); border: 6px solid #2ecc71; color: #fff; }
+.endgame-overlay.lose { background: rgba(192, 57, 43, 0.95); border: 6px solid #e74c3c; color: #fff; }
+
+.endgame-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.btn-home {
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  font-family: 'Special Elite', cursive;
+  transition: all 0.2s;
+}
+
+.btn-home:hover { background: rgba(255, 255, 255, 0.2); border-color: #f4e4bc; color: #f4e4bc; }
+
+@keyframes popIn {
+  from { opacity: 0; transform: translate(-50%, -60%) scale(0.8); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* =========================================
+   6. BUSCADOR (INPUT)
+   ========================================= */
+.game-controls {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  z-index: 100;
+}
+
+.pirate-input {
+  width: 100%;
+  padding: 15px;
+  font-family: 'Special Elite', cursive;
+  font-size: 1.3rem;
+  background-color: #f4e4bc;
+  border: 4px solid #4e342e;
+  color: #4e342e;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.suggestions-list {
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  width: 100%;
+  background-color: #2c1e1b;
+  border: 2px solid #f4e4bc;
+  list-style: none;
+  padding: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+.suggestions-list li {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(244, 228, 188, 0.1);
+  color: #f4e4bc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.suggestions-list li:hover { background-color: #d91b1b; color: #fff; }
+
+.grid-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  color: #f4e4bc;
+  font-size: 2rem;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
