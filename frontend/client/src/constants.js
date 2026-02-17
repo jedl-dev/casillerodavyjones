@@ -1,16 +1,11 @@
 export const FACTIONS = [
-
   "Piratas",
   "Marines",
   "Gobierno Mundial",
-  
- 
   "Ejército Revolucionario",
   "Civiles",                
   "Cazadores de Recompensas",
   "Bajo Mundo",
-  
- 
   "Cipher Pol",
   "Guardia del Reino",       
   "Tribus Guerreras (guerrero, Samburai , etc..)"
@@ -18,13 +13,12 @@ export const FACTIONS = [
 
 export const ROLES = [
   // --- Mando y Liderazgo (Jerarquía) ---
-  "Capitán", 
-  "Vicecapitán", 
-  "Primer Oficial", 
+  "Capitán",              // <--- CORREGIDO (Antes Capitán (Pirata))
+  "Vicecapitán",          // <--- CORREGIDO (Antes Vicecapitán (Pirata))
   "Comandante de División", 
   "Capitan Titanico",
 
-  // --- Roles Esenciales de Tripulación (Los más comunes) ---
+  // --- Roles Esenciales de Tripulación ---
   "Navegante", 
   "Cocinero", 
   "Médico", 
@@ -34,28 +28,20 @@ export const ROLES = [
   "Combatiente", 
 
   // --- Roles Operativos y de Combate ---
-  "Francotirador", 
+  "Francotirador",        // <--- CORREGIDO (Antes Francotirador / Tirador)
   "Espadachin", 
-  "Vigía", 
-  "Artillero", 
-  "Explorador",
-  "Vanguardia",
-  "Guardia",
-
- 
+  
+  // --- Otros ---
   "Científico", 
-  "Arqueólogo / Erudito", 
-  "Herrero",  
+  "Arqueólogo / Erudito",  
   "Infiltrado / Espía",
-  "Interrogador", 
-  "Sastre", 
+  "Interrogador",
   "Cronista", 
   "Aprendiz", 
   "Mascota"
 ];
 
 export const FIGHTING_STYLES = [
- 
   "Cuerpo a Cuerpo",              
   "Espadachin",                   
   "Usuario de Fruta del Diablo",  
@@ -66,11 +52,10 @@ export const FIGHTING_STYLES = [
 ];
 
 export const TITLES = [
-  // --- La Cúspide del Poder (Mundial) ---
+  // --- La Cúspide del Poder ---
   "Gorosei", 
-  "Dios Guerrero", 
   "Dragón Celestial", 
-  "Caballeros Sagrados",
+  "Caballeros Sagrados", // <--- CORREGIDO (Plural clásico)
 
   // --- La Cúspide de la Piratería ---
   "Rey de los Piratas", 
@@ -78,12 +63,8 @@ export const TITLES = [
   "Guerrero del Mar (Shichibukai)", 
   "La Peor Generación", 
   "Supernova", 
-  
- 
- 
 
-  // --- Alto Mando Marina (Orden Descendente) ---
-  "Comandante en Jefe", 
+  // --- Alto Mando Marina ---
   "Almirante de Flota",
   "Almirante",
   "Vicealmirante",
@@ -91,37 +72,12 @@ export const TITLES = [
   "Comodoro",
 
   // --- Oficiales Marina ---
-  "Capitán de Navío",
+  "Capitán",
   "Comandante",
-  "Teniente Comandante",
-  "Teniente",
-  "Teniente de Grado Menor",
-  "Alférez", 
-
-  // --- Tropas Marina ---
-  "Suboficial Mayor",
-  "Suboficial Jefe",
-  "Suboficial",
-  "Marinero de Primera",
-  "Marinero Aprendiz",
-  
- 
-
-  // --- Otros Líderes y Cargos ---
-  "Comandante Supremo",       
-  "Jefe de Personal",         
-  "Comandante de Ejército",   
-  "Shogun de Wano", 
-  "Emperador del Bajo Mundo", 
-  "Inspector General", 
-  "Instructor",
-  "Oficial Técnico",
-  "Primer Oficial",
-  "Agente Enmascarado del CP0" 
+  "Teniente Comandante"
 ];
 
 export const MAJOR_CREWS = [
-
   "Piratas de Sombrero de Paja", 
   "Piratas del Pelirrojo", 
   "Piratas de Barbanegra", 
@@ -131,7 +87,6 @@ export const MAJOR_CREWS = [
   "Piratas de Big Mom", 
   "Piratas de Roger", 
   "Piratas de Rocks", 
-
   "Piratas de Heart",       
   "Piratas de Kid",         
   "Piratas de Donquixote",  
@@ -139,8 +94,6 @@ export const MAJOR_CREWS = [
   "Piratas de Thriller Bark", 
   "Piratas de Fire Tank",  
   "Piratas de Bonney", 
-
- 
   "Barto Club", 
   "Piratas de Beautiful", 
   "Armada Happo", 
@@ -148,22 +101,16 @@ export const MAJOR_CREWS = [
   "Nuevos Piratas Gigantes", 
   "Piratas del Sol",        
   "Piratas de Kuja",        
-
-
   "Piratas de Drake", 
   "Piratas de Hawkins", 
   "Piratas de los Monjes Caídos", 
   "Piratas On-Air", 
   "Piratas de Caribou",
-
-
   "Piratas del León Dorado", 
   "Piratas Guerreros Gigantes",
   "Piratas de Spade",       
   "Piratas de Nox",         
   "Piratas Rumbar",         
-
-
   "Piratas de Arlong", 
   "Piratas de Buggy", 
   "Piratas de Krieg", 
@@ -183,79 +130,55 @@ export const MAJOR_CREWS = [
 ];
 
 export const RACES = [
-  
   "Humano", 
   "Gyojin",             
   "Tritón/Sirena", 
   "Mink", 
   "Gigante", 
-
- 
   "Cyborg",             
   "Humano Modificado",  
   "Lunarian",           
   "Bucanero",           
-  "Oni",                
-  "Tribu de Tres Ojos", 
+  "Oni",               
   "Gigante Ancestral",  
-  
   "Enano (Tontatta)", 
   "Brazos Largos", 
   "Piernas Largas", 
   "Cuellos Largos", 
   "Wotan", 
-
-  
   "Skypieano", 
   "Shandia", 
   "Birkano / Birka", 
-
-  
   "Autómata"
 ];
 
 export const DEVIL_FRUIT_CLASSES = [
-  
   "Paramecia",          
   "Zoan",               
   "Logia",              
-
-  
-  "Zoan Antigua", 
+  "Zoan Prehistorica",     
   "Zoan Mitológica",    
   "Paramecia Especial",
-
-  
   "Zoan Artificial (SMILE)", 
-  "Clase Desconocida / Yokai"
+  "Clase Desconocida"
 ];
 
 export const HAKI_TYPES = [
-  
   "Haki de Armamento (Básico)",      
   "Haki de Observación (Básico)", 
-
-  
   "Haki de Armamento (Avanzado)",    
   "Haki de Observación (Avanzado)",  
-
-  
   "Haki del Conquistador (Básico)", 
   "Haki del Conquistador (Avanzado)" 
 ];
 
 export const ORIGINS = [
-
   "East Blue", 
   "West Blue", 
   "North Blue", 
   "South Blue",
-
-  
   "Grand Line (Paraíso)", 
   "Nuevo Mundo", 
-
- 
   "Red Line", 
   "Calm Belt", 
   "Isla del Cielo", 
@@ -263,4 +186,3 @@ export const ORIGINS = [
   "La Luna", 
   "Desconocido / N/A"
 ];
-

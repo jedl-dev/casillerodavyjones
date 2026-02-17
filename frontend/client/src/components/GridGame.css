@@ -150,6 +150,7 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s;
+  display: block; /* Asegura que llene el contenedor */
 }
 
 /* Estado: CELDA LLENA POR JUGADOR */
@@ -201,6 +202,7 @@
   padding: 2px 0;
   font-family: monospace;
   letter-spacing: 1px;
+  z-index: 10;
 }
 
 /* =========================================
@@ -269,7 +271,7 @@
 }
 
 /* =========================================
-   6. BUSCADOR (INPUT)
+   6. BUSCADOR (INPUT) Y SUGERENCIAS
    ========================================= */
 .game-controls {
   margin-top: 40px;
@@ -279,6 +281,7 @@
   z-index: 100;
 }
 
+/* Input estilo pirata */
 .pirate-input {
   width: 100%;
   padding: 15px;
@@ -292,9 +295,16 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
+.pirate-input:disabled {
+  background-color: #7f8c8d;
+  cursor: not-allowed;
+  border-color: #555;
+}
+
+/* Lista de Sugerencias */
 .suggestions-list {
   position: absolute;
-  bottom: 110%;
+  bottom: 110%; /* Hacia arriba */
   left: 0;
   width: 100%;
   background-color: #2c1e1b;
@@ -304,19 +314,46 @@
   max-height: 280px;
   overflow-y: auto;
   border-radius: 4px;
+  z-index: 200;
 }
 
 .suggestions-list li {
-  padding: 12px 15px;
+  padding: 10px 15px;
   border-bottom: 1px solid rgba(244, 228, 188, 0.1);
   color: #f4e4bc;
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: center; /* Alinea imagen y texto verticalmente */
   transition: background 0.2s;
 }
 
-.suggestions-list li:hover { background-color: #d91b1b; color: #fff; }
+.suggestions-list li:hover { 
+  background-color: #d91b1b; 
+  color: #fff; 
+}
+
+/* Imagen en las sugerencias */
+.suggestion-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 2px solid #4e342e;
+  background-color: #000;
+}
+
+/* Etiqueta de (USADO) */
+.used-tag {
+  margin-left: auto; /* Empuja el texto a la derecha */
+  font-size: 0.8rem;
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.suggestions-list li:hover .used-tag {
+  color: #f4e4bc; /* Cambia de color al hacer hover */
+}
 
 .grid-loading {
   display: flex;

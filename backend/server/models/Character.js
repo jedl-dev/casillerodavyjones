@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const characterSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  slug: { type: String, required: true, unique: true },
+  slug: { type: String, slug: "name" },
   epithet: { type: String, default: '' },
   imageFile: { type: String, default: 'default.png' },
   bounty: { type: Number, default: 0 },
