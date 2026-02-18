@@ -1,18 +1,16 @@
 const Question = require('../models/Question');
 
-exports.getQuizSession = async (req, res) => {
+const getQuizSession = async (req, res) => {
     try {
-        // Distribución del pool: Traemos suficientes para que al retroceder/avanzar siempre haya variedad
         const sessionConfig = [
-            { difficulty: 'Fácil', count: 12 },
-            { difficulty: 'Intermedia', count: 12 },
-            { difficulty: 'Difícil', count: 10 },
-            { difficulty: 'Muy Difícil', count: 8 },
-            { difficulty: 'Imposible', count: 5 }
+            { difficulty: 'Fácil', count: 15 },
+            { difficulty: 'Intermedia', count: 15 },
+            { difficulty: 'Difícil', count: 12 },
+            { difficulty: 'Muy Difícil', count: 10 },
+            { difficulty: 'Imposible', count: 8 }
         ];
 
         let pool = {};
-
         for (const config of sessionConfig) {
             const batch = await Question.aggregate([
                 { $match: { difficulty: config.difficulty } },
@@ -21,22 +19,13 @@ exports.getQuizSession = async (req, res) => {
             pool[config.difficulty] = batch;
         }
 
-        // Validación: Si el pool está vacío, la base de datos no tiene preguntas
-        const totalFetched = Object.values(pool).reduce((acc, curr) => acc + curr.length, 0);
-        if (totalFetched === 0) {
-            return res.status(404).json({ 
-                success: false, 
-                message: "No hay preguntas en la base de datos." 
-            });
-        }
-
         res.json({ success: true, pool });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 };
 
-exports.createQuestion = async (req, res) => {
+const createQuestion = async (req, res) => {
     try {
         const newQuestion = new Question(req.body);
         await newQuestion.save();
@@ -46,7 +35,7 @@ exports.createQuestion = async (req, res) => {
     }
 };
 
-exports.getQuestions = async (req, res) => {
+const getQuestions = async (req, res) => {
     try {
         const questions = await Question.find().sort({ createdAt: -1 });
         res.json({ success: true, data: questions });
@@ -55,7 +44,7 @@ exports.getQuestions = async (req, res) => {
     }
 };
 
-exports.updateQuestion = async (req, res) => {
+const updateQuestion = async (req, res) => {
     try {
         const question = await Question.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json({ success: true, data: question });
@@ -64,11 +53,19 @@ exports.updateQuestion = async (req, res) => {
     }
 };
 
-exports.deleteQuestion = async (req, res) => {
+const deleteQuestion = async (req, res) => {
     try {
         await Question.findByIdAndDelete(req.params.id);
         res.json({ success: true, message: "Eliminada" });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
+};
+
+module.exports = {
+    getQuizSession,
+    createQuestion,
+    getQuestions,
+    updateQuestion,
+    deleteQuestion
 };

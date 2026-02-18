@@ -1,0 +1,100 @@
+.admin-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: #f4e4bc;
+  font-family: 'Special Elite', cursive;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid #4e342e;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.admin-header h1 { font-size: 2.2rem; color: #f1c40f; text-shadow: 2px 2px #000; margin: 0; }
+
+.section-title { font-size: 1.5rem; margin-bottom: 25px; color: #d91b1b; }
+
+/* FORMULARIO */
+.admin-form-section {
+  background: rgba(44, 30, 27, 0.95);
+  padding: 30px;
+  border-radius: 8px;
+  border: 2px solid #5d4037;
+}
+
+.quiz-form { display: flex; flex-direction: column; gap: 20px; }
+
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+
+.form-group label { color: #f4e4bc; font-size: 0.9rem; }
+
+.form-group input, .form-group textarea, .form-group select {
+  padding: 12px;
+  background: #f4e4bc;
+  border: 3px solid #4e342e;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #2c1e1b;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.options-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-actions { display: flex; gap: 15px; margin-top: 10px; }
+
+/* TABLA */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #2c1e1b;
+}
+
+.admin-table th, .admin-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #4e342e;
+}
+
+.admin-table th { background: #3e2723; color: #f1c40f; }
+
+.td-text { max-width: 400px; font-size: 0.9rem; }
+
+.td-diff { font-weight: bold; }
+
+/* Colores de dificultad en tabla */
+.diff-fácil { color: #2ecc71; }
+.diff-intermedia { color: #f1c40f; }
+.diff-difícil { color: #e67e22; }
+.diff-muy-difícil { color: #e74c3c; }
+.diff-imposible { color: #9b59b6; text-shadow: 0 0 5px #9b59b6; }
+
+.td-actions { display: flex; gap: 10px; }
+
+.btn-action {
+  background: none;
+  border: 2px solid #5d4037;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: 0.2s;
+}
+.btn-action:hover { transform: scale(1.1); background: rgba(255,255,255,0.1); }
+.btn-action.delete:hover { border-color: #d91b1b; }
+
+.admin-divider { border: 2px solid #4e342e; margin: 50px 0; }
+
+@media (max-width: 768px) {
+  .form-row, .options-input-grid { grid-template-columns: 1fr; }
+  .td-text { max-width: 150px; }
+}

@@ -96,112 +96,103 @@ const GridGame = ({ onNavigate }) => {
 
   return (
     <div className="grid-game-wrapper fade-in-page">
-      {/* CAPA DE EFECTOS DE FONDO (HAKI Y NIEBLA) */}
-      <div className="grid-bg-effects">
-        {[...Array(12)].map((_, i) => (
-          <div key={i} className="haki-spark"></div>
-        ))}
-        <div className="ocean-mist"></div>
+      {/* SIN EFECTOS DE FONDO NI CAPAS EXTRA */}
+      
+      <div className="game-header">
+        <h1 className="title-pirate">PIRATE GRID</h1>
+        <div className="header-actions">
+          {(gameOver || gameWon) && (
+            <button className="btn-pirate btn-small" onClick={fetchNewGame}>🔄 NUEVO</button>
+          )}
+        </div>
       </div>
 
-      {/* CONTENIDO DEL JUEGO CON Z-INDEX SUPERIOR */}
-      <div className="grid-content-relative">
-        <div className="game-header">
-          <h1 className="title-pirate">PIRATE GRID</h1>
-          <div className="header-actions">
-            {(gameOver || gameWon) && (
-              <button className="btn-pirate btn-small" onClick={fetchNewGame}>🔄 NUEVO</button>
-            )}
+      {message && <div className="floating-error-msg">{message}</div>}
+
+      {showConfirmModal && (
+        <div className="game-overlay">
+          <div className="overlay-card bounce-in">
+            <h2 className="lose-title">¿Rendirse?</h2>
+            <p>Se revelará una solución, pero no podrás jugar el mismo grid.</p>
+            <div className="overlay-btn-group-row">
+              <button className="btn-pirate btn-confirm" onClick={confirmSurrender}>SÍ, RENDIRSE</button>
+              <button className="btn-pirate btn-cancel" onClick={() => setShowConfirmModal(false)}>NO, SEGUIR</button>
+            </div>
           </div>
         </div>
+      )}
 
-        {message && <div className="floating-error-msg">{message}</div>}
-
-        {showConfirmModal && (
-          <div className="game-overlay">
-            <div className="overlay-card bounce-in">
-              <h2 className="lose-title">¿Rendirse?</h2>
-              <p>Se revelará una solución, pero no podrás jugar el mismo grid.</p>
-              <div className="overlay-btn-group-row">
-                <button className="btn-pirate btn-confirm" onClick={confirmSurrender}>SÍ, RENDIRSE</button>
-                <button className="btn-pirate btn-cancel" onClick={() => setShowConfirmModal(false)}>NO, SEGUIR</button>
-              </div>
+      {showOverlay && (
+        <div className="game-overlay">
+          <div className="overlay-card bounce-in">
+            <h2 className={gameWon ? 'win-title' : 'lose-title'}>
+              {gameWon ? '¡REY DE LOS PIRATAS!' : 'FIN DEL JUEGO'}
+            </h2>
+            <div className="overlay-btn-group">
+              <button className="btn-pirate" onClick={() => setShowOverlay(false)}>VER TABLERO </button>
+              <button className="btn-pirate" onClick={fetchNewGame}>NUEVA PARTIDA</button>
+              {onNavigate && <button className="btn-pirate btn-exit" onClick={() => onNavigate('home')}>SALIR</button>}
             </div>
           </div>
-        )}
-
-        {showOverlay && (
-          <div className="game-overlay">
-            <div className="overlay-card bounce-in">
-              <h2 className={gameWon ? 'win-title' : 'lose-title'}>
-                {gameWon ? '¡REY DE LOS PIRATAS!' : 'FIN DEL JUEGO'}
-              </h2>
-              <div className="overlay-btn-group">
-                <button className="btn-pirate" onClick={() => setShowOverlay(false)}>VER TABLERO </button>
-                <button className="btn-pirate" onClick={fetchNewGame}>NUEVA PARTIDA</button>
-                {onNavigate && <button className="btn-pirate btn-exit" onClick={() => onNavigate('home')}>SALIR</button>}
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className={`grid-board ${(gameOver && showOverlay) || showConfirmModal ? 'blurred' : ''}`}>
-          <div className="header-cell corner entrance-anim" style={{ animationDelay: '0s' }}>☠️</div>
-          {gridHeaders.cols.map((col, i) => (
-            <div key={i} className="header-cell col-header entrance-anim" style={{ animationDelay: `${(i+1)*0.1}s` }}>{col}</div>
-          ))}
-          {gridHeaders.rows.map((row, rIdx) => (
-            <React.Fragment key={rIdx}>
-              <div className="header-cell row-header entrance-anim" style={{ animationDelay: `${(rIdx+1)*0.15}s` }}>{row}</div>
-              {gridHeaders.cols.map((col, cIdx) => {
-                const char = gridState[`${rIdx}-${cIdx}`];
-                const isHint = hints[`${rIdx}-${cIdx}`];
-                return (
-                  <div 
-                    key={cIdx} 
-                    className={`grid-cell entrance-anim ${char ? 'filled pop-in' : 'empty'} ${isHint ? 'highlight-hint' : ''}`}
-                    style={{ animationDelay: `${(rIdx + cIdx + 2) * 0.1}s` }}
-                    onClick={() => handleCellClick(rIdx, cIdx)}
-                  >
-                    {char ? (
-                      <div className="char-card">
-                        <img src={`/assets/${char.imageFile}`} alt={char.name} onError={(e) => e.target.src = '/assets/shadow.jpg'} />
-                        <div className="char-name-tag">{char.name}</div>
-                      </div>
-                    ) : <span className="plus-sign">+</span>}
-                  </div>
-                );
-              })}
-            </React.Fragment>
-          ))}
         </div>
+      )}
 
-        <div className="controls-area">
-          <div className="search-group-horizontal">
-            <div className="search-input-wrapper">
-              <input 
-                type="text" 
-                className="pirate-input"
-                placeholder="Busca un personaje..." 
-                value={searchTerm} 
-                onChange={handleSearch} 
-                disabled={gameOver} 
-              />
-              {suggestions.length > 0 && (
-                <ul className="suggestions-dropdown">
-                  {suggestions.map(c => (
-                    <li key={c._id} onClick={() => selectCharacter(c)}>
-                      <img src={`/assets/${c.imageFile}`} alt="" onError={(e) => e.target.src = '/assets/shadow.jpg'} />
-                      <span>{c.name}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {!gameOver && !gameWon && (
-              <button className="btn-surrender-main" onClick={() => setShowConfirmModal(true)} title="Rendirse">🏳️</button>
+      <div className={`grid-board ${(gameOver && showOverlay) || showConfirmModal ? 'blurred' : ''}`}>
+        <div className="header-cell corner entrance-anim" style={{ animationDelay: '0s' }}>☠️</div>
+        {gridHeaders.cols.map((col, i) => (
+          <div key={i} className="header-cell col-header entrance-anim" style={{ animationDelay: `${(i+1)*0.1}s` }}>{col}</div>
+        ))}
+        {gridHeaders.rows.map((row, rIdx) => (
+          <React.Fragment key={rIdx}>
+            <div className="header-cell row-header entrance-anim" style={{ animationDelay: `${(rIdx+1)*0.15}s` }}>{row}</div>
+            {gridHeaders.cols.map((col, cIdx) => {
+              const char = gridState[`${rIdx}-${cIdx}`];
+              const isHint = hints[`${rIdx}-${cIdx}`];
+              return (
+                <div 
+                  key={cIdx} 
+                  className={`grid-cell entrance-anim ${char ? 'filled pop-in' : 'empty'} ${isHint ? 'highlight-hint' : ''}`}
+                  style={{ animationDelay: `${(rIdx + cIdx + 2) * 0.1}s` }}
+                  onClick={() => handleCellClick(rIdx, cIdx)}
+                >
+                  {char ? (
+                    <div className="char-card">
+                      <img src={`/assets/${char.imageFile}`} alt={char.name} onError={(e) => e.target.src = '/assets/shadow.jpg'} />
+                      <div className="char-name-tag">{char.name}</div>
+                    </div>
+                  ) : <span className="plus-sign">+</span>}
+                </div>
+              );
+            })}
+          </React.Fragment>
+        ))}
+      </div>
+
+      <div className="controls-area">
+        <div className="search-group-horizontal">
+          <div className="search-input-wrapper">
+            <input 
+              type="text" 
+              className="pirate-input"
+              placeholder="Busca un personaje..." 
+              value={searchTerm} 
+              onChange={handleSearch} 
+              disabled={gameOver} 
+            />
+            {suggestions.length > 0 && (
+              <ul className="suggestions-dropdown">
+                {suggestions.map(c => (
+                  <li key={c._id} onClick={() => selectCharacter(c)}>
+                    <img src={`/assets/${c.imageFile}`} alt="" onError={(e) => e.target.src = '/assets/shadow.jpg'} />
+                    <span>{c.name}</span>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
+          {!gameOver && !gameWon && (
+            <button className="btn-surrender-main" onClick={() => setShowConfirmModal(true)} title="Rendirse">🏳️</button>
+          )}
         </div>
       </div>
     </div>
