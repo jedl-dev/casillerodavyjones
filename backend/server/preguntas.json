@@ -1,0 +1,22 @@
+[
+  { "questionText": "", "options": ["", "", "", ""], "correctAnswer": "", "difficulty": "Muy Fácil" },
+  { "questionText": "¿Qué fruta comió Luffy originalmente?", "options": ["Bara Bara", "Gomu Gomu", "Mera Mera", "Hie Hie"], "correctAnswer": "Gomu Gomu", "difficulty": "Muy Fácil" },
+  { "questionText": "¿Cuál es el sueño de Zoro?", "options": ["Ser Rey Pirata", "Ser el mejor espadachín", "Encontrar el All Blue", "Dibujar el mapa"], "correctAnswer": "Ser el mejor espadachín", "difficulty": "Muy Fácil" },
+  
+  { "questionText": "¿Quién es el padre de Yamato?", "options": ["Kaido", "Orochi", "Whitebeard", "Oden"], "correctAnswer": "Kaido", "difficulty": "Fácil" },
+  { "questionText": "¿En qué mar comenzó el viaje de Luffy?", "options": ["West Blue", "North Blue", "South Blue", "East Blue"], "correctAnswer": "East Blue", "difficulty": "Fácil" },
+  { "questionText": "¿Quién es el médico de la tripulación?", "options": ["Law", "Chopper", "Marco", "Crocus"], "correctAnswer": "Chopper", "difficulty": "Fácil" },
+
+  { "questionText": "¿Cuál es la recompensa actual de Hajrudin?", "options": ["10M", "15M", "50M", "100M"], "correctAnswer": "15M", "difficulty": "Intermedia" },
+  { "questionText": "¿Cómo se llama la isla de los Gigantes?", "options": ["Wano", "Zou", "Elbaf", "Dressrosa"], "correctAnswer": "Elbaf", "difficulty": "Intermedia" },
+  { "questionText": "¿Quién escribió el diario que Yamato encontró?", "options": ["Roger", "Oden", "Toki", "Kaido"], "correctAnswer": "Oden", "difficulty": "Intermedia" },
+
+  { "questionText": "¿Cómo se llama el padre del Príncipe Loki de Elbaf?", "options": ["Harald", "Dorry", "Broggy", "Yarl"], "correctAnswer": "Harald", "difficulty": "Difícil" },
+  { "questionText": "¿Qué tipo de fruta tiene Yamato?", "options": ["Paramecia", "Logia", "Zoan Mitológica", "Zoan Prehistórica"], "correctAnswer": "Zoan Mitológica", "difficulty": "Difícil" },
+  { "questionText": "¿Quién fue el primer Shichibukai en ser derrotado por Luffy?", "options": ["Moria", "Crocodile", "Doflamingo", "Hancock"], "correctAnswer": "Crocodile", "difficulty": "Difícil" },
+
+  { "questionText": "¿Cuál es el nombre real de la fruta de Yamato?", "options": ["Inu Inu: Modelo Lobo", "Inu Inu: Modelo Makami", "Hito Hito: Modelo Oni", "Neko Neko: Modelo Tigre"], "correctAnswer": "Inu Inu: Modelo Makami", "difficulty": "Muy Difícil" },
+  { "questionText": "¿Cuántos años duró el duelo entre Dorry y Broggy?", "options": ["50 años", "100 años", "10 años", "150 años"], "correctAnswer": "100 años", "difficulty": "Muy Difícil" },
+
+  { "questionText": "¿Cuál es el nombre del barco de los Piratas Rumbar antes de Brook?", "options": ["Victoria Punk", "Thriller Bark", "Going Merry", "Yorker"], "correctAnswer": "Yorker", "difficulty": "Imposible" }
+]

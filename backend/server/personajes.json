@@ -1,166 +1,139 @@
 [
   {
-    "name": "Doll",
-    "slug": "doll",
-    "epithet": "",
-    "imageFile": "doll.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines", "G-14"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": ["Comandante de la Base G-14"],
+    "name": "Figarland Garling",
+    "slug": "figarland-garling",
+    "epithet": "Campeón de God Valley",
+    "imageFile": "garling.jpg",
+    "mainFaction": "Gobierno Mundial",
+    "crews": ["Caballeros Sagrados"],
+    "roles": ["Combatiente"],
+    "titles": ["Gorosei", "Dragón Celestial", "Caballeros Sagrados"],
     "race": "Humano",
-    "origin": "Nuevo Mundo",
+    "origin": "Red Line",
     "devilFruit": {
       "hasFruit": false
     },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Cuerpo a Cuerpo", "Usuario de Haki"],
-    "status": "Active",
-    "bounty": 0,
-    "hasNoBounty": true
-  },
-  {
-    "name": "Bluegrass",
-    "slug": "bluegrass",
-    "epithet": "",
-    "imageFile": "bluegrass.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
-    "race": "Humano",
-    "origin": "Nuevo Mundo",
-    "devilFruit": {
-      "hasFruit": true,
-      "name": "Nori Nori no Mi",
-      "class": "Paramecia",
-      "type": "Control"
-    },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Usuario de Fruta del Diablo", "Usuario de Haki", "Técnico"],
-    "status": "Active",
-    "bounty": 0,
-    "hasNoBounty": true
-  },
-  {
-    "name": "Hound",
-    "slug": "hound",
-    "epithet": "",
-    "imageFile": "hound.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
-    "race": "Humano",
-    "origin": "Nuevo Mundo",
-    "devilFruit": {
-      "hasFruit": false
-    },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Cuerpo a Cuerpo", "Usuario de Haki"],
-    "status": "Active",
-    "bounty": 0,
-    "hasNoBounty": true
-  },
-  {
-    "name": "Tosa",
-    "slug": "tosa",
-    "epithet": "",
-    "imageFile": "tosa.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
-    "race": "Humano",
-    "origin": "Nuevo Mundo",
-    "devilFruit": {
-      "hasFruit": false
-    },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Cuerpo a Cuerpo", "Usuario de Haki"],
-    "status": "Active",
-    "bounty": 0,
-    "hasNoBounty": true
-  },
-  {
-    "name": "Pomsky",
-    "slug": "pomsky",
-    "epithet": "",
-    "imageFile": "pomsky.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
-    "race": "Humano",
-    "origin": "Nuevo Mundo",
-    "devilFruit": {
-      "hasFruit": true,
-      "name": "Inu Inu no Mi (Modelo Desconocido)",
-      "class": "Zoan",
-      "type": "Animal"
-    },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Usuario de Fruta del Diablo", "Usuario de Haki", "Cuerpo a Cuerpo"],
-    "status": "Active",
-    "bounty": 0,
-    "hasNoBounty": true
-  },
-  {
-    "name": "Red King",
-    "slug": "red-king",
-    "epithet": "",
-    "imageFile": "red-king.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
-    "race": "Humano",
-    "origin": "Nuevo Mundo",
-    "devilFruit": {
-      "hasFruit": false
-    },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Cuerpo a Cuerpo", "Usuario de Haki"],
-    "status": "Active",
-    "bounty": 0,
-    "hasNoBounty": true
-  },
-  {
-    "name": "Guillotine",
-    "slug": "guillotine",
-    "epithet": "",
-    "imageFile": "guillotine.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
-    "race": "Humano",
-    "origin": "Nuevo Mundo",
-    "devilFruit": {
-      "hasFruit": false
-    },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
+    "hakiAbilities": [
+      "Haki de Armamento (Avanzado)",
+      "Haki de Observación (Avanzado)",
+      "Haki del Conquistador (Avanzado)"
+    ],
     "fightingStyles": ["Espadachin", "Usuario de Haki"],
     "status": "Active",
     "bounty": 0,
     "hasNoBounty": true
   },
   {
-    "name": "Urban",
-    "slug": "urban",
-    "epithet": "",
-    "imageFile": "urban.jpg",
-    "mainFaction": "Marine",
-    "crews": ["Marines"],
-    "roles": ["Vicealmirante", "Comandante"],
-    "titles": [],
+    "name": "Manmayer Gunko",
+    "slug": "manmayer-gunko",
+    "epithet": "Caballero Sagrado",
+    "imageFile": "gunko.jpg",
+    "mainFaction": "Gobierno Mundial",
+    "crews": ["Caballeros Sagrados"],
+    "roles": ["Combatiente"],
+    "titles": ["Dragón Celestial", "Caballeros Sagrados"],
     "race": "Humano",
-    "origin": "Nuevo Mundo",
+    "origin": "Red Line",
     "devilFruit": {
       "hasFruit": false
     },
-    "hakiAbilities": ["Haki de Armamento (Básico)", "Haki de Observación (Básico)"],
-    "fightingStyles": ["Tirador", "Usuario de Haki"],
+    "hakiAbilities": [
+      "Haki de Armamento (Avanzado)",
+      "Haki de Observación (Avanzado)"
+    ],
+    "fightingStyles": ["Cuerpo a Cuerpo", "Usuario de Haki"],
+    "status": "Active",
+    "bounty": 0,
+    "hasNoBounty": true
+  },
+  {
+    "name": "Shepherd Sommers",
+    "slug": "shepherd-sommers",
+    "epithet": "Caballero Sagrado",
+    "imageFile": "sommers.jpg",
+    "mainFaction": "Gobierno Mundial",
+    "crews": ["Caballeros Sagrados"],
+    "roles": ["Combatiente"],
+    "titles": ["Dragón Celestial", "Caballeros Sagrados"],
+    "race": "Humano",
+    "origin": "Red Line",
+    "devilFruit": {
+      "hasFruit": false
+    },
+    "hakiAbilities": [
+      "Haki de Armamento (Avanzado)",
+      "Haki de Observación (Avanzado)"
+    ],
+    "fightingStyles": ["Espadachin", "Usuario de Haki"],
+    "status": "Active",
+    "bounty": 0,
+    "hasNoBounty": true
+  },
+  {
+    "name": "Rimoshifu Killingham",
+    "slug": "rimoshifu-killingham",
+    "epithet": "Caballero Sagrado",
+    "imageFile": "killingham.jpg",
+    "mainFaction": "Gobierno Mundial",
+    "crews": ["Caballeros Sagrados"],
+    "roles": ["Combatiente"],
+    "titles": ["Dragón Celestial", "Caballeros Sagrados"],
+    "race": "Humano",
+    "origin": "Red Line",
+    "devilFruit": {
+      "hasFruit": false
+    },
+    "hakiAbilities": [
+      "Haki de Armamento (Avanzado)",
+      "Haki de Observación (Avanzado)"
+    ],
+    "fightingStyles": ["Cuerpo a Cuerpo", "Usuario de Haki"],
+    "status": "Active",
+    "bounty": 0,
+    "hasNoBounty": true
+  },
+  {
+    "name": "Satchels Maffey",
+    "slug": "satchels-maffey",
+    "epithet": "Caballero Sagrado",
+    "imageFile": "maffey.jpg",
+    "mainFaction": "Gobierno Mundial",
+    "crews": ["Caballeros Sagrados"],
+    "roles": ["Combatiente"],
+    "titles": ["Dragón Celestial", "Caballeros Sagrados"],
+    "race": "Humano",
+    "origin": "Red Line",
+    "devilFruit": {
+      "hasFruit": false
+    },
+    "hakiAbilities": [
+      "Haki de Armamento (Avanzado)",
+      "Haki de Observación (Avanzado)"
+    ],
+    "fightingStyles": ["Espadachin", "Usuario de Haki"],
+    "status": "Active",
+    "bounty": 0,
+    "hasNoBounty": true
+  },
+  {
+    "name": "Figarland Shamrock",
+    "slug": "figarland-shamrock",
+    "epithet": "Caballero Sagrado",
+    "imageFile": "shamrock.jpg",
+    "mainFaction": "Gobierno Mundial",
+    "crews": ["Caballeros Sagrados"],
+    "roles": ["Combatiente"],
+    "titles": ["Dragón Celestial", "Caballeros Sagrados"],
+    "race": "Humano",
+    "origin": "Red Line",
+    "devilFruit": {
+      "hasFruit": false
+    },
+    "hakiAbilities": [
+      "Haki de Armamento (Avanzado)",
+      "Haki de Observación (Avanzado)"
+    ],
+    "fightingStyles": ["Espadachin", "Usuario de Haki"],
     "status": "Active",
     "bounty": 0,
     "hasNoBounty": true

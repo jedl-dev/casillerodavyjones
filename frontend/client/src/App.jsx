@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import GameMenu from './components/GameMenu';
 import GridGame from './components/GridGame';
-import CharacterList from './components/CharacterList'; // Tu herramienta Admin
-import AddCharacter from './components/AddCharacter'; // Tu formulario
-<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+import WantedQuiz from './components/WantedQuiz'; // 1. IMPORTAR EL NUEVO COMPONENTE
+import CharacterList from './components/CharacterList'; 
+import AddCharacter from './components/AddCharacter'; 
+
 function App() {
-  // Estados: 'home', 'grid-game', 'admin', 'admin-form'
+  // Estados: 'home', 'grid-game', 'wanted-quiz', 'admin', 'admin-form'
   const [view, setView] = useState('home');
   const [editingCharacter, setEditingCharacter] = useState(null);
 
@@ -35,12 +36,15 @@ function App() {
         return <GameMenu onNavigate={setView} />;
       
       case 'grid-game':
-        return <GridGame />;
+        // Agregué onNavigate para que puedas volver al menú desde el juego
+        return <GridGame onNavigate={setView} />;
+
+      case 'wanted-quiz': // 2. AGREGAR EL CASO PARA EL QUIZ
+        return <WantedQuiz onNavigate={setView} />;
 
       case 'admin':
         return (
           <div style={{paddingTop: '20px'}}>
-            {/* Botón flotante o cabecera interna del admin */}
             <div style={{textAlign: 'center', marginBottom: '20px'}}>
               <button 
                 onClick={handleAddNew}
@@ -63,7 +67,7 @@ function App() {
                 onClick={() => setView('admin')}
                 style={{margin: '20px', background:'transparent', color:'white', border:'1px solid white', padding:'5px 10px', cursor:'pointer'}}
              >
-               &larr; Volver a la Lista
+                &larr; Volver a la Lista
              </button>
             <AddCharacter editData={editingCharacter} onSuccess={handleSuccess} />
           </div>

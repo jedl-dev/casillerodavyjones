@@ -340,3 +340,91 @@
     height: 85px;
   }
 }
+/* =========================================
+   ATMÓSFERA Y PARTÍCULAS LLAMATIVAS (GRID)
+   ========================================= */
+
+.grid-game-wrapper {
+  position: relative;
+  background: radial-gradient(circle at center, #2c1e1b 0%, #1a0f0d 100%);
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Capa para asegurar que el fondo no tape el juego */
+.grid-content-relative {
+  position: relative;
+  z-index: 10;
+}
+
+.grid-bg-effects {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* RAYOS DE HAKI (Más llamativos) */
+.haki-spark {
+  position: absolute;
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, #d91b1b, #000, transparent);
+  opacity: 0;
+  filter: blur(1px);
+  animation: lightningStrike 4s infinite ease-in-out;
+}
+
+/* Posiciones aleatorias para los rayos */
+.haki-spark:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.haki-spark:nth-child(2) { left: 85%; top: 15%; animation-delay: 1.5s; height: 100px; width: 3px;}
+.haki-spark:nth-child(3) { left: 50%; top: 70%; animation-delay: 3s; background: #f1c40f; } /* Haki dorado */
+.haki-spark:nth-child(4) { left: 20%; top: 80%; animation-delay: 0.5s; }
+.haki-spark:nth-child(5) { left: 75%; top: 60%; animation-delay: 2.2s; }
+
+@keyframes lightningStrike {
+  0%, 90% { opacity: 0; transform: translateY(0) scaleY(0); }
+  92% { opacity: 1; transform: translateY(0) scaleY(1.5); }
+  94% { opacity: 0.5; transform: translateY(20px) scaleY(1); }
+  96% { opacity: 1; transform: translateY(10px) scaleY(2); filter: brightness(2); }
+  100% { opacity: 0; transform: translateY(50px) scaleY(0); }
+}
+
+/* HUMO OCEÁNICO MISTERIOSO */
+.ocean-mist {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: url('https://www.transparenttextures.com/patterns/ashen-urban.png');
+  opacity: 0.05;
+  top: 0;
+  left: -50%;
+  animation: drift 60s infinite linear;
+}
+
+@keyframes drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(20%); }
+}
+
+/* EFECTO DE RESPLANDOR EN EL TABLERO */
+.grid-board {
+  box-shadow: 0 0 30px rgba(217, 27, 27, 0.2), 0 20px 50px rgba(0,0,0,0.9);
+  border: 8px solid #4e342e;
+  position: relative;
+}
+
+/* Animación extra para el borde del tablero */
+.grid-board::after {
+  content: '';
+  position: absolute;
+  top: -10px; left: -10px; right: -10px; bottom: -10px;
+  border: 2px solid #d91b1b22;
+  border-radius: 10px;
+  animation: borderPulse 4s infinite alternate;
+}
+
+@keyframes borderPulse {
+  from { opacity: 0.2; transform: scale(1); }
+  to { opacity: 0.8; transform: scale(1.01); box-shadow: 0 0 20px #d91b1b44; }
+}

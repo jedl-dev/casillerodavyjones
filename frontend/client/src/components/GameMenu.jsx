@@ -7,25 +7,47 @@ const GameMenu = ({ onNavigate }) => {
       <h1 className="menu-title">GRAND LINE GAMES</h1>
       
       <div className="games-grid">
-        {/* TARJETA DEL GRID */}
+        {/* TARJETA DEL GRID (Juego 1) */}
         <div className="game-card highlight" onClick={() => onNavigate('grid-game')}>
           <div className="card-image-wrapper">
-            {/* Asegúrate de tener una imagen o usa este placeholder oscuro */}
-            <div style={{width:'100%', height:'100%', background:'#0f1216', display:'flex', alignItems:'center', justifyContent:'center'}}>
-               <span style={{fontSize:'3rem'}}>3x3</span>
-            </div>
+            <img 
+              src="public/assets/juegos/pirategrid.jpg" 
+              alt="Pirate Grid" 
+              className="game-card-img"
+            />
           </div>
           <div className="card-content">
             <h3>PIRATE GRID</h3>
-            <p>Pon a prueba tu conocimiento. ¿Quién cumple ambas condiciones?</p>
-            <span style={{color:'#00d2be', fontSize:'0.8rem', fontWeight:'bold'}}>JUGAR AHORA &rarr;</span>
+            <p>Pon a prueba tu conocimiento sobre los rasgos y atributos de personajes de One Piece.</p>
+            <span className="play-now-label">JUGAR AHORA &rarr;</span>
           </div>
         </div>
 
-        {/* Tarjetas Bloqueadas (Futuros juegos) */}
+        {/* TARJETA DEL QUIZ (Juego 2 - ¡DESBLOQUEADO!) */}
+        <div className="game-card highlight" onClick={() => onNavigate('wanted-quiz')}>
+          <div className="card-image-wrapper">
+            <img 
+              src="/assets/juegos/wantedquiz.jpg" 
+              alt="Wanted Quiz" 
+              className="game-card-img"
+            />
+          </div>
+          <div className="card-content">
+            <h3>WANTED QUIZ</h3>
+            <p>Supera las 15 preguntas de dificultad ascendente y conviértete en Yonko.</p>
+            <span className="play-now-label">EMPEZAR DESAFÍO &rarr;</span>
+          </div>
+        </div>
+
+        {/* Espacio para futuros juegos (Bloqueados) */}
         <div className="game-card locked">
-          <div className="card-image-wrapper"><div className="lock-overlay">🔒</div></div>
-          <div className="card-content"><h3>WANTED QUIZ</h3><p>Próximamente...</p></div>
+          <div className="card-image-wrapper">
+             <div className="lock-overlay">🔒</div>
+          </div>
+          <div className="card-content">
+            <h3>LOG POSE ADVENTURE</h3>
+            <p>Próximamente...</p>
+          </div>
         </div>
       </div>
     </div>

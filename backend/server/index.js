@@ -14,7 +14,8 @@ const { connectDB } = require('./config/db');
 
 // --- IMPORTAR RUTAS ---
 const characterRoutes = require('./routes/characterRoutes');
-const gridGameRoutes = require('./routes/gridGameRoutes'); // <--- NUEVA RUTA
+const gridGameRoutes = require('./routes/gridGameRoutes');
+const quizRoutes = require('./routes/quizRoutes'); // <--- IMPORTADO
 
 const app = express();
 
@@ -26,7 +27,8 @@ app.use(express.json());
 
 // --- USAR RUTAS ---
 app.use('/api/characters', characterRoutes);
-app.use('/api/grid-game', gridGameRoutes); // <--- AQUÍ SE MONTA EL JUEGO
+app.use('/api/grid-game', gridGameRoutes); 
+app.use('/api/quiz', quizRoutes); // <--- RUTA DEL QUIZ MONTADA
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
