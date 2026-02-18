@@ -1,228 +1,164 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './GridGame.css';
-import { CRITERIA_DEFINITIONS } from '../gridCriteria';
 
 const GridGame = ({ onNavigate }) => {
-  const [allCharacters, setAllCharacters] = useState([]);
   const [gridHeaders, setGridHeaders] = useState({ rows: [], cols: [] });
   const [gridState, setGridState] = useState({});
   const [loading, setLoading] = useState(true);
-
-  // Estados de Juego
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
-
-  // Inputs
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedChar, setSelectedChar] = useState(null);
-  
-  // Feedback
-  const [message, setMessage] = useState("Cargando base de datos...");
-  const [messageType, setMessageType] = useState("info");
+  const [hints, setHints] = useState({}); 
+  const [message, setMessage] = useState("");
 
-  // --- 1. CARGA DE DATOS ---
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/characters');
-        setAllCharacters(res.data.data);
-        if (res.data.data.length > 0) generateValidGrid(res.data.data);
-      } catch (err) {
-        setLoading(false);
-        setMessage("Error de conexión.");
-      }
-    };
-    fetchData();
-  }, []); 
+  const API_URL = 'http://localhost:5000/api/grid-game';
 
-  // --- 2. VALIDACIÓN ---
-  const checkCriteria = (char, criteriaKey) => {
-    if (!char || !criteriaKey) return false;
-    const validator = CRITERIA_DEFINITIONS[criteriaKey];
-    return validator ? validator(char) : false;
+  const fetchNewGame = async () => {
+    setLoading(true); setGridState({}); setGameOver(false); setGameWon(false);
+    setShowOverlay(false); setShowConfirmModal(false); setSuggestions([]); 
+    setSearchTerm(""); setSelectedChar(null); setHints({});
+    try {
+      const res = await axios.get(`${API_URL}/new`);
+      if (res.data.success) setGridHeaders({ rows: res.data.rows, cols: res.data.cols });
+    } catch (err) { console.error(err); }
+    finally { setTimeout(() => setLoading(false), 600); }
   };
 
-  // --- 3. GENERADOR DE GRID ---
-  const generateValidGrid = useCallback((characters) => {
-    setLoading(true);
-    setGridState({});
-    setGameOver(false);
-    setGameWon(false);
-    setShowOverlay(false);
-    setMessage("¡Completa el Grid!");
-    setMessageType("info");
-    setSearchTerm("");
-    setSelectedChar(null);
-    
-    const allCriteriaKeys = Object.keys(CRITERIA_DEFINITIONS);
-    const validKeys = allCriteriaKeys.filter(key => characters.some(char => CRITERIA_DEFINITIONS[key](char)));
+  useEffect(() => { fetchNewGame(); }, []);
 
-    setTimeout(() => {
-      let success = false;
-      let sRows = [], sCols = [];
-      
-      // Intentamos generar un grid válido
-      for (let i = 0; i < 5000; i++) {
-        const shuffled = [...validKeys].sort(() => 0.5 - Math.random());
-        sRows = shuffled.slice(0, 3);
-        sCols = shuffled.slice(3, 6);
-        
-        // Verificamos que cada celda tenga solución
-        let isValid = sRows.every(r => sCols.every(c => characters.some(char => checkCriteria(char, r) && checkCriteria(char, c))));
-        
-        if (isValid) { success = true; break; }
-      }
-      
-      setLoading(false);
-      if (success) setGridHeaders({ rows: sRows, cols: sCols });
-      else generateValidGrid(characters); // Reintentar si falló
-    }, 50); 
-  }, []);
-
-  // --- 4. SOLUCIONADOR (RENDIRSE) ---
-  const solveGrid = () => {
-    const solvedState = { ...gridState };
-    gridHeaders.rows.forEach((rKey, rIdx) => {
-      gridHeaders.cols.forEach((cKey, cIdx) => {
-        const cellKey = `${rIdx}-${cIdx}`;
-        if (!solvedState[cellKey]) {
-          // Buscamos un personaje que cumpla y que NO esté ya en el tablero
-          const match = allCharacters.find(char => 
-            checkCriteria(char, rKey) && checkCriteria(char, cKey) && 
-            !Object.values(solvedState).some(u => u._id === char._id)
-          );
-          if (match) solvedState[cellKey] = { ...match, isRevealed: true };
-        }
-      });
-    });
-    setGridState(solvedState);
-  };
-
-  // --- 5. MANEJADORES DE INPUT ---
-  const handleSearch = (e) => {
-    if (gameOver || gameWon) return;
+  const handleSearch = async (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-    if (term.length > 1) {
-      const matches = allCharacters.filter(c => 
-        c.name.toLowerCase().includes(term.toLowerCase()) || 
-        (c.epithet && c.epithet.toLowerCase().includes(term.toLowerCase()))
-      );
-      setSuggestions(matches.slice(0, 5)); // Limitamos a 5 sugerencias
-    } else { setSuggestions([]); }
+    if (gameOver || gameWon || term.length <= 2) { setSuggestions([]); return; }
+    try {
+      const res = await axios.get(`${API_URL}/search`, { params: { q: term } });
+      setSuggestions(Array.isArray(res.data.data) ? res.data.data : []);
+    } catch (err) { console.error(err); }
   };
 
-  const selectCharacter = (char) => {
-    // Si ya está usado, mostramos error
-    if (Object.values(gridState).some(u => u._id === char._id)) {
-      setMessage(`⚠️ ${char.name} ya está en el tablero.`);
-      setMessageType("error");
-      setSuggestions([]); // Limpiamos sugerencias pero dejamos el nombre para que vea cuál era
-      return;
-    }
+  const selectCharacter = async (char) => {
+    if (Object.values(gridState).some(u => u._id === char._id)) return;
     setSelectedChar(char);
     setSearchTerm(char.name);
     setSuggestions([]);
-    setMessage(`Seleccionado: ${char.name}`);
-    setMessageType("info");
+    try {
+      const res = await axios.post(`${API_URL}/check-hints`, {
+        characterId: char._id,
+        rows: gridHeaders.rows,
+        cols: gridHeaders.cols
+      });
+      if (res.data.success) setHints(res.data.hints);
+    } catch (err) { console.error(err); }
   };
 
-  const handleCellClick = (rIdx, cIdx) => {
-    if (gameOver || gameWon || gridState[`${rIdx}-${cIdx}`]) return;
-    
-    if (!selectedChar) {
-      setMessage("⚠️ Busca y selecciona un personaje primero.");
-      setMessageType("error");
-      return;
-    }
-
-    const rowCriteria = gridHeaders.rows[rIdx];
-    const colCriteria = gridHeaders.cols[cIdx];
-
-    if (checkCriteria(selectedChar, rowCriteria) && checkCriteria(selectedChar, colCriteria)) {
-      const newState = { ...gridState, [`${rIdx}-${cIdx}`]: selectedChar };
-      setGridState(newState);
-      setSelectedChar(null);
-      setSearchTerm("");
-      
-      if (Object.keys(newState).length === 9) {
-        setGameWon(true);
-        setShowOverlay(true);
-        setMessage("🏆 ¡HAS CONQUISTADO EL GRID!");
-        setMessageType("success");
+  const handleCellClick = async (rIdx, cIdx) => {
+    if (gameOver || gameWon || gridState[`${rIdx}-${cIdx}`] || !selectedChar) return;
+    try {
+      const res = await axios.post(`${API_URL}/validate`, {
+        characterId: selectedChar._id, rowCategory: gridHeaders.rows[rIdx], colCategory: gridHeaders.cols[cIdx]
+      });
+      if (res.data.correct) {
+        const newState = { ...gridState, [`${rIdx}-${cIdx}`]: selectedChar };
+        setGridState(newState); setSelectedChar(null); setSearchTerm(""); setHints({});
+        if (Object.keys(newState).length === 9) { 
+          setGameWon(true); 
+          setTimeout(() => setShowOverlay(true), 600); 
+        }
       } else {
-        setMessage("✅ ¡Correcto!");
-        setMessageType("success");
+        setMessage(`❌ ${selectedChar.name} no encaja`);
+        setTimeout(() => setMessage(""), 2500);
       }
-    } else {
-      setMessage(`❌ ${selectedChar.name} no cumple los requisitos.`);
-      setMessageType("error");
-    }
+    } catch (err) { console.error(err); }
   };
 
-  if (loading) return <div className="grid-loading"><h1>Generando Grid...</h1></div>;
+  const confirmSurrender = async () => {
+    setShowConfirmModal(false);
+    try {
+      const res = await axios.post(`${API_URL}/solve`, { rows: gridHeaders.rows, cols: gridHeaders.cols });
+      if (res.data.success) {
+        setGridState(prev => ({ ...res.data.solution, ...prev }));
+        setGameOver(true); setShowOverlay(true);
+      }
+    } catch (err) { console.error(err); }
+  };
+
+  if (loading) return (
+    <div className="grid-loading-screen">
+      <div className="anchor-spinner">⚓</div>
+      <h2>GENERANDO GRID...</h2>
+    </div>
+  );
 
   return (
-    <div className="grid-game-container">
-      <div className="header-actions">
-        <h1 className="game-title">PIRATE GRID</h1>
-        {!gameOver && !gameWon && (
-          <button className="btn-surrender" onClick={() => { if(window.confirm("¿Rendirse?")) { solveGrid(); setGameOver(true); setShowOverlay(true); } }}>🏳️ RENDIRSE</button>
-        )}
-        {(gameOver || gameWon) && !showOverlay && (
-          <button className="btn-restart" onClick={() => generateValidGrid(allCharacters)}>🔄 NUEVO JUEGO</button>
-        )}
+    <div className="grid-game-wrapper fade-in-page">
+      <div className="game-header">
+        <h1 className="title-pirate">PIRATE GRID</h1>
+        <div className="header-actions">
+          {(gameOver || gameWon) && (
+            <button className="btn-pirate btn-small" onClick={fetchNewGame}>🔄 NUEVO</button>
+          )}
+        </div>
       </div>
 
-      <div className={`game-message ${messageType}`}>{message}</div>
+      {message && <div className="floating-error-msg">{message}</div>}
 
-      {/* OVERLAY DE VICTORIA/DERROTA */}
-      {showOverlay && (
-        <div className={`endgame-overlay ${gameWon ? 'win' : 'lose'}`}>
-          <h2>{gameWon ? '¡VICTORIA!' : 'TABLERO COMPLETADO'}</h2>
-          <div className="endgame-buttons">
-            <button className="btn-home" onClick={() => setShowOverlay(false)}>👁️ VER MAPA</button>
-            <button className="btn-restart" onClick={() => generateValidGrid(allCharacters)}>🔄 REINTENTAR</button>
-            {onNavigate && <button className="btn-home" onClick={() => onNavigate('home')}>🏠 MENÚ</button>}
+      {showConfirmModal && (
+        <div className="game-overlay">
+          <div className="overlay-card bounce-in">
+            <h2 className="lose-title">¿Rendrise?</h2>
+            <p>Se revelará una solución , pero no podras jugar el mismo grid.</p>
+            <div className="overlay-btn-group-row">
+              <button className="btn-pirate btn-confirm" onClick={confirmSurrender}>SÍ, RENDIRSE</button>
+              <button className="btn-pirate btn-cancel" onClick={() => setShowConfirmModal(false)}>NO, SEGUIR</button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* TABLERO DE JUEGO */}
-      <div className={`game-board ${gameOver && showOverlay ? 'disabled' : ''}`}>
-        <div className="grid-header grid-header-corner"><span>☠️</span></div>
-        {gridHeaders.cols.map((col, i) => <div key={i} className="grid-header col-header"><span>{col}</span></div>)}
-        
+      {showOverlay && (
+        <div className="game-overlay">
+          <div className="overlay-card bounce-in">
+            <h2 className={gameWon ? 'win-title' : 'lose-title'}>
+              {gameWon ? '¡REY DE LOS PIRATAS!' : 'FIN DEL JUEGO'}
+            </h2>
+            <div className="overlay-btn-group">
+              <button className="btn-pirate" onClick={() => setShowOverlay(false)}>VER TABLERO </button>
+              <button className="btn-pirate" onClick={fetchNewGame}>NUEVA PARTIDA</button>
+              {onNavigate && <button className="btn-pirate btn-exit" onClick={() => onNavigate('home')}>SALIR</button>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className={`grid-board ${(gameOver && showOverlay) || showConfirmModal ? 'blurred' : ''}`}>
+        <div className="header-cell corner entrance-anim" style={{ animationDelay: '0s' }}>☠️</div>
+        {gridHeaders.cols.map((col, i) => (
+          <div key={i} className="header-cell col-header entrance-anim" style={{ animationDelay: `${(i+1)*0.1}s` }}>{col}</div>
+        ))}
         {gridHeaders.rows.map((row, rIdx) => (
           <React.Fragment key={rIdx}>
-            <div className="grid-header row-header"><span>{row}</span></div>
+            <div className="header-cell row-header entrance-anim" style={{ animationDelay: `${(rIdx+1)*0.15}s` }}>{row}</div>
             {gridHeaders.cols.map((col, cIdx) => {
               const char = gridState[`${rIdx}-${cIdx}`];
-              // Lógica para que la celda brille si es una opción válida (Pista)
-              const isHint = !gameOver && !gameWon && selectedChar && !char && checkCriteria(selectedChar, row) && checkCriteria(selectedChar, col);
-              
+              const isHint = hints[`${rIdx}-${cIdx}`];
               return (
                 <div 
                   key={cIdx} 
-                  className={`grid-cell ${char ? 'filled' : ''} ${isHint ? 'hint-active' : ''} ${char?.isRevealed ? 'revealed-cell' : ''}`} 
+                  className={`grid-cell entrance-anim ${char ? 'filled pop-in' : 'empty'} ${isHint ? 'highlight-hint' : ''}`}
+                  style={{ animationDelay: `${(rIdx + cIdx + 2) * 0.1}s` }}
                   onClick={() => handleCellClick(rIdx, cIdx)}
                 >
                   {char ? (
-                    <>
-                      <img 
-                        src={`/assets/${char.imageFile}`} 
-                        alt={char.name} 
-                        className="cell-image" 
-                        onError={(e) => e.target.src='/assets/shadow.jpg'} 
-                      />
-                      {char.isRevealed && <div className="revealed-badge">SOLUCIÓN</div>}
-                    </>
-                  ) : (
-                    <span className="cell-placeholder">{isHint ? '✨' : '+'}</span>
-                  )}
+                    <div className="char-card">
+                      <img src={`/assets/${char.imageFile}`} alt={char.name} onError={(e) => e.target.src = '/assets/shadow.jpg'} />
+                      <div className="char-name-tag">{char.name}</div>
+                    </div>
+                  ) : <span className="plus-sign">+</span>}
                 </div>
               );
             })}
@@ -230,38 +166,30 @@ const GridGame = ({ onNavigate }) => {
         ))}
       </div>
 
-      {/* INPUT / BUSCADOR */}
-      <div className="game-controls">
-        <div className="search-wrapper">
-          <input 
-            type="text" 
-            className="pirate-input" 
-            placeholder={gameOver || gameWon ? "Fin del Juego" : "Busca un pirata..."} 
-            value={searchTerm} 
-            onChange={handleSearch} 
-            disabled={gameOver || gameWon} 
-          />
-          
-          {suggestions.length > 0 && (
-            <ul className="suggestions-list">
-              {suggestions.map(c => {
-                 const isUsed = Object.values(gridState).some(u => u._id === c._id);
-                 return (
+      <div className="controls-area">
+        <div className="search-group-horizontal">
+          <div className="search-input-wrapper">
+            <input 
+              type="text" 
+              className="pirate-input"
+              placeholder="Busca un personaje..." 
+              value={searchTerm} 
+              onChange={handleSearch} 
+              disabled={gameOver} 
+            />
+            {suggestions.length > 0 && (
+              <ul className="suggestions-dropdown">
+                {suggestions.map(c => (
                   <li key={c._id} onClick={() => selectCharacter(c)}>
-                    {/* IMAGEN DEL PERSONAJE EN LA SUGERENCIA */}
-                    <img 
-                      src={`/assets/${c.imageFile}`} 
-                      alt="" 
-                      className="suggestion-icon"
-                      onError={(e) => e.currentTarget.src = '/assets/shadow.jpg'}
-                    />
-                    {c.name}
-                    {/* ETIQUETA SI YA ESTÁ USADO */}
-                    {isUsed && <span className="used-tag">(USADO)</span>}
+                    <img src={`/assets/${c.imageFile}`} alt="" onError={(e) => e.target.src = '/assets/shadow.jpg'} />
+                    <span>{c.name}</span>
                   </li>
-                 );
-              })}
-            </ul>
+                ))}
+              </ul>
+            )}
+          </div>
+          {!gameOver && !gameWon && (
+            <button className="btn-surrender-main" onClick={() => setShowConfirmModal(true)} title="Rendirse">🏳️</button>
           )}
         </div>
       </div>

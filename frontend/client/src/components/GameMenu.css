@@ -73,3 +73,69 @@
   filter: grayscale(1) sepia(0.5);
   opacity: 0.7;
 }
+
+/* =========================================
+   RESPONSIVIDAD DEL MENÚ (MÓVILES)
+   ========================================= */
+
+@media (max-width: 768px) {
+  .menu-container {
+    padding: 20px 10px;
+    min-height: 100vh; /* Asegura que cubra toda la pantalla en móvil */
+  }
+
+  .menu-title {
+    font-size: 2.2rem; /* Título más pequeño para que no se corte */
+    letter-spacing: 2px;
+    text-shadow: 2px 2px #d91b1b;
+    margin-top: 20px;
+  }
+
+  .games-grid {
+    /* Bajamos el minmax para que las cartas puedan ser más angostas en móvil */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+    padding: 0 10px;
+  }
+
+  .game-card {
+    padding: 10px;
+    border-width: 3px;
+  }
+
+  /* Evitamos que la rotación sea molesta al tocar con el dedo */
+  .game-card:hover {
+    transform: translateY(-5px); 
+    rotate: 0deg; 
+  }
+
+  .card-image-wrapper {
+    height: 160px; /* Reducimos la altura de la imagen en móvil */
+  }
+
+  .card-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+  }
+
+  .card-content p {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+}
+
+/* Ajustes para pantallas extra pequeñas (iPhone SE, etc.) */
+@media (max-width: 400px) {
+  .menu-title {
+    font-size: 1.8rem;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr; /* Una sola columna obligatoria */
+  }
+
+  .card-image-wrapper {
+    height: 140px;
+  }
+}

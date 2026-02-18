@@ -11,7 +11,10 @@ dns.setDefaultResultOrder('ipv4first');
 const express = require('express');
 const cors = require('cors');
 const { connectDB } = require('./config/db'); 
+
+// --- IMPORTAR RUTAS ---
 const characterRoutes = require('./routes/characterRoutes');
+const gridGameRoutes = require('./routes/gridGameRoutes'); // <--- NUEVA RUTA
 
 const app = express();
 
@@ -21,7 +24,9 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// --- USAR RUTAS ---
 app.use('/api/characters', characterRoutes);
+app.use('/api/grid-game', gridGameRoutes); // <--- AQUÍ SE MONTA EL JUEGO
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

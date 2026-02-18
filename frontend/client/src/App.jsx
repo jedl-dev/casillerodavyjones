@@ -6,7 +6,7 @@ import GameMenu from './components/GameMenu';
 import GridGame from './components/GridGame';
 import CharacterList from './components/CharacterList'; // Tu herramienta Admin
 import AddCharacter from './components/AddCharacter'; // Tu formulario
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 function App() {
   // Estados: 'home', 'grid-game', 'admin', 'admin-form'
   const [view, setView] = useState('home');
