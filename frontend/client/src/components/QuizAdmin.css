@@ -98,3 +98,27 @@
   .form-row, .options-input-grid { grid-template-columns: 1fr; }
   .td-text { max-width: 150px; }
 }
+.list-header-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.admin-filter-select {
+  background: #2c1e1b;
+  color: #f1c40f;
+  border: 1px solid #f1c40f;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-family: 'Special Elite', cursive;
+  cursor: pointer;
+}
+
+.filter-group label {
+  font-family: 'Special Elite', cursive;
+  color: #f4e4bc;
+  margin-right: 10px;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import './QuizAdmin.css';
 
@@ -6,6 +6,10 @@ const QuizAdmin = ({ onNavigate }) => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
+  
+  // 1. NUEVO ESTADO: Filtro de dificultad
+  const [filterDifficulty, setFilterDifficulty] = useState('Todas');
+
   const [formData, setFormData] = useState({
     questionText: '',
     options: ['', '', '', ''],
@@ -20,6 +24,7 @@ const QuizAdmin = ({ onNavigate }) => {
     fetchQuestions();
   }, []);
 
+  // ... (fetchQuestions, handleInputChange, handleOptionChange igual) ...
   const fetchQuestions = async () => {
     try {
       const res = await axios.get(API_URL);
@@ -42,15 +47,21 @@ const QuizAdmin = ({ onNavigate }) => {
     setFormData({ ...formData, options: newOptions });
   };
 
+  // 2. LÓGICA DE FILTRADO: Usamos useMemo para optimizar el rendimiento
+  const filteredQuestions = useMemo(() => {
+    if (filterDifficulty === 'Todas') return questions;
+    return questions.filter(q => q.difficulty === filterDifficulty);
+  }, [questions, filterDifficulty]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (editingId) {
         await axios.put(`${API_URL}/${editingId}`, formData);
-        alert("⚓ ¡Pregunta actualizada en los archivos de la Marina!");
+        alert("⚓ ¡Pregunta actualizada!");
       } else {
         await axios.post(API_URL, formData);
-        alert("✅ ¡Nueva pregunta avistada en el horizonte!");
+        alert("✅ ¡Nueva pregunta avistada!");
       }
       resetForm();
       fetchQuestions();
@@ -71,7 +82,7 @@ const QuizAdmin = ({ onNavigate }) => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("¿Seguro que quieres borrar esta pregunta? No habrá vuelta atrás al East Blue.")) {
+    if (window.confirm("¿Seguro que quieres borrar esta pregunta?")) {
       try {
         await axios.delete(`${API_URL}/${id}`);
         fetchQuestions();
@@ -100,10 +111,10 @@ const QuizAdmin = ({ onNavigate }) => {
         <button className="btn-pirate btn-small" onClick={() => onNavigate('home')}>VOLVER</button>
       </div>
 
-      {/* FORMULARIO DE GESTIÓN */}
       <section className="admin-form-section">
         <h2 className="section-title">{editingId ? "📝 EDITAR PREGUNTA" : "⚔️ NUEVA PREGUNTA"}</h2>
         <form className="quiz-form" onSubmit={handleSubmit}>
+          {/* ... (Campos del formulario igual) ... */}
           <div className="form-group">
             <label>Texto de la Pregunta:</label>
             <textarea 
@@ -111,7 +122,6 @@ const QuizAdmin = ({ onNavigate }) => {
               value={formData.questionText} 
               onChange={handleInputChange} 
               required 
-              placeholder="Ej: ¿Quién es el vicecapitán de los Sombrero de Paja?"
             />
           </div>
 
@@ -130,7 +140,6 @@ const QuizAdmin = ({ onNavigate }) => {
                 value={formData.correctAnswer} 
                 onChange={handleInputChange} 
                 required 
-                placeholder="Debe coincidir con una de las opciones"
               />
             </div>
           </div>
@@ -158,9 +167,26 @@ const QuizAdmin = ({ onNavigate }) => {
 
       <hr className="admin-divider" />
 
-      {/* LISTADO DE PREGUNTAS */}
+      {/* 3. SECCIÓN DE LISTADO ACTUALIZADA CON FILTRO */}
       <section className="admin-list-section">
-        <h2 className="section-title">📦 PREGUNTAS EN LA BASE ({questions.length})</h2>
+        <div className="list-header-filter">
+          <h2 className="section-title">
+            📦 PREGUNTAS ({filteredQuestions.length} de {questions.length})
+          </h2>
+          
+          <div className="filter-group">
+            <label>Filtrar por dificultad: </label>
+            <select 
+              value={filterDifficulty} 
+              onChange={(e) => setFilterDifficulty(e.target.value)}
+              className="admin-filter-select"
+            >
+              <option value="Todas">Todas las recompensas</option>
+              {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
+        </div>
+
         <div className="table-responsive">
           <table className="admin-table">
             <thead>
@@ -171,10 +197,13 @@ const QuizAdmin = ({ onNavigate }) => {
               </tr>
             </thead>
             <tbody>
-              {questions.map(q => (
+              {/* 4. IMPORTANTE: Usamos filteredQuestions aquí */}
+              {filteredQuestions.map(q => (
                 <tr key={q._id}>
                   <td className="td-text">{q.questionText}</td>
-                  <td className={`td-diff diff-${q.difficulty.toLowerCase().replace(" ", "-")}`}>{q.difficulty}</td>
+                  <td className={`td-diff diff-${q.difficulty.toLowerCase().replace(" ", "-")}`}>
+                    {q.difficulty}
+                  </td>
                   <td className="td-actions">
                     <button className="btn-action edit" onClick={() => handleEdit(q)}>✏️</button>
                     <button className="btn-action delete" onClick={() => handleDelete(q._id)}>🗑️</button>

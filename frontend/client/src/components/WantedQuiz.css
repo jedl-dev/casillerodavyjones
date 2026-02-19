@@ -16,7 +16,7 @@
 
 .diff-easy { background-color: #1a3a2a; }
 .diff-intermediate { background-color: #2a346b; }
-.diff-hard { background-color: #b4a906; }
+.diff-hard { background-color: #501802; }
 .diff-very-hard { background-color: #4a0000; }
 .diff-impossible { 
   background: radial-gradient(circle, #000 0%, #1a0000 100%); 
