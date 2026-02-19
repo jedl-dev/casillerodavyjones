@@ -27,14 +27,14 @@ const GameMenu = ({ onNavigate }) => {
         <div className="game-card highlight" onClick={() => onNavigate('wanted-quiz')}>
           <div className="card-image-wrapper">
             <img 
-              src="/assets/juegos/wantedquiz.jpg" 
+              src="/assets/juegos/quiz.jpg" 
               alt="Wanted Quiz" 
               className="game-card-img"
             />
           </div>
           <div className="card-content">
             <h3>WANTED QUIZ</h3>
-            <p>Supera las 15 preguntas de dificultad ascendente y conviértete en Yonko.</p>
+            <p>Supera las 15 preguntas de dificultad ascendente y demuestra que sabes de ONE PIECE</p>
             <span className="play-now-label">EMPEZAR DESAFÍO &rarr;</span>
           </div>
         </div>

@@ -21,7 +21,7 @@ const WantedQuiz = ({ onNavigate }) => {
   const [feedback, setFeedback] = useState(null); 
   const [hakiSpike, setHakiSpike] = useState(false); 
 
-  const API_URL = 'http://localhost:5000/api/quiz';
+  const API_URL = 'https://gran-line-games-api.vercel.app/api/quiz';
 
   const stepConfig = [
     'Fácil', 'Fácil', 'Fácil', 'Fácil',             

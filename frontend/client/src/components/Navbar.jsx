@@ -13,23 +13,23 @@ const Navbar = ({ onNavigate, currentView }) => {
           className={`nav-item ${currentView === 'home' ? 'active' : ''}`}
           onClick={() => onNavigate('home')}
         >
-          Juegos
+          Menú Principal
         </button>
-        
+        {/*
         <button 
           className={`nav-item ${currentView === 'admin' ? 'active' : ''}`}
           onClick={() => onNavigate('admin')}
         >
           ⚙️ PERSONAJES
         </button>
-
-        {/* NUEVO BOTÓN: ACCESO DIRECTO AL CRUD DE PREGUNTAS */}
+        
+        
         <button 
           className={`nav-item ${currentView === 'quiz-admin' ? 'active' : ''}`}
           onClick={() => onNavigate('quiz-admin')}
         >
           📝 PREGUNTAS
-        </button>
+        </button>*/}
       </div>
     </nav>
   );

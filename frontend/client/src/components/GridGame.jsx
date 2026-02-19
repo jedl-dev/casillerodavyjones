@@ -16,7 +16,7 @@ const GridGame = ({ onNavigate }) => {
   const [hints, setHints] = useState({}); 
   const [message, setMessage] = useState("");
 
-  const API_URL = 'http://localhost:5000/api/grid-game';
+  const API_URL = 'https://gran-line-games-api.vercel.app/api/grid-game';
 
   const fetchNewGame = async () => {
     setLoading(true); setGridState({}); setGameOver(false); setGameWon(false);
