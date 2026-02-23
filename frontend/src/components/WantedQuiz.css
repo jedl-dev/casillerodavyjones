@@ -1,0 +1,525 @@
+/* =========================================
+   ESTRUCTURA Y FONDOS DINÁMICOS
+   ========================================= */
+.quiz-page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Soporte moderno para móviles */
+  color: #f4e4bc;
+  font-family: 'Special Elite', cursive;
+  position: relative;
+  overflow: hidden;
+  transition: background 1.5s ease;
+}
+
+/* Colores de atmósfera por dificultad */
+.diff-fácil, .diff-easy { background-color: #1a3a2a; }
+.diff-intermedia, .diff-intermediate { background-color: #2a346b; }
+.diff-difícil, .diff-hard { background-color: #5d4037; }
+.diff-muy-difícil, .diff-very-hard { background-color: #4a0000; }
+.diff-imposible, .diff-impossible { 
+  background: radial-gradient(circle, #000 0%, #1a0000 100%); 
+  animation: hakiPulse 2s infinite alternate;
+}
+
+@keyframes hakiPulse {
+  from { box-shadow: inset 0 0 100px #d91b1b22; }
+  to { box-shadow: inset 0 0 200px #d91b1b55; }
+}
+
+/* =========================================
+   PARTÍCULAS DE HAKI
+   ========================================= */
+.haki-particles {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px; height: 4px;
+  background: rgba(241, 196, 15, 0.4);
+  border-radius: 50%;
+  opacity: 0;
+  bottom: -10px;
+  animation: floatUp 5s infinite linear;
+}
+
+.diff-muy-difícil .particle, .diff-very-hard .particle,
+.diff-imposible .particle, .diff-impossible .particle {
+  background: #d91b1b;
+  box-shadow: 0 0 10px #ff0000;
+  animation-duration: 2s;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(-110vh) scale(2); opacity: 0; }
+}
+
+/* Posiciones aleatorias */
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 25%; animation-delay: 1s; }
+.particle:nth-child(3) { left: 45%; animation-delay: 2s; }
+.particle:nth-child(4) { left: 65%; animation-delay: 0.5s; }
+.particle:nth-child(5) { left: 85%; animation-delay: 1.5s; }
+.particle:nth-child(6) { left: 15%; animation-delay: 3s; }
+.particle:nth-child(7) { left: 35%; animation-delay: 4s; }
+.particle:nth-child(8) { left: 55%; animation-delay: 2.5s; }
+.particle:nth-child(9) { left: 75%; animation-delay: 1.2s; }
+.particle:nth-child(10) { left: 95%; animation-delay: 0.8s; }
+
+/* =========================================
+   ÁREA DE PREGUNTA (ELEVADA)
+   ========================================= */
+.quiz-main-content {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10vh 20px 20px;
+  z-index: 5;
+  overflow-y: auto;
+}
+
+.question-area {
+  max-width: 850px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.difficulty-tag-container {
+  margin-bottom: 10px;
+}
+
+.diff-label {
+  background: rgba(0,0,0,0.5);
+  padding: 5px 20px;
+  border-radius: 20px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: 1px solid #000000;
+  font-size: 0.9rem;
+}
+
+.question-text {
+  font-size: clamp(1.2rem, 4vw, 2.5rem); 
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
+  min-height: 90px; 
+  line-height: 1.3;
+  margin-bottom: 15px;
+}
+
+.cursor { animation: blink 0.8s infinite; color: #d91b1b; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* =========================================
+   OPCIONES (SISTEMA VISUAL CORREGIDO)
+   ========================================= */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Siempre 2 columnas */
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.option-btn {
+  background: #f4e4bc;
+  background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+  border: 4px solid #4e342e;
+  padding: 15px 20px;
+  font-family: 'Special Elite', cursive;
+  font-size: 1rem;
+  color: #2c1e1b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  
+  /* ESTADO INVISIBLE (Por defecto) */
+  opacity: 0;
+  transform: translateY(20px);
+  visibility: hidden;
+  transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, box-shadow 0.2s;
+}
+
+.options-grid.visible .option-btn {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+/* Delays escalonados */
+.options-grid.visible .option-btn:nth-child(1) { transition-delay: 0.0s; }
+.options-grid.visible .option-btn:nth-child(2) { transition-delay: 0.1s; }
+.options-grid.visible .option-btn:nth-child(3) { transition-delay: 0.2s; }
+.options-grid.visible .option-btn:nth-child(4) { transition-delay: 0.3s; }
+
+.option-letter {
+  background: #4e342e;
+  color: #f4e4bc;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+
+.option-text {
+  line-height: 1.2;
+}
+
+.options-grid.visible .option-btn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  border-color: #d91b1b;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  transition-delay: 0s; 
+}
+
+.option-btn.correct { background: #27ae60 !important; color: white; border-color: #2ecc71; }
+.option-btn.wrong { background: #c0392b !important; color: white; border-color: #e74c3c; }
+
+/* =========================================
+   HUD SUPERIOR (LOG POSE & VITALS)
+   ========================================= */
+.quiz-inline-hud {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* Efecto Glassmorphism más elegante */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(244, 228, 188, 0.2);
+  margin-bottom: 25px;
+  gap: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.lives-section { 
+  font-size: 1.6rem; 
+  display: flex;
+  gap: 8px;
+  filter: drop-shadow(0 0 5px rgba(217, 27, 27, 0.4));
+}
+
+.skull-icon { 
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+.skull-icon.dead { 
+  filter: grayscale(1) brightness(0.5); 
+  opacity: 0.3; 
+  transform: scale(0.8) rotate(-15deg); 
+}
+
+.progress-section { 
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-stats { 
+  text-align: right; 
+  font-size: 0.75rem; 
+  color: #f4e4bc; 
+  text-transform: uppercase;
+  letter-spacing: 2px; 
+  margin: 0 0 6px 0;
+  opacity: 0.8;
+}
+
+.track-line {
+  height: 6px;
+  background: rgba(26, 26, 27, 0.8);
+  border-radius: 10px;
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.fill-line {
+  height: 100%;
+  background: linear-gradient(90deg, #d91b1b, #ff4d4d);
+  border-radius: 10px;
+  transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 0 15px rgba(217, 27, 27, 0.6);
+}
+
+.milestone { 
+  position: absolute; 
+  top: -16px; 
+  transform: translateX(-50%); 
+  z-index: 2;
+}
+
+.milestone-flag { 
+  font-size: 1.2rem; 
+  filter: grayscale(1) brightness(0.7); 
+  transition: all 0.5s ease;
+}
+
+.milestone.reached .milestone-flag { 
+  filter: grayscale(0) brightness(1.2); 
+  transform: scale(1.4) translateY(-3px);
+  text-shadow: 0 0 10px #f1c40f;
+}
+
+/* =========================================
+   MODALES Y BOTONES
+   ========================================= */
+.btn-exit-top {
+  position: absolute; top: 15px; right: 15px;
+  background: rgba(0,0,0,0.6); color: #fff;
+  border: 2px solid #d91b1b; padding: 8px 15px;
+  cursor: pointer; z-index: 100; font-family: 'Special Elite';
+  font-size: 0.85rem;
+}
+
+.quiz-result-card {
+  background: rgba(0,0,0,0.9);
+  padding: 40px;
+  border: 4px solid #000000;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(241, 196, 15, 0.2);
+}
+
+.btn-pirate {
+  background: #d91b1b; color: white; border: 2px solid #ff0000;
+  padding: 10px 20px; font-family: 'Special Elite'; cursor: pointer;
+  margin: 10px; font-size: 1rem; transition: 0.2s; text-transform: uppercase;
+}
+.btn-pirate:hover { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+.btn-outline { background: transparent; color: #f4e4bc; border-color: #f4e4bc; }
+.btn-outline:hover { background: #f4e4bc; color: #000; box-shadow: 0 0 15px #f4e4bc; }
+
+/* ANIMACIONES */
+.pop-in { animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards; }
+@keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+.bounce-in { animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+/* =========================================
+   NUEVO NIVEL INMERSIVO Y OVERLAYS
+   ========================================= */
+.haki-wave-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none; z-index: 9999;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  animation: screenDarkenSmooth 1.2s ease-in-out forwards;
+}
+
+@keyframes screenDarkenSmooth {
+  0% { background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(0px); }
+  25% { background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
+  75% { background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
+  100% { background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(0px); }
+}
+
+.haki-text-alert {
+  font-size: clamp(2rem, 6vw, 4rem); 
+  font-weight: bold;
+  color: #f1c40f;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(241, 196, 15, 0.4), 2px 2px 0 #000;
+  animation: smoothTextReveal 1.2s ease-out forwards;
+  padding: 0 20px;
+}
+
+@keyframes smoothTextReveal {
+  0% { transform: translateY(30px) scale(0.9); opacity: 0; filter: blur(5px); }
+  20% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+  80% { transform: translateY(0) scale(1.02); opacity: 1; }
+  100% { transform: translateY(-30px) scale(1.1); opacity: 0; filter: blur(5px); }
+}
+
+.feedback-fullscreen-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 8000; display: flex; justify-content: center; align-items: center;
+  pointer-events: none;
+}
+.feedback-fullscreen-overlay.success { animation: successFlash 1.2s ease-in-out forwards; }
+.feedback-fullscreen-overlay.error { animation: errorFlash 1.2s ease-in-out forwards; }
+
+@keyframes successFlash {
+  0% { background-color: rgba(39, 174, 96, 0); }
+  20% { background-color: rgba(39, 174, 96, 0.3); } 
+  80% { background-color: rgba(39, 174, 96, 0.3); }
+  100% { background-color: rgba(39, 174, 96, 0); }
+}
+
+@keyframes errorFlash {
+  0% { background-color: rgba(192, 57, 43, 0); }
+  20% { background-color: rgba(0, 0, 0, 0.85); }
+  80% { background-color: rgba(0, 0, 0, 0.85); }
+  100% { background-color: rgba(192, 57, 43, 0); }
+}
+
+.feedback-impact-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+.success-mark, .error-mark {
+  font-size: clamp(4rem, 15vw, 8rem); 
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+}
+.success-mark { animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.error-mark { animation: impactShake 0.5s linear; color: #d91b1b; }
+
+.feedback-impact-text {
+  font-size: clamp(1.8rem, 8vw, 4rem);
+  margin-top: 10px;
+  letter-spacing: 2px;
+  text-shadow: 4px 4px 0 #000;
+  animation: textFocus 1.2s ease-out forwards;
+}
+
+@keyframes textFocus {
+  0% { filter: blur(20px); opacity: 0; transform: scale(0.5); }
+  20% { filter: blur(0px); opacity: 1; transform: scale(1.1); }
+  80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+.skull-icon.danger-pulse {
+  animation: heartBeat 0.8s infinite;
+  filter: drop-shadow(0 0 10px #d91b1b);
+  color: #ff0000 !important;
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.quiz-page-container:has(.feedback-fullscreen-overlay.error) {
+  animation: screenShake 0.4s linear;
+}
+
+@keyframes screenShake {
+  0% { transform: translate(0,0); }
+  10% { transform: translate(-8px, 8px); }
+  30% { transform: translate(8px, -8px); }
+  50% { transform: translate(-8px, -8px); }
+  70% { transform: translate(8px, 8px); }
+  100% { transform: translate(0,0); }
+}
+
+/* =========================================
+   MODAL DE TUTORIAL
+   ========================================= */
+.tutorial-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.tutorial-modal {
+  background-color: #f4e4bc;
+  background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+  border: 5px solid #4e342e;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 500px;
+  color: #2c1e1b;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+  text-align: center;
+  max-height: 90vh;
+  overflow-y: auto; 
+}
+
+.tutorial-modal h2 {
+  color: #d91b1b;
+  margin-top: 0;
+  border-bottom: 2px dashed #4e342e;
+  padding-bottom: 10px;
+  font-family: 'Special Elite', cursive;
+}
+
+.tutorial-list {
+  text-align: left;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  padding-left: 20px;
+  margin-bottom: 25px;
+  font-family: 'Special Elite', cursive;
+}
+
+/* =========================================
+   RESPONSIVIDAD MÓVIL OPTIMIZADA
+   ========================================= */
+@media (max-width: 768px) {
+  .quiz-main-content {
+    padding: 70px 12px 20px; /* Espacio para el botón de salida */
+  }
+
+  .quiz-inline-hud {
+    padding: 10px 15px;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .lives-section { font-size: 1.3rem; }
+  .progress-stats { font-size: 0.65rem; letter-spacing: 1px; }
+
+  /* Mantenemos el progreso horizontal pero más fino */
+  .track-line { height: 4px; }
+  .milestone { top: -12px; }
+  .milestone-flag { font-size: 0.9rem; }
+
+  .options-grid {
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px;
+  }
+
+  .option-btn {
+    padding: 12px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Celulares Pequeños (iPhone SE, etc.) */
+@media (max-width: 480px) {
+  .quiz-inline-hud {
+    flex-direction: row; /* Forzamos fila para ahorrar espacio vertical */
+    flex-wrap: wrap; /* Si es muy pequeño, que baje con gracia */
+    justify-content: center;
+  }
+
+  .lives-section { order: 1; }
+  .progress-section { 
+    order: 2; 
+    min-width: 120px; /* Asegura que la barra respire */
+  }
+
+  .question-text {
+    font-size: 1.2rem;
+    min-height: 60px;
+  }
+  
+  /* Reducimos el Log Pose al mínimo funcional */
+  .milestone-flag { font-size: 0.8rem; }
+  .progress-stats { display: none; } /* Ocultamos texto "1/10" para limpiar */
+}

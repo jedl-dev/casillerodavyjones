@@ -1,0 +1,144 @@
+.changelog-wrapper {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Special Elite', cursive;
+  color: #f4e4bc;
+}
+
+.changelog-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.changelog-subtitle {
+  font-size: 1.2rem;
+  color: #a4b0be;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: -10px;
+}
+
+.changelog-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Tarjeta de Versión (Estilo Pergamino) */
+.changelog-card {
+  background-color: #f4e4bc;
+  background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+  border: 4px solid #4e342e;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.changelog-card:hover {
+  transform: translateY(-5px);
+}
+
+.changelog-card-header {
+  border-bottom: 2px dashed #4e342e;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.version-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.version-number {
+  background: #d91b1b;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 2px solid #2c1e1b;
+  box-shadow: 2px 2px 0 #2c1e1b;
+}
+
+.version-date {
+  color: #5d4037;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.version-title {
+  margin: 0;
+  color: #2c1e1b;
+  font-size: 1.8rem;
+}
+
+/* Lista de Cambios */
+.changelog-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.changelog-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  font-size: 1.1rem;
+  color: #2c1e1b;
+  line-height: 1.4;
+}
+
+/* Etiquetas (NUEVO, MEJORA, ARREGLO) */
+.changelog-badge {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: white;
+  letter-spacing: 1px;
+  min-width: 80px;
+  text-align: center;
+  flex-shrink: 0;
+  margin-top: 3px;
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+.badge-new { background-color: #27ae60; border: 1px solid #1e8449; }
+.badge-update { background-color: #2980b9; border: 1px solid #1f618d; }
+.badge-fix { background-color: #c0392b; border: 1px solid #922b21; }
+
+/* Responsividad */
+@media (max-width: 600px) {
+  .changelog-card { padding: 20px; }
+  .version-title { font-size: 1.4rem; }
+  .changelog-item { flex-direction: column; gap: 5px; font-size: 1rem; }
+  .changelog-badge { margin-top: 0; font-size: 0.7rem; padding: 3px 8px; min-width: auto;}
+  .version-info { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+.changelog-wrapper {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Special Elite', cursive;
+  color: #f4e4bc;
+  position: relative; /* <--- MUY IMPORTANTE PARA EL BOTÓN FLOTANTE */
+}
+.badge-new { background-color: #27ae60; border: 1px solid #1e8449; }
+.badge-update { background-color: #2980b9; border: 1px solid #1f618d; }
+.badge-fix { background-color: #c0392b; border: 1px solid #922b21; }
+/* NUEVA ETIQUETA PARA PRESUMIR DATOS */
+.badge-info { background-color: #8e44ad; border: 1px solid #732d91; }

@@ -1,0 +1,31 @@
+[
+  { "questionText": "¿A qué raza de hombres-pez pertenece Arlong, el antiguo capitán que aterrorizó la Villa Cocoyasi?", "options": ["Tiburón Sierra", "Tiburón Blanco", "Pez Espada", "Pulpo"], "correctAnswer": "Tiburón Sierra", "difficulty": "Fácil" },
+  { "questionText": "¿Qué parte del cuerpo de Franky es la única que sigue siendo humana y representa su punto débil?", "options": ["Su espalda", "Su pecho", "Sus piernas", "Su cara"], "correctAnswer": "Su espalda", "difficulty": "Fácil" },
+  { "questionText": "¿Cómo se llama la raza de personas diminutas que habitan en el Reino de Tontatta en Dressrosa?", "options": ["Enanos", "Minks", "Bucaneros", "Hombres-pequeños"], "correctAnswer": "Enanos", "difficulty": "Fácil" },
+  { "questionText": "¿Qué tipo de animal es Tony Tony Chopper originalmente antes de consumir su Fruta del Diablo?", "options": ["Reno", "Mapache", "Perro", "Oso"], "correctAnswer": "Reno", "difficulty": "Fácil" },
+  { "questionText": "¿Cuál es la característica física más distintiva de los habitantes de las Islas del Cielo como los de Skypiea?", "options": ["Tienen alas en la espalda", "Tienen tres ojos", "Tienen cuernos", "Tienen brazos extra largos"], "correctAnswer": "Tienen alas en la espalda", "difficulty": "Fácil" },
+
+  { "questionText": "¿Cómo se llama la transformación que los Minks adquieren al mirar fijamente la luna llena?", "options": ["Sulong", "Monster Point", "Berserk", "Electro"], "correctAnswer": "Sulong", "difficulty": "Intermedia" },
+  { "questionText": "¿A qué tribu pertenece Scratchmen Apoo, caracterizada por tener dos articulaciones en sus brazos?", "options": ["Tribu de Brazos Largos", "Tribu de Piernas Largas", "Tribu de Cuellos Largos", "Tribu de Tres Ojos"], "correctAnswer": "Tribu de Brazos Largos", "difficulty": "Intermedia" },
+  { "questionText": "¿Qué nombre reciben los híbridos entre un Gigante y un Gyojin (Hombre-pez), como Big Bun?", "options": ["Wotan", "Bucanero", "Titán Marino", "Gigante-pez"], "correctAnswer": "Wotan", "difficulty": "Intermedia" },
+  { "questionText": "¿De qué material están hechos los Pacifistas originales, como los que enfrentó la banda en Sabaody?", "options": ["Metal y circuitos (Cyborgs)", "Sombra y cadáveres (Zombis)", "Caramelo endurecido", "Piedra volcánica"], "correctAnswer": "Metal y circuitos (Cyborgs)", "difficulty": "Intermedia" },
+  { "questionText": "¿A qué especie pertenece Kawamatsu, a pesar de que él se autodenomina un 'Kappa'?", "options": ["Gyojin (Pez Globo)", "Mink (Nutria)", "Humano modificado", "Espíritu de la isla"], "correctAnswer": "Gyojin (Pez Globo)", "difficulty": "Intermedia" },
+
+  { "questionText": "¿Cuál es la característica única de la raza de los Lunaria, a la cual pertenece King?", "options": ["Pueden generar fuego y tienen piel oscura con alas negras", "Tienen la capacidad de leer Poneglyphs", "Tienen una fuerza física 100 veces superior a la humana", "Son inmortales"], "correctAnswer": "Pueden generar fuego y tienen piel oscura con alas negras", "difficulty": "Difícil" },
+  { "questionText": "¿Cómo se llama la raza de caballos extremadamente largos que habitan en Long Ring Long Land?", "options": ["Naitamie-Norida", "Sherry-Horse", "Zou-Horse", "Long-Leg Stallion"], "correctAnswer": "Naitamie-Norida", "difficulty": "Difícil" },
+  { "questionText": "¿Cuál es el nombre del primer Zombi que Luffy intentó volver a meter en su tumba en Thriller Bark?", "options": ["Zombi número 3", "Mokku", "Bau", "Zombi número 10"], "correctAnswer": "Zombi número 3", "difficulty": "Difícil" },
+  { "questionText": "¿A qué tribu pertenece Blue Gilly, el luchador que participó en el Coliseo Corrida?", "options": ["Tribu de Piernas Largas", "Tribu de Brazos Largos", "Tribu de Cuellos Largos", "Tribu de los Tres Ojos"], "correctAnswer": "Tribu de Piernas Largas", "difficulty": "Difícil" },
+  { "questionText": "¿Qué raza fue mencionada por Big Mom como una de las tres que faltan en su colección en Totto Land (además de los Gigantes)?", "options": ["Bucaneros", "Minks", "Skypieans", "Brazos Largos"], "correctAnswer": "Bucaneros", "difficulty": "Difícil" },
+
+  { "questionText": "¿Cuál es la estatura oficial de Wadatsumi, el gigante hombre-pez tigre?", "options": ["8,000 cm", "7,500 cm", "9,000 cm", "8,500 cm"], "correctAnswer": "8,000 cm", "difficulty": "Muy Difícil" },
+  { "questionText": "¿Cuál es la fecha de nacimiento oficial de Pekoms, el Mink león de los piratas de Big Mom?", "options": ["11 de abril", "10 de mayo", "21 de junio", "15 de agosto"], "correctAnswer": "11 de abril", "difficulty": "Muy Difícil" },
+  { "questionText": "¿Cuál es el tipo de sangre de Bartholomew Kuma según su perfil de Vivre Card?", "options": ["X", "S", "F", "XF"], "correctAnswer": "X", "difficulty": "Muy Difícil" },
+  { "questionText": "¿Cuál es la estatura oficial de Leo, el líder de los guerreros Tontatta?", "options": ["23 cm", "20 cm", "25 cm", "18 cm"], "correctAnswer": "23 cm", "difficulty": "Muy Difícil" },
+  { "questionText": "¿Qué día es el cumpleaños oficial de Fisher Tiger, el legendario capitán de los Piratas del Sol?", "options": ["5 de noviembre", "10 de enero", "15 de marzo", "22 de abril"], "correctAnswer": "5 de noviembre", "difficulty": "Muy Difícil" },
+
+  { "questionText": "¿Cuál es el tipo de sangre registrado para la Mink Carrot en los perfiles de Oda?", "options": ["F", "S", "X", "XF"], "correctAnswer": "F", "difficulty": "Imposible" },
+  { "questionText": "¿Cuál es la estatura oficial de Masira, el aliado de Cricket con apariencia de simio?", "options": ["345 cm", "330 cm", "350 cm", "360 cm"], "correctAnswer": "345 cm", "difficulty": "Imposible" },
+  { "questionText": "¿Cómo se llama el 'tipo' específico de Zombi que es Lola en Thriller Bark?", "options": ["Wild Zombie", "Soldier Zombie", "General Zombie", "Mario Zombie"], "correctAnswer": "Wild Zombie", "difficulty": "Imposible" },
+  { "questionText": "¿Cuál es la fecha de nacimiento oficial de Tom, el carpintero de Water 7?", "options": ["16 de marzo", "10 de febrero", "25 de abril", "12 de mayo"], "correctAnswer": "16 de marzo", "difficulty": "Imposible" },
+  { "questionText": "¿Cuál es la estatura exacta de Hatchan (Hachi) según su ficha técnica?", "options": ["220 cm", "215 cm", "225 cm", "210 cm"], "correctAnswer": "220 cm", "difficulty": "Imposible" }
+]
