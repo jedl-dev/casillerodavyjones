@@ -5,12 +5,63 @@ const GameMenu = ({ onNavigate }) => {
   const particles = Array.from({ length: 15 });
 
   const gameList = [
-    { id: 'grid-game', title: 'PIRATE GRID', img: 'assets/juegos/pirategrid.JPG', desc: 'Conecta rasgos y atributos para completar el tablero.', label: 'INICIAR DESAFÍO', highlight: true },
-    { id: 'wanted-quiz', title: 'WANTED QUIZ', img: 'assets/juegos/quiz.jpg', desc: '15 preguntas de dificultad ascendente. ¿Llegarás al final?', label: 'INICIAR DESAFÍO', highlight: true },
-    { id: 'bounty-clash', title: 'BOUNTY CLASH', img: '/assets/juegos/bounty.jpg', desc: 'Duelo de recompensas. ¿Quién tiene recompensa mayor o menor?', label: 'INICIAR DESAFÍO', new: true },
-    { id: 'bounty-dle', title: 'NAKAMA GUESS', img: '/assets/juegos/guess.jpg', desc: 'Adivina el pirata misterioso segun la afinidad con otros', label: 'INICIAR DESAFÍO', highlight: false },
-    { id: 'name-wordle', title: 'RIO NAME', img: '/assets/juegos/rio.jpg', desc: 'Descifra el nombre oculto antes de que se agoten los intentos.', label: 'INICIAR DESAFÍO', highlight: false },
-    { id: 'impostor-game', title: 'IMPOSTOR', img: '/assets/juegos/impostor.jpg', desc: 'Identifica al infiltrado que no pertenece al grupo.', label: 'INICIAR DESAFÍO', highlight: false },
+    
+    { 
+      id: 'grid-game', 
+      title: 'PIRATE GRID', 
+      img: 'assets/juegos/pirategrid.JPG', 
+      desc: 'Conecta rasgos y atributos para completar el tablero.', 
+      label: 'INICIAR DESAFÍO', 
+      highlight: true 
+    },
+    { 
+      id: 'wanted-quiz', 
+      title: 'WANTED QUIZ', 
+      img: 'assets/juegos/quiz.jpg', 
+      desc: '15 preguntas de dificultad ascendente. ¿Llegarás al final?', 
+      label: 'INICIAR DESAFÍO', 
+      highlight: true 
+    },
+    { 
+      id: 'bounty-clash', 
+      title: 'BOUNTY CLASH', 
+      img: '/assets/juegos/bounty.jpg', 
+      desc: 'Duelo de recompensas. ¿Quién tiene recompensa mayor o menor?', 
+      label: 'INICIAR DESAFÍO', 
+      new: false 
+    },
+    { 
+      id: 'davy-back', 
+      title: 'DAVY BACK FIGHT', 
+      img: '/assets/juegos/davy.jpg', 
+      desc: 'Survival Roguelike: Roba tripulantes y expande tu flota en juegos de habilidad.', 
+      label: 'INICIAR DESAFÍO', 
+      new: true 
+    },
+    { 
+      id: 'bounty-dle', 
+      title: 'NAKAMA GUESS', 
+      img: '/assets/juegos/guess.jpg', 
+      desc: 'Adivina el pirata misterioso según la afinidad con otros.', 
+      label: 'INICIAR DESAFÍO', 
+      highlight: false 
+    },
+    { 
+      id: 'name-wordle', 
+      title: 'RIO NAME', 
+      img: '/assets/juegos/rio.jpg', 
+      desc: 'Descifra el nombre oculto antes de que se agoten los intentos.', 
+      label: 'INICIAR DESAFÍO', 
+      highlight: false 
+    },
+    { 
+      id: 'impostor-game', 
+      title: 'IMPOSTOR', 
+      img: '/assets/juegos/impostor.jpg', 
+      desc: 'Identifica al infiltrado que no pertenece al grupo.', 
+      label: 'INICIAR DESAFÍO', 
+      highlight: false 
+    },
   ];
 
   return (
@@ -18,17 +69,16 @@ const GameMenu = ({ onNavigate }) => {
       <div className="particles-background">
         {particles.map((_, i) => <div key={i} className="particle"></div>)}
       </div>
-       {/* Banner de Noticias estilo Periódico News Coo */}
-          <div className="news-coo-banner" onClick={() => onNavigate('changelog')}>
-            <span className="news-tag">EXTRA!</span>
-            <p>Nuevas actualizaciones en el archivo. Ver notas del parche v1.4.0</p>
-          </div>
+
+      {/* ⚓ Banner actualizado a la v1.5.0 ⚓ */}
+      <div className="news-coo-banner" onClick={() => onNavigate('changelog')}>
+        <span className="news-tag">EXTRA!</span>
+        <p>¡Lanzamiento del Davy Back Fight y expansión de archivos de Ohara! Ver v1.5.0</p>
+      </div>
           
       <div className="menu-content-wrapper">
         <header className="menu-header-area">
           <img src="/assets/logos/logoNAV.png" alt="Logo" className="menu-logo-img" />
-          
-         
         </header>
         
         <div className="games-grid">
@@ -54,7 +104,7 @@ const GameMenu = ({ onNavigate }) => {
             </div>
           ))}
 
-          {/* Card Bloqueada */}
+          {/* Card Bloqueada (siempre al final para mantener la intriga) */}
           <div className="game-card locked">
             <div className="card-image-wrapper">
               <div className="lock-icon-v2">🔒</div>

@@ -40,7 +40,7 @@ const Navbar = ({ onNavigate, currentView }) => {
           >
             🏠 Menú Principal
           </button>
-          {/*
+          
           <button 
             className={`sidebar-item ${currentView === 'admin' ? 'active' : ''}`}
             onClick={() => handleNav('admin')}
@@ -53,7 +53,7 @@ const Navbar = ({ onNavigate, currentView }) => {
             onClick={() => handleNav('quiz-admin')}
           >
             📝 Preguntas
-          </button> */}
+          </button> 
 
           <button 
             className={`sidebar-item ${currentView === 'changelog' ? 'active' : ''}`}

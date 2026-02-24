@@ -13,9 +13,10 @@ import CharacterList from './components/CharacterList';
 import AddCharacter from './components/AddCharacter'; 
 import BountyClash from './components/BountyClash';
 import Changelog from './components/Changelog';
+import DavyBack from './components/DavyBack'; // ⚓ IMPORTACIÓN DEL NUEVO JUEGO
 
 function App() {
-  // Estados: 'home', 'grid-game', 'wanted-quiz', 'bounty-dle', 'name-wordle', 'impostor-game', 'admin', 'quiz-admin', 'admin-form', 'bounty-clash', 'changelog'
+  // Estados: 'home', 'grid-game', 'wanted-quiz', 'bounty-dle', 'name-wordle', 'impostor-game', 'admin', 'quiz-admin', 'admin-form', 'bounty-clash', 'changelog', 'davy-back'
   const [view, setView] = useState('home');
   const [editingCharacter, setEditingCharacter] = useState(null);
 
@@ -56,6 +57,9 @@ function App() {
       case 'impostor-game': 
         return <ImpostorGame onNavigate={setView} />;
 
+      case 'davy-back': // ⚓ RUTA DEL NUEVO JUEGO
+        return <DavyBack onNavigate={setView} />;
+
       case 'quiz-admin': 
         return <QuizAdmin onNavigate={() => setView('admin')} />;
 
@@ -63,7 +67,6 @@ function App() {
         return <BountyClash onNavigate={setView} />;
       
       case 'changelog':
-        // ⚓ FIX 1: Aquí faltaba pasarle el onNavigate={setView}
         return <Changelog onNavigate={setView} />;
 
       case 'admin':
@@ -115,8 +118,7 @@ function App() {
     }
   };
 
-  // ⚓ FIX 2: Añadimos 'changelog' a la regla para que el Navbar siga visible si así lo deseas.
-  // Si prefieres que el Navbar NO se vea en el Changelog, simplemente borra "|| view === 'changelog'"
+  // El Navbar se oculta en los juegos (como davy-back) para maximizar la inmersión
   const showNavbar = view === 'home' || view.includes('admin') || view === 'changelog';
 
   return (

@@ -7,8 +7,9 @@ const QuizAdmin = ({ onNavigate }) => {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   
-  // 1. NUEVO ESTADO: Filtro de dificultad
+  // --- ESTADOS DE FILTRO Y BÚSQUEDA ---
   const [filterDifficulty, setFilterDifficulty] = useState('Todas');
+  const [searchTerm, setSearchTerm] = useState(''); 
 
   const [formData, setFormData] = useState({
     questionText: '',
@@ -17,14 +18,13 @@ const QuizAdmin = ({ onNavigate }) => {
     difficulty: 'Fácil'
   });
 
-  const API_URL = 'http://localhost:5000/api/quiz';
+  const API_URL = 'http://localhost:5000/api/quiz'; // Ajusta si estás en producción
   const difficulties = ['Fácil', 'Intermedia', 'Difícil', 'Muy Difícil', 'Imposible'];
 
   useEffect(() => {
     fetchQuestions();
   }, []);
 
-  // ... (fetchQuestions, handleInputChange, handleOptionChange igual) ...
   const fetchQuestions = async () => {
     try {
       const res = await axios.get(API_URL);
@@ -47,28 +47,27 @@ const QuizAdmin = ({ onNavigate }) => {
     setFormData({ ...formData, options: newOptions });
   };
 
-  // 2. LÓGICA DE FILTRADO: Usamos useMemo para optimizar el rendimiento
-  const filteredQuestions = useMemo(() => {
-    if (filterDifficulty === 'Todas') return questions;
-    return questions.filter(q => q.difficulty === filterDifficulty);
-  }, [questions, filterDifficulty]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (editingId) {
-        await axios.put(`${API_URL}/${editingId}`, formData);
-        alert("⚓ ¡Pregunta actualizada!");
-      } else {
-        await axios.post(API_URL, formData);
-        alert("✅ ¡Nueva pregunta avistada!");
-      }
-      resetForm();
-      fetchQuestions();
-    } catch (err) {
-      alert("💥 Error al guardar: " + err.message);
-    }
+  // ⚓ NUEVO: Detector de paréntesis
+  const hasParenthesis = (text) => {
+    return text && (text.includes('(') || text.includes(')'));
   };
+
+  // --- LÓGICA DE FILTRADO Y BÚSQUEDA ---
+  const filteredQuestions = useMemo(() => {
+    let result = questions;
+    if (filterDifficulty !== 'Todas') {
+      result = result.filter(q => q.difficulty === filterDifficulty);
+    }
+    if (searchTerm) {
+      result = result.filter(q => q.questionText.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    return result;
+  }, [questions, filterDifficulty, searchTerm]);
+
+  // --- NAVEGACIÓN RÁPIDA ---
+  const currentIndex = editingId ? filteredQuestions.findIndex(q => q._id === editingId) : -1;
+  const hasNext = currentIndex !== -1 && currentIndex < filteredQuestions.length - 1;
+  const hasPrev = currentIndex > 0;
 
   const handleEdit = (q) => {
     setEditingId(q._id);
@@ -81,11 +80,51 @@ const QuizAdmin = ({ onNavigate }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateQuestion = (direction) => {
+    if (direction === 'next' && hasNext) {
+      handleEdit(filteredQuestions[currentIndex + 1]);
+    } else if (direction === 'prev' && hasPrev) {
+      handleEdit(filteredQuestions[currentIndex - 1]);
+    }
+  };
+
+  const handleSubmit = async (e, saveAndNext = false) => {
+    if (e) e.preventDefault();
+    
+    try {
+      if (editingId) {
+        await axios.put(`${API_URL}/${editingId}`, formData);
+        
+        // Actualizamos estado local sin recargar todo
+        setQuestions(prev => prev.map(q => q._id === editingId ? { ...q, ...formData } : q));
+        
+        if (saveAndNext) {
+          if (hasNext) {
+            handleEdit(filteredQuestions[currentIndex + 1]);
+          } else {
+            alert("✅ ¡Guardado! Has llegado al final de esta lista.");
+            resetForm();
+          }
+        } else {
+          alert("⚓ ¡Pregunta actualizada!");
+          resetForm();
+        }
+      } else {
+        await axios.post(API_URL, formData);
+        alert("✅ ¡Nueva pregunta avistada!");
+        resetForm();
+        fetchQuestions();
+      }
+    } catch (err) {
+      alert("💥 Error al guardar: " + err.message);
+    }
+  };
+
   const handleDelete = async (id) => {
     if (window.confirm("¿Seguro que quieres borrar esta pregunta?")) {
       try {
         await axios.delete(`${API_URL}/${id}`);
-        fetchQuestions();
+        setQuestions(prev => prev.filter(q => q._id !== id));
       } catch (err) {
         console.error(err);
       }
@@ -112,9 +151,36 @@ const QuizAdmin = ({ onNavigate }) => {
       </div>
 
       <section className="admin-form-section">
-        <h2 className="section-title">{editingId ? "📝 EDITAR PREGUNTA" : "⚔️ NUEVA PREGUNTA"}</h2>
-        <form className="quiz-form" onSubmit={handleSubmit}>
-          {/* ... (Campos del formulario igual) ... */}
+        {/* Cabecera interactiva del formulario */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+          <h2 className="section-title" style={{ margin: 0 }}>
+            {editingId ? `📝 EDITANDO PREGUNTA ${currentIndex + 1} de ${filteredQuestions.length}` : "⚔️ NUEVA PREGUNTA"}
+          </h2>
+          {editingId && (
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button 
+                type="button" 
+                className="btn-pirate btn-small" 
+                disabled={!hasPrev} 
+                onClick={() => navigateQuestion('prev')}
+                style={{ opacity: hasPrev ? 1 : 0.5, cursor: hasPrev ? 'pointer' : 'not-allowed' }}
+              >
+                ◀ Anterior
+              </button>
+              <button 
+                type="button" 
+                className="btn-pirate btn-small" 
+                disabled={!hasNext} 
+                onClick={() => navigateQuestion('next')}
+                style={{ opacity: hasNext ? 1 : 0.5, cursor: hasNext ? 'pointer' : 'not-allowed' }}
+              >
+                Siguiente ▶
+              </button>
+            </div>
+          )}
+        </div>
+
+        <form className="quiz-form" onSubmit={(e) => handleSubmit(e, false)}>
           <div className="form-group">
             <label>Texto de la Pregunta:</label>
             <textarea 
@@ -122,6 +188,7 @@ const QuizAdmin = ({ onNavigate }) => {
               value={formData.questionText} 
               onChange={handleInputChange} 
               required 
+              rows="3"
             />
           </div>
 
@@ -133,13 +200,23 @@ const QuizAdmin = ({ onNavigate }) => {
               </select>
             </div>
             <div className="form-group">
-              <label>Respuesta Correcta:</label>
+              <label>
+                Respuesta Correcta: 
+                {hasParenthesis(formData.correctAnswer) && (
+                  <span style={{ color: '#e74c3c', marginLeft: '8px', fontWeight: 'bold' }}>⚠️ Paréntesis detectado</span>
+                )}
+              </label>
               <input 
                 type="text" 
                 name="correctAnswer" 
                 value={formData.correctAnswer} 
                 onChange={handleInputChange} 
                 required 
+                style={hasParenthesis(formData.correctAnswer) ? { 
+                  border: '2px solid #e74c3c', 
+                  backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                  color: '#fff'
+                } : {}}
               />
             </div>
           </div>
@@ -147,41 +224,74 @@ const QuizAdmin = ({ onNavigate }) => {
           <div className="options-input-grid">
             {formData.options.map((opt, i) => (
               <div key={i} className="form-group">
-                <label>Opción {String.fromCharCode(65 + i)}:</label>
+                <label>
+                  Opción {String.fromCharCode(65 + i)}:
+                  {hasParenthesis(opt) && (
+                    <span style={{ color: '#e74c3c', marginLeft: '8px' }}>⚠️</span>
+                  )}
+                </label>
                 <input 
                   type="text" 
                   value={opt} 
                   onChange={(e) => handleOptionChange(i, e.target.value)} 
                   required 
+                  style={hasParenthesis(opt) ? { 
+                    border: '2px solid #e74c3c', 
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    color: '#fff'
+                  } : {}}
                 />
               </div>
             ))}
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn-pirate">{editingId ? "GUARDAR CAMBIOS" : "AÑADIR A LA BASE"}</button>
-            {editingId && <button type="button" className="btn-pirate btn-outline" onClick={resetForm}>CANCELAR</button>}
+            {editingId && (
+              <button 
+                type="button" 
+                className="btn-pirate" 
+                onClick={(e) => handleSubmit(e, true)}
+                style={{ background: '#27ae60', borderColor: '#2ecc71' }} 
+              >
+                GUARDAR Y SIGUIENTE ⏭️
+              </button>
+            )}
+            <button type="submit" className="btn-pirate">
+              {editingId ? "GUARDAR" : "AÑADIR A LA BASE"}
+            </button>
+            {editingId && (
+              <button type="button" className="btn-pirate btn-outline" onClick={resetForm}>
+                CANCELAR
+              </button>
+            )}
           </div>
         </form>
       </section>
 
       <hr className="admin-divider" />
 
-      {/* 3. SECCIÓN DE LISTADO ACTUALIZADA CON FILTRO */}
+      {/* SECCIÓN DE LISTADO */}
       <section className="admin-list-section">
         <div className="list-header-filter">
           <h2 className="section-title">
             📦 PREGUNTAS ({filteredQuestions.length} de {questions.length})
           </h2>
           
-          <div className="filter-group">
-            <label>Filtrar por dificultad: </label>
+          <div className="filter-group" style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+            <input 
+              type="text" 
+              placeholder="🔍 Buscar pregunta..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="admin-filter-select"
+              style={{ width: '220px' }}
+            />
             <select 
               value={filterDifficulty} 
               onChange={(e) => setFilterDifficulty(e.target.value)}
               className="admin-filter-select"
             >
-              <option value="Todas">Todas las recompensas</option>
+              <option value="Todas">Todas las dificultades</option>
               {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
@@ -197,9 +307,8 @@ const QuizAdmin = ({ onNavigate }) => {
               </tr>
             </thead>
             <tbody>
-              {/* 4. IMPORTANTE: Usamos filteredQuestions aquí */}
               {filteredQuestions.map(q => (
-                <tr key={q._id}>
+                <tr key={q._id} style={editingId === q._id ? { background: 'rgba(217, 27, 27, 0.15)' } : {}}>
                   <td className="td-text">{q.questionText}</td>
                   <td className={`td-diff diff-${q.difficulty.toLowerCase().replace(" ", "-")}`}>
                     {q.difficulty}
@@ -210,6 +319,13 @@ const QuizAdmin = ({ onNavigate }) => {
                   </td>
                 </tr>
               ))}
+              {filteredQuestions.length === 0 && (
+                <tr>
+                  <td colSpan="3" style={{ textAlign: 'center', padding: '20px', color: '#ccc' }}>
+                    No se encontraron preguntas en esta búsqueda.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
