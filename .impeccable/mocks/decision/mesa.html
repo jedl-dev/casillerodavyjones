@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>La Mesa del Duelo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{--abyss:#040d10;--deep:#061a1c;--sea:#0b3538;--steel:#0e2124;--steel2:#1b3a3e;--edge:rgba(214,240,234,.2);--aqua:#2fb3ac;--glow:#8ff0e2;--foam:#f4fbf7;--muted:#93b6af;--coral:#d96f8e;--label:"Special Elite",monospace;--body:"Cormorant Garamond",Georgia,serif}
+  *{box-sizing:border-box}html,body{margin:0;height:100%}
+  body{width:1440px;height:900px;overflow:hidden;background:var(--abyss);color:var(--foam);font-family:var(--body);
+    background-image:radial-gradient(88% 55% at 52% -10%,rgba(143,240,226,.2),transparent 60%),radial-gradient(70% 45% at 50% 112%,rgba(17,120,116,.2),transparent 64%),linear-gradient(180deg,#0a474b 0%,#073639 34%,#042327 64%,#041114 100%)}
+  .rock{position:absolute;inset:0;pointer-events:none;z-index:0}.rock path{fill:rgba(1,9,11,.92)}
+  .ray{position:absolute;top:-8%;height:76%;width:150px;background:linear-gradient(180deg,rgba(190,255,245,.2),transparent 72%);filter:blur(22px);transform:skewX(-12deg)}.ray.a{left:28%}.ray.b{left:60%;width:230px;opacity:.65}
+  .bub{position:absolute;border-radius:50%;border:1px solid rgba(220,252,246,.28);background:radial-gradient(circle at 34% 30%,#fff,rgba(143,240,226,.2) 52%,transparent 72%)}
+  .rail{position:fixed;left:0;top:0;bottom:0;width:56px;z-index:6;background:linear-gradient(90deg,#0a1d20,#071618);border-right:1px solid rgba(47,179,172,.4);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 0 30px}
+  .rail .anchor{width:24px;height:24px;color:var(--aqua)}.rail .word{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--label);font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted)}
+  .stage{margin-left:56px;height:900px;display:grid;grid-template-columns:420px minmax(0,1fr);gap:44px;padding:46px 58px 34px 54px;position:relative;z-index:1}
+  .intro{display:flex;flex-direction:column;min-width:0;padding-top:2px}
+  .seal{position:relative;width:124px;height:124px;display:grid;place-items:center;margin-bottom:22px}
+  .seal:before{content:"";position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(143,240,226,.26),transparent 66%);filter:blur(13px)}
+  .seal:after{content:"";position:absolute;inset:-11px;border:1px solid rgba(143,240,226,.35);border-radius:50%}
+  .seal .arc{position:absolute;inset:-19px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 292deg,rgba(143,240,226,.8) 358deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0)}
+  .seal .mark{position:relative;width:100%;height:100%}
+  h1{margin:0;font-family:var(--label);font-weight:400;font-size:40px;line-height:.95;text-transform:uppercase;letter-spacing:.004em}
+  h1 .aqua{display:block;color:var(--glow)}h1 .second{display:block;margin-top:11px;font-size:19px;line-height:1.12;color:var(--foam)}
+  p.lede{max-width:36ch;margin:18px 0 0;color:var(--muted);font-size:18px;line-height:1.5}
+  .stats{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--edge)}
+  .stats div{padding:13px 0 4px;display:flex;flex-direction:column;gap:5px}.stats div+div{padding-left:18px;border-left:1px solid var(--edge)}
+  .stats .k{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .stats .v{font-family:var(--label);font-size:17px;text-transform:uppercase;color:var(--foam)}.stats .v.aqua{color:var(--glow)}
+  .table{position:relative;min-width:0;display:flex;align-items:center}
+  .table:before{content:"";position:absolute;inset:-4% -3% -6%;border-radius:44% 12% 46% 10%;background:radial-gradient(60% 60% at 50% 40%,rgba(47,179,172,.14),transparent 70%);filter:blur(30px)}
+  .console{position:relative;width:100%;height:720px;padding:34px 34px 0;display:flex;flex-direction:column;
+    background:linear-gradient(158deg,#27464a 0%,#173539 26%,#0d2427 58%,#091a1d 100%);
+    border:1px solid rgba(214,240,234,.28);border-radius:8px;
+    box-shadow:inset 0 2px 0 rgba(214,240,234,.3),inset 0 -60px 90px rgba(0,0,0,.55),0 40px 90px rgba(0,0,0,.55);
+    clip-path:polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%)}
+  .console:before{content:"";position:absolute;inset:12px;border:1px solid rgba(214,240,234,.1);border-radius:4px;pointer-events:none}
+  .rivets{position:absolute;inset:9px;pointer-events:none;opacity:.5;background-image:radial-gradient(circle,rgba(214,240,234,.8) 0 1.5px,transparent 2px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.5px,transparent 2px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.5px,transparent 2px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.5px,transparent 2px);background-size:9px 9px;background-position:0 0,100% 0,0 100%,100% 100%;background-repeat:no-repeat}
+  .console .head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--edge)}
+  .console .head .tag{font-family:var(--label);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua)}
+  .console .head .stamp{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);border:1px solid rgba(217,111,142,.5);padding:5px 9px;transform:rotate(-3deg)}
+  .chart{position:relative;flex:1;margin-top:16px;border:1px solid rgba(214,240,234,.14);border-radius:2px;overflow:hidden;
+    background:radial-gradient(circle at 50% 48%,rgba(47,179,172,.12),transparent 62%),linear-gradient(180deg,rgba(4,16,19,.5),rgba(4,16,19,.8))}
+  .chart .rings{position:absolute;inset:0;background:repeating-radial-gradient(circle at 50% 48%,transparent 0 54px,rgba(143,240,226,.13) 55px 56px)}
+  .chart .cross{position:absolute;inset:0;background:linear-gradient(90deg,transparent calc(50% - .5px),rgba(143,240,226,.16) 50%,transparent calc(50% + .5px)),linear-gradient(0deg,transparent calc(48% - .5px),rgba(143,240,226,.16) 48%,transparent calc(48% + .5px))}
+  .chart .core{position:absolute;left:50%;top:48%;width:280px;transform:translate(-50%,-50%);text-align:center}
+  .chart .core .k{font-family:var(--label);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--aqua)}
+  .chart .core h2{margin:6px 0 0;font-family:var(--label);font-weight:400;font-size:56px;line-height:.86;text-transform:uppercase}
+  .chart .core .cond{margin:10px 0 0;font-family:var(--label);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);line-height:1.8}
+  .chart .core .line{margin:12px auto 0;max-width:34ch;color:var(--muted);font-size:15px;line-height:1.45}
+  .chart .sweep{position:absolute;left:50%;top:48%;width:2px;height:220px;transform-origin:bottom;transform:translate(-50%,-100%) rotate(24deg);background:linear-gradient(0deg,rgba(143,240,226,.7),transparent);box-shadow:0 0 18px rgba(143,240,226,.35)}
+  .levers{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:18px 0 20px}
+  .lever{position:relative;display:flex;align-items:center;gap:14px;padding:15px 16px;border:1px solid rgba(214,240,234,.2);border-radius:3px;background:linear-gradient(180deg,rgba(4,16,19,.4),rgba(4,16,19,.66));text-decoration:none;color:var(--foam);overflow:hidden}
+  .lever:before{content:"";position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(0deg,rgba(47,179,172,.2),transparent);transition:none}
+  .lever.multi:before{background:linear-gradient(0deg,rgba(244,251,247,.12),transparent)}
+  .lever .rod{position:relative;width:30px;height:52px;flex:none;border-radius:15px;background:linear-gradient(90deg,#0a1a1c,#2b4a4d 52%,#0a1a1c);box-shadow:inset 0 0 0 1px rgba(214,240,234,.2)}
+  .lever .rod:before{content:"";position:absolute;top:7px;left:50%;width:16px;height:16px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 38% 32%,#eafff9,#5e8f8a 58%,#163236);box-shadow:0 0 12px rgba(143,240,226,.4)}
+  .lever.multi .rod:before{background:radial-gradient(circle at 38% 32%,#fff,#9db8b2 58%,#163236)}
+  .lever .txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .lever .tag{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--aqua)}.lever.multi .tag{color:var(--foam)}
+  .lever .name{font-family:var(--label);font-size:20px;line-height:1;text-transform:uppercase}
+  .lever .sub{font-family:var(--label);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .lever svg{position:absolute;right:14px;top:50%;width:24px;transform:translateY(-50%);color:var(--aqua)}.lever.multi svg{color:var(--foam)}
+  .drawer{display:flex;align-items:center;gap:12px;border:1px dashed rgba(200,240,232,.16);padding:12px 16px;color:var(--muted);background:rgba(4,16,19,.34)}
+  .drawer svg{width:20px;height:20px;flex:none;color:var(--muted)}
+  .drawer b{display:block;font-family:var(--label);font-weight:400;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#cfe4de}
+  .drawer span{font-family:var(--label);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+</style>
+</head>
+<body>
+  <svg class="rock" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0h360c-22 52-86 72-140 94-60 24-88 62-146 84C44 192 20 190 0 230Z"/><path d="M1440 0h-300c20 56 74 78 130 100 66 26 88 68 150 94 26 10 42 6 50 26Z"/><path d="M0 900V690c40 16 66 50 112 70 38 16 66 42 80 74 8 20 8 38 4 56Z"/><path d="M1440 900V680c-54 12-84 50-132 76-44 24-74 54-88 92-6 18-6 34-2 52Z"/></svg>
+  <span class="ray a"></span><span class="ray b"></span>
+  <span class="bub" style="left:30%;top:20%;width:9px;height:9px;opacity:.6"></span><span class="bub" style="left:70%;top:42%;width:6px;height:6px;opacity:.5"></span><span class="bub" style="left:88%;top:24%;width:12px;height:12px;opacity:.4"></span><span class="bub" style="left:66%;top:78%;width:7px;height:7px;opacity:.55"></span>
+  <aside class="rail"><svg class="anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2.4"/><path d="M12 7.5V21M5 13h14M4.5 16.5c1.6 3.2 4.2 4.5 7.5 4.5s5.9-1.3 7.5-4.5"/></svg><span class="word">Cubierta</span></aside>
+  <main class="stage">
+    <section class="intro">
+      <div class="seal"><span class="arc"></span><svg class="mark" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#08282b" stroke="#8ff0e2" stroke-width="2"/><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(143,240,226,.4)"/><path d="M60 24l8 28 28 8-28 8-8 28-8-28-28-8 28-8z" fill="none" stroke="#8ff0e2" stroke-width="2.4"/><circle cx="60" cy="60" r="5" fill="#8ff0e2"/></svg></div>
+      <h1>Has caído en el casillero<span class="aqua">de Davy D. Jones.</span><span class="second">Prepárate para algo impactante.</span></h1>
+      <p class="lede">El fondo no perdona a los que dudan. Elige un reto y demuestra que mereces volver a la superficie.</p>
+      <div class="stats"><div><span class="k">Retos abiertos</span><span class="v aqua">01</span></div><div><span class="k">Sellados</span><span class="v">01</span></div></div>
+    </section>
+    <section class="table" aria-label="Retos del casillero">
+      <div class="console">
+        <span class="rivets"></span>
+        <div class="head"><span class="tag">Retos del casillero</span><span class="stamp">1 abierto · 1 sellado</span></div>
+        <div class="chart">
+          <span class="rings"></span><span class="cross"></span><span class="sweep"></span>
+          <div class="core"><span class="k">Reto 01 · Abierto</span><h2>Quiz</h2><p class="cond">15 preguntas · 3 vidas · dificultad creciente</p><p class="line">Cada acierto te acerca a la superficie. Cada fallo te hunde.</p></div>
+        </div>
+        <div class="levers">
+          <a class="lever" href="#"><span class="rod"></span><span class="txt"><span class="tag">Solo</span><span class="name">Jugar solo</span><span class="sub">1 jugador</span></span><svg viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 8h29M22 1.5 29.5 8 22 14.5"/></svg></a>
+          <a class="lever multi" href="#"><span class="rod"></span><span class="txt"><span class="tag">Multijugador</span><span class="name">Reta a tu tripulación</span><span class="sub">Duelo 1 vs 1</span></span><svg viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 8h29M22 1.5 29.5 8 22 14.5"/></svg></a>
+        </div>
+        <div class="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="10" width="14" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><b>El siguiente reto</b><span>Sellado por Davy D. Jones</span></div></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

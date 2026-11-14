@@ -1,0 +1,723 @@
+/* Sala en partida: marcador lateral y estados de turno.
+   El resto del aspecto viene de WantedQuiz.css (mar, marea, opciones). */
+
+.duel-shell {
+  --duel-gap: 6px;
+}
+
+.duel-shell .btn-exit-top {
+  top: 14px;
+  right: 14px;
+}
+
+.duel-scoreboard {
+  position: relative;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 12px;
+  padding: 60px 18px 4px;
+}
+
+.duel-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--duel-gap);
+  min-width: 0;
+}
+
+.duel-side--right {
+  align-items: flex-end;
+}
+
+.duel-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 5px 11px;
+  border: 1px solid rgba(95, 230, 210, 0.22);
+  border-radius: 2px;
+  background: rgba(3, 21, 27, 0.72);
+  color: var(--foam);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  transition: border-color 0.3s, background 0.3s, opacity 0.3s;
+}
+
+.duel-player__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.duel-player__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(95, 230, 210, 0.35);
+  border-radius: 50%;
+  background: hsl(var(--avatar-hue, 180) 45% 22%);
+  color: var(--foam);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+.duel-player__score {
+  color: var(--lum-bright);
+  font-size: 0.92rem;
+}
+
+.duel-player.is-me {
+  border-color: var(--deck, rgba(95, 230, 210, 0.75));
+  box-shadow: 0 0 12px rgba(95, 230, 210, 0.22);
+}
+
+.duel-player.is-buzzed {
+  background: rgba(95, 230, 210, 0.24);
+  border-color: var(--lum-bright);
+  color: var(--lum-bright);
+  animation: popIn 0.35s cubic-bezier(0.26, 0.53, 0.74, 1.48);
+}
+
+.duel-player.is-blocked {
+  opacity: 0.42;
+  text-decoration: line-through;
+}
+
+.duel-team {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--foam-muted);
+}
+
+.duel-vs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.duel-mode {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--foam-muted);
+}
+
+.duel-round {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--foam);
+  white-space: nowrap;
+}
+
+.duel-round span {
+  color: var(--foam-muted);
+}
+
+.duel-clock {
+  font-size: 0.95rem;
+  color: var(--lum-bright);
+}
+
+.duel-shell .quiz-main-content {
+  padding: 8px 20px 20px;
+}
+
+.duel-shell .question-area {
+  gap: 14px;
+}
+
+.duel-turn {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--foam-dim);
+}
+
+.duel-turn--turn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px auto 0;
+  padding: 8px 16px;
+  border: 1px solid var(--deck, rgba(95, 230, 210, 0.4));
+  border-radius: 999px;
+  background: rgba(3, 21, 27, 0.86);
+  color: var(--foam);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.duel-turn--turn.is-mine {
+  background: color-mix(in srgb, var(--deck, var(--lum)) 26%, rgba(3, 21, 27, 0.9));
+  color: var(--lum-bright);
+}
+
+.duel-turn__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(95, 230, 210, 0.45);
+  background: hsl(var(--avatar-hue, 180) 45% 22%);
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+}
+
+.duel-forfeit {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--foam-dim);
+}
+
+.duel-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(95, 230, 210, 0.16);
+  border-radius: 2px;
+  background: rgba(3, 21, 27, 0.5);
+}
+
+.duel-stats__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--foam-dim);
+}
+
+.duel-stats__name {
+  flex: 1 1 auto;
+  min-width: 90px;
+  color: var(--foam);
+}
+
+.duel-result__line {
+  margin: 0 0 14px;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--foam-muted);
+}
+
+.duel-turn--steal {
+  padding: 10px 14px;
+  border: 1px solid rgba(95, 230, 210, 0.38);
+  border-radius: 2px;
+  background: rgba(95, 230, 210, 0.12);
+  color: var(--lum-bright);
+  animation: bounceIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Tarjeta de pregunta: geometría fija, el panel entra como capa. */
+
+.duel-ask {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 150px;
+  padding: 20px 22px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+}
+
+.duel-ask::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--deck, rgba(95, 230, 210, 0.35));
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, rgba(10, 58, 69, 0.94), rgba(3, 21, 27, 0.97));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.duel-ask.is-revealed::before {
+  opacity: 1;
+}
+
+.duel-ask .question-text {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.duel-ask--live {
+  cursor: pointer;
+}
+
+.duel-ask--live.is-revealed::before {
+  border-color: rgba(95, 230, 210, 0.5);
+  animation: askBreathe 2.4s ease-in-out infinite;
+}
+
+.duel-ask--live:active {
+  transform: translateY(1px);
+}
+
+.duel-ask--live:focus-visible {
+  outline: 2px solid var(--lum-bright);
+  outline-offset: 4px;
+}
+
+.duel-ask__hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--foam-muted);
+}
+
+.duel-ask .question-text {
+  min-height: 2.6em;
+  margin-bottom: 18px;
+}
+
+.duel-boss-mark {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--lum-bright);
+  background: rgba(3, 21, 27, 0.95);
+  border: 1px solid rgba(95, 230, 210, 0.4);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  transition: opacity 0.22s ease 0.08s, transform 0.26s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.duel-boss-mark svg {
+  width: 18px;
+  height: 18px;
+}
+
+.duel-ask.is-revealed .duel-boss-mark {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes askIn {
+  from { opacity: 0.4; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes askBreathe {
+  0%, 100% { border-color: rgba(95, 230, 210, 0.35); }
+  50% { border-color: rgba(95, 230, 210, 0.75); }
+}
+
+.option-btn:active:not(:disabled),
+.options-grid.visible .option-btn:active:not(:disabled) {
+  transform: scale(0.97);
+  transition-duration: 90ms;
+}
+
+.marea-tag.is-typing {
+  animation: mareaTyping 1.4s ease-in-out infinite;
+}
+
+@keyframes mareaTyping {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .duel-ask.is-revealed,
+  .duel-ask::before,
+  .duel-boss-mark,
+  .duel-turn--steal,
+  .duel-turn--turn,
+  .duel-result,
+  .duel-player.is-buzzed,
+  .exit-dialog__panel,
+  .marea-tag.is-typing {
+    animation: none;
+    transition: none;
+  }
+
+  .duel-ask.is-revealed .duel-boss-mark {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+/* Capitán ausente y diálogo de salida */
+
+.host-away {
+  position: relative;
+  z-index: 7;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 18px 0;
+  padding: 8px 14px;
+  border: 1px solid rgba(95, 230, 210, 0.3);
+  border-radius: 2px;
+  background: rgba(3, 21, 27, 0.82);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--foam-muted);
+}
+
+.host-away__text::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--lum);
+  animation: hostBlink 1.6s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes hostBlink {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+
+.host-away__claim {
+  padding: 5px 10px;
+  border: 1px solid rgba(95, 230, 210, 0.45);
+  border-radius: 2px;
+  background: rgba(95, 230, 210, 0.12);
+  color: var(--lum-bright);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.host-away__claim:hover {
+  background: rgba(95, 230, 210, 0.2);
+}
+
+.host-away__note {
+  color: var(--foam);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.exit-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(2, 16, 19, 0.84);
+}
+
+.exit-dialog__panel {
+  width: min(420px, 92vw);
+  padding: 26px 24px;
+  border: 1px solid rgba(95, 230, 210, 0.35);
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, rgba(10, 58, 69, 0.97), rgba(3, 21, 27, 0.98));
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  animation: bubbleIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exit-dialog__title {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--foam);
+}
+
+.exit-dialog__text {
+  margin: 0 0 18px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--foam-dim);
+}
+
+.exit-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Resumen de ganador */
+
+.duel-result {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  padding: 30px 28px;
+  border: 1px solid rgba(95, 230, 210, 0.32);
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, rgba(10, 58, 69, 0.95), rgba(3, 21, 27, 0.97));
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.duel-winner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.duel-winner__avatar {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  border: 2px solid var(--lum);
+  border-radius: 50%;
+  background: hsl(var(--avatar-hue, 180) 45% 22%);
+  color: var(--foam);
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  box-shadow: 0 0 26px rgba(95, 230, 210, 0.25);
+}
+
+.duel-winner__crest {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border: 1px solid rgba(95, 230, 210, 0.45);
+  border-radius: 50%;
+  color: var(--lum-bright);
+}
+
+.duel-winner__crest svg {
+  width: 30px;
+  height: 30px;
+}
+
+.duel-winner__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foam);
+}
+
+.duel-winner__score {
+  margin: 0;
+  font-size: 0.86rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lum-bright);
+}
+
+.duel-podium {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.duel-podium__row {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid rgba(95, 230, 210, 0.14);
+  border-radius: 2px;
+  background: rgba(3, 21, 27, 0.55);
+  font-size: 0.88rem;
+  color: var(--foam);
+}
+
+.duel-podium__row.is-me {
+  border-color: rgba(95, 230, 210, 0.6);
+  background: rgba(95, 230, 210, 0.12);
+}
+
+.duel-podium__rank {
+  color: var(--foam-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+}
+
+.duel-podium__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.duel-podium__score {
+  color: var(--lum-bright);
+  font-size: 1rem;
+}
+
+.duel-result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Reporte de pregunta */
+
+.marea-row {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(95, 230, 210, 0.28);
+  border-radius: 2px;
+  background: rgba(3, 21, 27, 0.7);
+  color: var(--foam-muted);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.report-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.report-toggle:hover,
+.report-toggle[aria-expanded='true'] {
+  color: var(--lum-bright);
+  border-color: var(--lum);
+}
+
+.report-sent {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lum-bright);
+}
+
+.report-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(260px, 78vw);
+  padding: 12px;
+  border: 1px solid rgba(95, 230, 210, 0.35);
+  border-radius: 2px;
+  background: rgba(3, 21, 27, 0.97);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+  text-align: left;
+}
+
+.report-menu__title {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--foam-muted);
+}
+
+.report-menu button {
+  padding: 8px 10px;
+  border: 1px solid rgba(95, 230, 210, 0.22);
+  border-radius: 2px;
+  background: rgba(10, 58, 69, 0.6);
+  color: var(--foam);
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.report-menu button:hover {
+  border-color: var(--lum);
+  color: var(--lum-bright);
+}
+
+.report-menu__note {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .duel-scoreboard {
+    padding: 56px 10px 2px;
+    gap: 8px;
+  }
+
+  .duel-player {
+    font-size: 0.68rem;
+    padding: 4px 8px;
+  }
+
+  .duel-player__score {
+    font-size: 0.8rem;
+  }
+
+  .duel-round {
+    font-size: 0.7rem;
+  }
+
+  .duel-mode {
+    display: none;
+  }
+
+  .duel-shell .quiz-main-content {
+    padding: 6px 10px 16px;
+  }
+}

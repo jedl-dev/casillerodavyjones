@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-13T00:00:00.000Z",
+  "title": "Design System: El Casillero de Davy D. Jones",
+  "extensions": {
+    "colorMeta": {
+      "abyss": {
+        "role": "neutral",
+        "displayName": "Abyss",
+        "canonical": "#021013",
+        "tonalRamp": ["#021013", "#04191d", "#062126", "#082a30", "#0a333a", "#0c3c44", "#0e464e", "#105058"]
+      },
+      "trench": {
+        "role": "neutral",
+        "displayName": "Trench",
+        "canonical": "#03181b",
+        "tonalRamp": ["#03181b", "#051f23", "#07262b", "#092d33", "#0b343b", "#0d3c43", "#0f444b", "#114c54"]
+      },
+      "sea-deep": {
+        "role": "neutral",
+        "displayName": "Sea Deep",
+        "canonical": "#06282c",
+        "tonalRamp": ["#06282c", "#083034", "#0a383d", "#0c4146", "#0e494f", "#105258", "#126061", "#146a6b"]
+      },
+      "sea-shelf": {
+        "role": "neutral",
+        "displayName": "Sea Shelf",
+        "canonical": "#0a3d41",
+        "tonalRamp": ["#0a3d41", "#0c464a", "#0e4f53", "#10585c", "#126165", "#146a6e", "#167377", "#187c80"]
+      },
+      "cave": {
+        "role": "neutral",
+        "displayName": "Cave",
+        "canonical": "#0d4f52",
+        "tonalRamp": ["#0d4f52", "#0f585b", "#116164", "#136a6d", "#157376", "#177c7f", "#198588", "#1b8e91"]
+      },
+      "turquoise": {
+        "role": "secondary",
+        "displayName": "Turquoise",
+        "canonical": "#2fa7a3",
+        "tonalRamp": ["#0c2b2b", "#11504f", "#176e6d", "#1e8c8a", "#2fa7a3", "#4fbab6", "#74ccc8", "#9fdfdb"]
+      },
+      "glow": {
+        "role": "secondary",
+        "displayName": "Glow",
+        "canonical": "#9ff0e4",
+        "tonalRamp": ["#1d3b37", "#2f5a54", "#457a72", "#5f9a91", "#7dbdb3", "#9ff0e4", "#bcf5ec", "#d9fbf5"]
+      },
+      "foam": {
+        "role": "primary",
+        "displayName": "Foam",
+        "canonical": "#f2fbf7",
+        "tonalRamp": ["#2a3a37", "#465b56", "#647d76", "#839c94", "#a3bdb4", "#c3d9d1", "#dceee8", "#f2fbf7"]
+      },
+      "foam-dim": {
+        "role": "primary",
+        "displayName": "Foam Dim",
+        "canonical": "#c3e6de",
+        "tonalRamp": ["#243a36", "#3a5650", "#53736b", "#6d9087", "#89aea3", "#a6c9bf", "#b7d9cf", "#c3e6de"]
+      },
+      "foam-muted": {
+        "role": "neutral",
+        "displayName": "Foam Muted",
+        "canonical": "#8ab8b1",
+        "tonalRamp": ["#1d302d", "#2c4742", "#3e5e58", "#52766f", "#688f87", "#7fa9a0", "#8ab8b1", "#a3c9c1"]
+      },
+      "ice-line": {
+        "role": "neutral",
+        "displayName": "Ice Line",
+        "canonical": "rgba(200, 240, 232, 0.15)",
+        "tonalRamp": ["#0b1a17", "#213833", "#38564f", "#50756c", "#698f86", "#83a9a0", "#9dc3ba", "#b9e1d7"]
+      },
+      "ice-line-strong": {
+        "role": "neutral",
+        "displayName": "Ice Line Strong",
+        "canonical": "rgba(200, 240, 232, 0.35)",
+        "tonalRamp": ["#0b1a17", "#223a35", "#3a5952", "#53786f", "#6d9389", "#88ada3", "#a3c8be", "#c8f0e8"]
+      },
+      "hull-deep": {
+        "role": "neutral",
+        "displayName": "Hull Deep",
+        "canonical": "#03151b",
+        "tonalRamp": ["#03151b", "#041c23", "#06232b", "#082a33", "#0a313b", "#0c3843", "#0e3f4b", "#104653"]
+      },
+      "hull": {
+        "role": "neutral",
+        "displayName": "Hull",
+        "canonical": "#062730",
+        "tonalRamp": ["#062730", "#082e38", "#0a3540", "#0c3c48", "#0e4350", "#104a58", "#125160", "#145868"]
+      },
+      "hull-raised": {
+        "role": "neutral",
+        "displayName": "Hull Raised",
+        "canonical": "#0a3a45",
+        "tonalRamp": ["#0a3a45", "#0c424e", "#0e4a57", "#105260", "#125a69", "#146272", "#166a7b", "#187284"]
+      },
+      "hull-light": {
+        "role": "neutral",
+        "displayName": "Hull Light",
+        "canonical": "#0f4d59",
+        "tonalRamp": ["#0f4d59", "#115662", "#13606c", "#156a76", "#177480", "#197e8a", "#1b8894", "#1d929e"]
+      },
+      "lum": {
+        "role": "primary",
+        "displayName": "Lum",
+        "canonical": "#5fe6d2",
+        "tonalRamp": ["#12322e", "#1d4d47", "#2b6a62", "#3b887e", "#4da79b", "#5fe6d2", "#86efe0", "#b0f7ed"]
+      },
+      "lum-bright": {
+        "role": "primary",
+        "displayName": "Lum Bright",
+        "canonical": "#b8fff0",
+        "tonalRamp": ["#1d3b37", "#2f5a54", "#457a72", "#5f9a91", "#7dbdb3", "#9fe0d5", "#b8fff0", "#d6fff9"]
+      },
+      "lum-dim": {
+        "role": "neutral",
+        "displayName": "Lum Dim",
+        "canonical": "#1f7f77",
+        "tonalRamp": ["#0a2a28", "#10403d", "#165753", "#1c6e69", "#1f7f77", "#2b9a90", "#3ab5aa", "#4ccfc3"]
+      },
+      "coral": {
+        "role": "secondary",
+        "displayName": "Coral",
+        "canonical": "#d96f8e",
+        "tonalRamp": ["#2d1220", "#4b1e34", "#6b2b48", "#8a3a5d", "#ad4d73", "#d96f8e", "#e794ab", "#f3bacb"]
+      },
+      "coral-bright": {
+        "role": "secondary",
+        "displayName": "Coral Bright",
+        "canonical": "#ff9d8d",
+        "tonalRamp": ["#3a1411", "#5c211c", "#803028", "#a54136", "#cc5749", "#ff9d8d", "#ffb9ad", "#ffd5cd"]
+      },
+      "coral-deep": {
+        "role": "secondary",
+        "displayName": "Coral Deep",
+        "canonical": "#5c211d",
+        "tonalRamp": ["#1a0706", "#2e0d0b", "#421411", "#5c211d", "#74302a", "#8f443d", "#aa5a52", "#c47168"]
+      },
+      "bone": {
+        "role": "primary",
+        "displayName": "Bone",
+        "canonical": "#e8d9b8",
+        "tonalRamp": ["#3a3327", "#554b39", "#72644d", "#907e62", "#ae9a79", "#c9b78f", "#e8d9b8", "#f4e9d4"]
+      },
+      "bone-dim": {
+        "role": "primary",
+        "displayName": "Bone Dim",
+        "canonical": "#c9b78f",
+        "tonalRamp": ["#332c22", "#4a4032", "#625544", "#7b6b56", "#958269", "#af9b7d", "#c9b78f", "#dccdaf"]
+      },
+      "bone-muted": {
+        "role": "neutral",
+        "displayName": "Bone Muted",
+        "canonical": "#9c8b6a",
+        "tonalRamp": ["#2a241b", "#3e3527", "#534734", "#695942", "#806d51", "#9c8b6a", "#b7a587", "#d1c1a4"]
+      },
+      "state-ok": {
+        "role": "secondary",
+        "displayName": "State Ok",
+        "canonical": "#63c79b",
+        "tonalRamp": ["#0c2418", "#133b27", "#1b5236", "#246a45", "#2e8355", "#3d9c68", "#4fb57d", "#63c79b"]
+      },
+      "state-bad": {
+        "role": "secondary",
+        "displayName": "State Bad",
+        "canonical": "#c65c5c",
+        "tonalRamp": ["#2a0f0f", "#481a1a", "#662525", "#843030", "#a24343", "#c65c5c", "#d77e7e", "#e7a3a3"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Drowned Poster",
+        "purpose": "Marca, títulos de página y acciones de escotilla."
+      },
+      "home-display": {
+        "displayName": "Locker Challenge",
+        "purpose": "Titular de desafío de la home."
+      },
+      "challenge-title": {
+        "displayName": "Briefing Title",
+        "purpose": "Título del briefing individual."
+      },
+      "card-title": {
+        "displayName": "Game Card Title",
+        "purpose": "Nombre del juego en la tarjeta de reto."
+      },
+      "path-title": {
+        "displayName": "Path Title",
+        "purpose": "Acción dentro de cada puerta de la tarjeta."
+      },
+      "headline": {
+        "displayName": "Page Title",
+        "purpose": "Título de página en Sala."
+      },
+      "body": {
+        "displayName": "Chart Reading",
+        "purpose": "Ledes, controles y párrafos."
+      },
+      "label": {
+        "displayName": "Deck Label",
+        "purpose": "Navegación, campos, condiciones y metadatos."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hover-lift",
+        "value": "0 16px 44px rgba(95, 230, 210, 0.24)",
+        "purpose": "Halo suave bajo el botón primario al pasar el cursor."
+      },
+      {
+        "name": "platform-drop",
+        "value": "0 28px 58px rgba(0, 0, 0, 0.58)",
+        "purpose": "La plataforma del Quiz, con drop-shadow que sigue el corte."
+      },
+      {
+        "name": "walkway-drop",
+        "value": "0 22px 44px rgba(0, 0, 0, 0.55)",
+        "purpose": "El tablón de acero sobre el abismo."
+      },
+      {
+        "name": "rail-shadow",
+        "value": "18px 0 60px rgba(0, 0, 0, 0.38)",
+        "purpose": "Sombra del riel de navegación desplegado."
+      },
+      {
+        "name": "ambient-panel",
+        "value": "0 30px 80px rgba(0, 0, 0, 0.5)",
+        "purpose": "Paneles de administración y sala sobre el mar."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-surface",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Agua de las puertas, flecha y subrayado de navegación."
+      },
+      {
+        "name": "wave-drift",
+        "value": "27s / 38s / 52s linear infinite",
+        "purpose": "Deriva de las tres capas de olas."
+      },
+      {
+        "name": "particle-rise",
+        "value": "18–44s linear infinite",
+        "purpose": "Partículas blancas que suben desde el fondo."
+      }
+    ],
+    "breakpoints": [
+      { "name": "tiny", "value": "360px" },
+      { "name": "sm", "value": "480px" },
+      { "name": "md", "value": "720px" },
+      { "name": "lg", "value": "900px" },
+      { "name": "xl", "value": "1080px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal sobre el mar: aqua brillante y etiqueta en mayúsculas.",
+      "html": "<button class=\"ds-btn-primary\">Empezar el descenso</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 15px 26px; border: 1px solid rgba(184, 255, 240, 0.55); border-radius: 2px; background: var(--lum-bright, #b8fff0); color: var(--hull-deep, #03151b); font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; } .ds-btn-primary:hover { background: #d9fff8; box-shadow: 0 16px 44px rgba(95, 230, 210, 0.24); transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--lum-bright, #b8fff0); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acción alternativa: borde de hielo y relleno translúcido de aqua.",
+      "html": "<button class=\"ds-btn-secondary\">Partida rápida</button>",
+      "css": ".ds-btn-secondary { padding: 13px 20px; border: 1px solid rgba(200, 240, 232, 0.35); border-radius: 2px; background: rgba(95, 230, 210, 0.07); color: var(--foam, #f2fbf7); font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.76rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; } .ds-btn-secondary:hover { background: rgba(95, 230, 210, 0.14); border-color: rgba(184, 255, 240, 0.6); transform: translateY(-1px); }"
+    },
+      {
+        "name": "Quiz Platform",
+        "kind": "card",
+        "refersTo": "platform",
+        "description": "Plataforma de acero del Quiz: corte de 28 px, remaches, condiciones, dos compuertas y una escotilla sellada. El tablón llega desde la izquierda.",
+      "html": "<article class=\"ds-quiz-hatch\"><div class=\"ds-quiz-hatch__head\"><span class=\"ds-quiz-hatch__title\">Quiz</span><span class=\"ds-quiz-hatch__meta\">15 preguntas · 3 vidas</span></div><div class=\"ds-quiz-hatch__paths\"><a class=\"ds-quiz-path\">Jugar solo</a><a class=\"ds-quiz-path ds-quiz-path--multi\">Reta a tu tripulación</a></div></article>",
+      "css": ".ds-quiz-hatch { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 22px; min-height: 320px; padding: 28px; border: 1px solid rgba(200, 240, 232, 0.35); border-radius: 2px; background: linear-gradient(158deg, var(--hull-raised, #0a3a45) 0%, var(--hull, #062730) 54%, var(--hull-deep, #03151b) 100%); color: var(--foam, #f2fbf7); clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); } .ds-quiz-hatch__title { font-family: var(--font-display, 'Special Elite', monospace); font-size: clamp(2rem, 3.4vw, 3rem); line-height: 0.9; text-transform: uppercase; color: var(--bone, #e8d9b8); } .ds-quiz-hatch__meta { font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bone-dim, #c9b78f); } .ds-quiz-hatch__paths { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid rgba(200, 240, 232, 0.15); } .ds-quiz-path { padding: 16px; border-right: 1px solid rgba(200, 240, 232, 0.15); color: var(--lum, #5fe6d2); font-family: var(--font-display, 'Special Elite', monospace); font-size: 1.2rem; text-decoration: none; } .ds-quiz-path--multi { border-right: 0; color: var(--coral-bright, #ff9d8d); } .ds-quiz-path:hover { background: rgba(95, 230, 210, 0.06); } .ds-quiz-path--multi:hover { background: rgba(198, 93, 82, 0.08); }"
+    },
+      {
+        "name": "Gate",
+        "kind": "button",
+        "refersTo": "platform",
+        "description": "Compuerta de la plataforma: agua que sube en aqua (Solo) o espuma (Multijugador), con la flecha avanzando 5 px.",
+      "html": "<a class=\"ds-quiz-path\" href=\"#\"><span class=\"ds-quiz-path__mode\">Solo</span><span class=\"ds-quiz-path__label\">Jugar solo</span><span class=\"ds-quiz-path__meta\">1 jugador</span></a>",
+      "css": ".ds-quiz-path { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px; min-height: 96px; padding: 16px 44px 16px 16px; border-right: 1px solid rgba(200, 240, 232, 0.15); color: var(--foam, #f2fbf7); text-decoration: none; } .ds-quiz-path__mode { font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--lum, #5fe6d2); } .ds-quiz-path__label { font-family: var(--font-display, 'Special Elite', monospace); font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1; text-transform: uppercase; } .ds-quiz-path__meta { font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--foam-muted, #8ab8b1); } .ds-quiz-path::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(95, 230, 210, 0.3), transparent 62%); transform: scaleY(0); transform-origin: bottom; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); } .ds-quiz-path:hover::after { transform: scaleY(1); }"
+    },
+    {
+      "name": "Sealed Hatch",
+      "kind": "card",
+      "description": "Barra de archivo para los próximos retos: borde discontinuo, candado en hueso y «Próximamente».",
+      "html": "<div class=\"ds-sealed\"><span class=\"ds-sealed__lock\">⌑</span><div><p class=\"ds-sealed__title\">Más retos, más abajo</p><p class=\"ds-sealed__meta\">El casillero sigue abriendo escotillas. Próximamente.</p></div></div>",
+      "css": ".ds-sealed { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px dashed rgba(200, 240, 232, 0.35); border-radius: 2px; background: rgba(3, 21, 27, 0.5); } .ds-sealed__title { margin: 0; font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bone-dim, #c9b78f); } .ds-sealed__meta { margin: 4px 0 0; font-family: var(--font-body, 'Cormorant Garamond', Georgia, serif); font-size: 0.92rem; color: var(--foam-muted, #8ab8b1); }"
+    },
+    {
+      "name": "Challenge Briefing",
+      "kind": "card",
+      "description": "Antesala individual centrada: título en hueso con acento coral, condiciones, aviso y panel de nombre.",
+      "html": "<section class=\"ds-briefing\"><div><h1 class=\"ds-briefing__title\">Quiz del <span>casillero.</span></h1><p class=\"ds-briefing__lede\">El fondo no perdona a los que dudan.</p><p class=\"ds-briefing__facts\">15 preguntas · 3 vidas · dificultad creciente</p></div><form class=\"ds-briefing__panel\"><label class=\"ds-briefing__label\">Tu nombre</label><input class=\"ds-briefing__input\" placeholder=\"Ej. Mugiwara\" /><button class=\"ds-briefing__submit\">Empezar el descenso</button></form></section>",
+      "css": ".ds-briefing { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr); align-items: center; gap: 48px; width: min(100%, 1120px); margin: 0 auto; } .ds-briefing__title { margin: 0; font-family: var(--font-display, 'Special Elite', monospace); font-size: clamp(2.8rem, 6vw, 5.2rem); line-height: 0.9; text-transform: uppercase; color: var(--bone, #e8d9b8); } .ds-briefing__title span { color: var(--coral-bright, #ff9d8d); } .ds-briefing__lede { max-width: 44ch; color: var(--foam-dim, #c3e6de); font-family: var(--font-body, 'Cormorant Garamond', Georgia, serif); font-size: 1.15rem; line-height: 1.55; } .ds-briefing__facts { padding-top: 14px; border-top: 1px solid rgba(200, 240, 232, 0.15); color: var(--bone-dim, #c9b78f); font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; } .ds-briefing__panel { display: flex; flex-direction: column; gap: 12px; padding: 32px; border: 1px solid rgba(200, 240, 232, 0.35); border-radius: 2px; background: linear-gradient(158deg, rgba(10, 58, 69, 0.94) 0%, rgba(3, 21, 27, 0.97) 68%, rgba(2, 14, 18, 0.99) 100%); clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); } .ds-briefing__submit { padding: 15px 26px; border: 1px solid rgba(184, 255, 240, 0.55); border-radius: 2px; background: var(--lum-bright, #b8fff0); color: var(--hull-deep, #03151b); font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de nombre y código de sala.",
+      "html": "<input class=\"ds-input\" placeholder=\"Ej. Mugiwara\" />",
+      "css": ".ds-input { width: 100%; padding: 12px 14px; background: var(--trench, #03181b); border: 1px solid rgba(200, 240, 232, 0.15); border-radius: 2px; color: var(--foam, #f2fbf7); font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.95rem; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; } .ds-input::placeholder { color: var(--foam-muted, #8ab8b1); } .ds-input:focus { border-color: var(--lum, #5fe6d2); box-shadow: 0 0 0 3px rgba(95, 230, 210, 0.16); }"
+    },
+    {
+      "name": "Nav Tab",
+      "kind": "nav",
+      "refersTo": "nav-tab",
+      "description": "Pestaña de la barra de cubierta; la activa dibuja una hairline aqua.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-tab\" href=\"#\">Inicio</a><a class=\"ds-nav-tab ds-nav-tab--current\" href=\"#\">Quiz</a><a class=\"ds-nav-tab\" href=\"#\">Sala</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 32px; } .ds-nav-tab { position: relative; padding: 10px 0; color: var(--foam-muted, #8ab8b1); font-family: var(--font-ui, 'Special Elite', monospace); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; transition: color 0.2s ease; } .ds-nav-tab:hover, .ds-nav-tab--current { color: var(--foam, #f2fbf7); } .ds-nav-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: 3px; height: 1px; background: var(--lum, #5fe6d2); transform: scaleX(0); transform-origin: left; transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1); } .ds-nav-tab--current::after { transform: scaleX(1); }"
+    },
+    {
+      "name": "Mode Control",
+      "kind": "chip",
+      "refersTo": "mode-selected",
+      "description": "Selector segmentado de modo en Sala; la opción activa se invierte.",
+      "html": "<div class=\"ds-modes\"><button class=\"ds-mode ds-mode--on\">1 vs 1</button><button class=\"ds-mode\">2 vs 2</button><button class=\"ds-mode\">4 jugadores</button></div>",
+      "css": ".ds-modes { display: flex; border: 1px solid rgba(95, 230, 210, 0.35); } .ds-mode { flex: 1; padding: 12px 8px; border: 0; border-right: 1px solid rgba(95, 230, 210, 0.28); background: transparent; color: var(--foam-muted, #8ab8b1); font-family: var(--font-display, 'Special Elite', monospace); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; } .ds-mode:last-child { border-right: 0; } .ds-mode:hover { color: var(--foam, #f2fbf7); background: rgba(95, 230, 210, 0.09); } .ds-mode--on { background: var(--lum-bright, #b8fff0); color: var(--hull-deep, #03151b); }"
+    },
+    {
+      "name": "Chart Panel",
+      "kind": "card",
+      "description": "Panel de formulario en Sala: mismo corte de esquina que la tarjeta de reto.",
+      "html": "<section class=\"ds-panel\"><p>Tu nombre</p></section>",
+      "css": ".ds-panel { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 34px; border: 1px solid rgba(200, 240, 232, 0.35); border-radius: 2px; background: linear-gradient(158deg, rgba(10, 58, 69, 0.94) 0%, rgba(3, 21, 27, 0.97) 68%, rgba(2, 14, 18, 0.99) 100%); color: var(--foam, #f2fbf7); clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); } .ds-panel::before { content: ''; position: absolute; top: 0; right: 0; width: 36.8px; height: 1px; background: var(--coral, #c65d52); transform: rotate(45deg); transform-origin: top right; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Locker Walkway",
+    "overview": "Un tablón de acero cruza el abismo hasta la única plataforma abierta del casillero de Davy D. Jones. El fondo turquesa abisal, la luz que cae desde arriba y las olas no cambian; encima, la home es un descenso en dos tiempos: el sello y el titular arriba, y abajo la pasarela de acero con cadenas que termina en la plataforma remachada del Quiz, con dos compuertas y una escotilla sellada. El logo circular vive dentro de un anillo de portal concéntrico. La tipografía hace el trabajo de identidad: Special Elite para el nombre, los títulos, las acciones y las etiquetas; Cormorant Garamond para la lectura. El aqua marca la vida y la acción, la espuma el display y la lectura, y el coral queda solo para lo sellado. Sin madera, latón, dorado ni café como superficie.",
+    "keyCharacteristics": [
+      "Cueva abisal turquesa de suelo, espuma de tinta.",
+      "Estructura en casco petróleo y acero cepillado con remaches, bisagras y cadenas; nunca madera.",
+      "Dos corrientes: aqua para la vida y la acción, espuma para el display; el coral solo para lo sellado.",
+      "Una sola plataforma abierta en la home, alcanzada por un tablón, con dos compuertas y una escotilla sellada.",
+      "El logo centrado dentro de un anillo de portal concéntrico.",
+      "Letra de máquina de escribir contra una lectura de garamond.",
+      "Riel de navegación retráctil: 56 px en reposo, 232 px al hover o foco.",
+      "Un solo gesto de hover: el agua que sube dentro de cada compuerta y la luz que recorre el tablón."
+    ],
+    "rules": [
+      {
+        "name": "The Hull, Steel, Lum and Foam Rule",
+        "body": "La estructura se construye en tonos de casco y de acero; el aqua marca la vida y la acción primaria y la espuma el display. La espuma es también la tinta de lectura. El coral se reserva para lo sellado. No hay madera, latón, dorado ni café como superficie.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Current Rule",
+        "body": "Aqua y espuma no compiten por el mismo trabajo: aqua es la corriente activa (solo, navegación, vida, foco) y la espuma es la corriente de display y de lectura. El coral nunca rellena una acción primaria; el rojo semántico nunca se usa como decoración.",
+        "section": "colors"
+      },
+      {
+        "name": "The Deep-to-Shallow Rule",
+        "body": "El turquesa siempre se ordena por profundidad: abismo abajo, cueva arriba. Un turquesa más claro nunca se usa como fondo de una zona que debe retroceder.",
+        "section": "colors"
+      },
+      {
+        "name": "The Porthole Rule",
+        "body": "El logo circular siempre vive centrado dentro de su anillo de portal. La rosa de los vientos desplazada detrás del sello es la anti-referencia de la versión anterior.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Two-Voice Rule",
+        "body": "Special Elite solo para marca, títulos, acciones y etiquetas; el resto es Cormorant Garamond. No se mezclan en una misma línea de lectura.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-Sea Rule",
+        "body": "Ninguna superficie es de cristal. Si una zona necesita separarse, se separa con borde y tono, no con blur ni con una sombra permanente.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do mantener la home como el tablón que lleva a la plataforma del Quiz: un tablón de acero, una plataforma abierta y una escotilla sellada. Los juegos futuros se añaden como nuevas plataformas o escotillas, no como una parrilla de tarjetas iguales.",
+      "Do elegir el modo dentro de la plataforma del Quiz: Solo abre el briefing individual y Multijugador abre Sala.",
+      "Do usar el turquesa como profundidad ordenada, el casco y el acero como estructura, el aqua para la vida y la acción, la espuma para el display y la lectura, y el coral solo para lo sellado.",
+      "Do conservar el corte de esquina y el radio de 3 px en cualquier superficie nueva.",
+      "Do mantener el logo centrado dentro de su anillo de portal.",
+      "Do limitar la animación de marca a burbujas, olas, luz de cueva, el agua de las compuertas y la luz del tablón.",
+      "Do respetar prefers-reduced-motion desactivando las animaciones ambientales.",
+      "Do usar el logo circular en la navegación y en la home, y mantener el archivo original en public/assets/logos/logobase.png."
+    ],
+    "donts": [
+      "Don't volver a la madera, el latón, el dorado ni el café como superficie: son la anti-referencia de esta versión. El hueso es solo un tono de letra.",
+      "Don't volver al hero centrado con tarjeta de imagen, barra de estadísticas y pies de tres columnas.",
+      "Don't devolver a la home las coordenadas, la etiqueta «One Piece Games», el riel de profundidad o la ficha de Modo/Registro/Jugadores.",
+      "Don't convertir la home en una parrilla de tarjetas del mismo tamaño ni en un hero plano con una tarjeta: el Quiz es la única plataforma abierta y se llega a ella por el tablón.",
+      "Don't usar rojo para párrafos, acciones principales en reposo ni como relleno de superficies grandes; solo para errores y respuestas fallidas. El coral no reemplaza al rojo ni al aqua.",
+      "Don't inventar nombres, detalles o condiciones de los juegos futuros: el hueco sellado dice «Próximamente».",
+      "Don't reintroducir Dela Gothic One ni Zen Kaku Gothic New en el armazón; el Quiz conserva su póster independiente.",
+      "Don't reintroducir Pirata One, Barlow, Cinzel o DM Sans en el armazón.",
+      "Don't dibujar plantas, algas ni coral en el fondo: la cueva es roca, agua y luz.",
+      "Don't usar glassmorphism, sombras duras ni degradados de texto.",
+      "Don't mostrar ni enlazar /admin en producción."
+    ]
+  }
+}

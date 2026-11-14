@@ -1,0 +1,43 @@
+# Dependencias y build
+node_modules/
+dist/
+dist-ssr/
+build/
+
+# Entorno (las plantillas .env.example sí se suben)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# Vercel
+.vercel
+
+# Supabase
+supabase/.temp/
+
+# Artefactos de herramientas
+.impeccable/review/
+graphify-out/

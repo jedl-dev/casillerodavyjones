@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>El Muro de Retos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --abyss:#040d10;--deep:#061a1c;--sea:#0b3538;--steel:#0e2124;--steel2:#1b3a3e;
+    --edge:rgba(214,240,234,.2);--aqua:#2fb3ac;--glow:#8ff0e2;--foam:#f4fbf7;
+    --muted:#93b6af;--coral:#d96f8e;--label:"Special Elite",monospace;--body:"Cormorant Garamond",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{width:1440px;height:900px;overflow:hidden;background:var(--abyss);color:var(--foam);font-family:var(--body);
+    background-image:
+      radial-gradient(90% 55% at 48% -10%,rgba(143,240,226,.2),transparent 60%),
+      radial-gradient(70% 45% at 50% 112%,rgba(17,120,116,.2),transparent 64%),
+      linear-gradient(180deg,#0a474b 0%,#073639 34%,#042327 64%,#041114 100%);}
+  .rock{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .rock path{fill:rgba(1,9,11,.92)}
+  .ray{position:absolute;top:-8%;height:76%;width:150px;background:linear-gradient(180deg,rgba(190,255,245,.2),transparent 72%);filter:blur(22px);transform:skewX(-12deg)}
+  .ray.a{left:30%}.ray.b{left:66%;width:220px;opacity:.65}
+  .bub{position:absolute;border-radius:50%;border:1px solid rgba(220,252,246,.28);background:radial-gradient(circle at 34% 30%,#fff,rgba(143,240,226,.2) 52%,transparent 72%)}
+  .rail{position:fixed;left:0;top:0;bottom:0;width:56px;z-index:6;background:linear-gradient(90deg,#0a1d20,#071618);border-right:1px solid rgba(47,179,172,.4);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 0 30px}
+  .rail .anchor{width:24px;height:24px;color:var(--aqua)}
+  .rail .word{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--label);font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted)}
+  .stage{margin-left:56px;height:900px;display:grid;grid-template-columns:380px minmax(0,1fr);gap:46px;padding:44px 58px 30px 54px;position:relative;z-index:1}
+  .intro{display:flex;flex-direction:column;min-width:0;padding-top:4px}
+  .seal{position:relative;width:118px;height:118px;display:grid;place-items:center;margin-bottom:20px}
+  .seal:before{content:"";position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(143,240,226,.26),transparent 66%);filter:blur(13px)}
+  .seal:after{content:"";position:absolute;inset:-11px;border:1px solid rgba(143,240,226,.35);border-radius:50%}
+  .seal .arc{position:absolute;inset:-19px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 292deg,rgba(143,240,226,.8) 358deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0)}
+  .seal img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 32px rgba(0,0,0,.6))}
+  h1{margin:0;font-family:var(--label);font-weight:400;font-size:37px;line-height:.96;text-transform:uppercase;letter-spacing:.004em}
+  h1 .aqua{display:block;color:var(--glow)}
+  h1 .second{display:block;margin-top:10px;font-size:18px;line-height:1.14;color:var(--foam)}
+  p.lede{max-width:34ch;margin:18px 0 0;color:var(--muted);font-size:17px;line-height:1.5}
+  .gauge{margin-top:auto;border-top:1px solid var(--edge);padding-top:14px}
+  .gauge .head{display:flex;justify-content:space-between;font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .gauge .bar{position:relative;height:7px;margin-top:10px;border:1px solid var(--edge);background:rgba(0,0,0,.28)}
+  .gauge .fill{position:absolute;inset:0;width:32%;background:linear-gradient(90deg,var(--aqua),var(--glow))}
+  .wall{min-width:0;display:flex;flex-direction:column;gap:16px}
+  .wallhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--edge);padding-bottom:10px}
+  .wallhead h2{margin:0;font-family:var(--label);font-weight:400;font-size:25px;letter-spacing:.04em;text-transform:uppercase}
+  .wallhead span{font-family:var(--label);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--aqua);white-space:nowrap}
+  .grid{flex:1;min-height:0;display:grid;grid-template-columns:1.55fr .85fr;grid-template-rows:1fr .52fr;gap:16px}
+  .plate{position:relative;background:
+      linear-gradient(180deg,rgba(214,240,234,.22) 0 1px,transparent 1px),
+      radial-gradient(110% 90% at 8% 0%,rgba(47,179,172,.12),transparent 56%),
+      linear-gradient(158deg,rgba(27,58,62,.88),rgba(9,28,31,.92) 62%,rgba(4,16,19,.95));
+    border:1px solid rgba(200,240,232,.26);clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%)}
+  .plate:before{content:"";position:absolute;top:0;right:0;width:34px;height:1px;background:var(--aqua);transform:rotate(45deg);transform-origin:top right;opacity:.85}
+  .rivets{position:absolute;inset:9px;pointer-events:none;opacity:.55;background-image:
+      radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px),
+      radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px);
+    background-size:8px 8px;background-position:0 0,100% 0,0 100%,100% 100%;background-repeat:no-repeat}
+  .quiz{grid-row:1 / span 2;display:flex;flex-direction:column;padding:24px 26px 0}
+  .quiz .top{display:flex;align-items:center;gap:14px}
+  .emblem{width:46px;height:46px;flex:none;border:1px solid rgba(143,240,226,.5);border-radius:50%;display:grid;place-items:center;color:var(--glow);box-shadow:inset 0 0 18px rgba(47,179,172,.18)}
+  .emblem svg{width:26px;height:26px}
+  .kicker{font-family:var(--label);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua)}
+  .quiz h3{margin:4px 0 0;font-family:var(--label);font-weight:400;font-size:44px;line-height:.9;text-transform:uppercase}
+  .cond{margin:8px 0 0;font-family:var(--label);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .quiz .line{margin:16px 0 0;max-width:38ch;color:var(--muted);font-size:17px;line-height:1.45}
+  .modes{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--edge)}
+  .mode{position:relative;display:flex;flex-direction:column;gap:5px;padding:17px 44px 18px 16px}
+  .mode+.mode{border-left:1px solid var(--edge)}
+  .mode .tag{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--aqua)}
+  .mode.multi .tag{color:var(--foam)}
+  .mode .name{font-family:var(--label);font-size:20px;text-transform:uppercase}
+  .mode .sub{font-family:var(--label);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .mode svg{position:absolute;right:14px;top:22px;width:26px;color:var(--aqua)}
+  .mode.multi svg{color:var(--foam)}
+  .sealed{grid-column:2;grid-row:1;padding:20px;display:flex;flex-direction:column;border-style:dashed;border-color:rgba(200,240,232,.16);background:rgba(4,16,19,.55);opacity:.78}
+  .sealed .emblem{width:36px;height:36px;border-color:rgba(200,240,232,.28);color:var(--muted);margin-bottom:14px}
+  .sealed h4{margin:0;font-family:var(--label);font-weight:400;font-size:21px;line-height:1;text-transform:uppercase;color:#cfe4de}
+  .sealed p{margin:8px 0 0;font-family:var(--label);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);line-height:1.8}
+  .sealed .lock{position:absolute;right:16px;bottom:16px;font-family:var(--label);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--coral)}
+  .bolts{grid-column:2;grid-row:2;position:relative;border:1px dashed rgba(200,240,232,.14);display:grid;place-items:center;color:rgba(147,182,175,.55);background:rgba(4,16,19,.35)}
+  .bolts span{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase}
+  .bolt{position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#d9e8e3,#58716e 55%,#22383a)}
+  .bolt:nth-child(1){left:10px;top:10px}.bolt:nth-child(2){right:10px;top:10px}
+  .bolt:nth-child(3){left:10px;bottom:10px}.bolt:nth-child(4){right:10px;bottom:10px}
+</style>
+</head>
+<body>
+  <svg class="rock" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0h380c-22 54-88 72-142 94-62 24-90 64-150 86C60 190 32 188 0 230Z"/>
+    <path d="M1440 0h-300c20 58 76 80 132 102 64 26 86 70 148 96 26 10 42 6 50 26Z"/>
+    <path d="M0 900V690c42 16 68 52 116 72 38 16 64 44 78 78 8 20 8 38 4 60Z"/>
+    <path d="M1440 900V680c-54 12-84 50-132 76-44 24-74 54-88 92-6 18-6 34-2 52Z"/>
+  </svg>
+  <span class="ray a"></span><span class="ray b"></span>
+  <span class="bub" style="left:29%;top:22%;width:9px;height:9px;opacity:.6"></span>
+  <span class="bub" style="left:63%;top:46%;width:6px;height:6px;opacity:.5"></span>
+  <span class="bub" style="left:86%;top:26%;width:12px;height:12px;opacity:.4"></span>
+  <span class="bub" style="left:73%;top:8%;width:7px;height:7px;opacity:.55"></span>
+
+  <aside class="rail">
+    <svg class="anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2.4"/><path d="M12 7.5V21M5 13h14M4.5 16.5c1.6 3.2 4.2 4.5 7.5 4.5s5.9-1.3 7.5-4.5"/></svg>
+    <span class="word">Cubierta</span>
+  </aside>
+
+  <main class="stage">
+    <section class="intro">
+      <div class="seal"><span class="arc"></span><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#08282b" stroke="#8ff0e2" stroke-width="2"/><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(143,240,226,.4)"/><path d="M60 24l8 28 28 8-28 8-8 28-8-28-28-8 28-8z" fill="none" stroke="#8ff0e2" stroke-width="2.4"/><circle cx="60" cy="60" r="5" fill="#8ff0e2"/></svg></div>
+      <h1>Has caído en el casillero<span class="aqua">de Davy D. Jones.</span><span class="second">Prepárate para algo impactante.</span></h1>
+      <p class="lede">El fondo no perdona a los que dudan. Elige un reto y demuestra que mereces volver a la superficie.</p>
+      <div class="gauge">
+        <div class="head"><span>Profundidad</span><span>72 brazas</span></div>
+        <div class="bar"><span class="fill"></span></div>
+      </div>
+    </section>
+
+    <section class="wall" aria-label="Retos del casillero">
+      <div class="wallhead"><h2>Retos del casillero</h2><span>1 abierto · 1 sellado</span></div>
+      <div class="grid">
+        <article class="plate quiz">
+          <span class="rivets"></span>
+          <div class="top">
+            <span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="8.4"/><path d="m12 4.8 1.9 5.3 5.3 1.9-5.3 1.9L12 19.2l-1.9-5.3L4.8 12l5.3-1.9Z"/></svg></span>
+            <div><span class="kicker">Reto 01 · Abierto</span><h3>Quiz</h3><p class="cond">15 preguntas · 3 vidas · dificultad creciente</p></div>
+          </div>
+          <p class="line">Cada acierto te acerca a la superficie. Cada fallo te hunde.</p>
+          <div class="modes">
+            <div class="mode"><span class="tag">Solo</span><span class="name">Jugar solo</span><span class="sub">1 jugador</span><svg viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 8h29M22 1.5 29.5 8 22 14.5"/></svg></div>
+            <div class="mode multi"><span class="tag">Multijugador</span><span class="name">Reta a tu tripulación</span><span class="sub">Duelo 1 vs 1</span><svg viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 8h29M22 1.5 29.5 8 22 14.5"/></svg></div>
+          </div>
+        </article>
+
+        <article class="plate sealed">
+          <span class="rivets"></span>
+          <span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="10" width="14" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+          <h4>El siguiente reto</h4>
+          <p>Davy D. Jones aún no ha abierto esta puerta.</p>
+          <span class="lock">Sellado</span>
+        </article>
+
+        <div class="bolts"><span>Sin abrir</span>
+          <i class="bolt"></i><i class="bolt"></i><i class="bolt"></i><i class="bolt"></i>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

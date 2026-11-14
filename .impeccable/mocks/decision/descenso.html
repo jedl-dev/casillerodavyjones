@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>El Descenso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --abyss:#040d10;--deep:#061a1c;--sea:#0b3538;--steel:#0e2124;--steel2:#163236;
+    --edge:rgba(214,240,234,.2);--aqua:#2fb3ac;--glow:#8ff0e2;--foam:#f4fbf7;
+    --muted:#93b6af;--coral:#d96f8e;--label:"Special Elite",monospace;--body:"Cormorant Garamond",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{width:1440px;height:900px;overflow:hidden;background:var(--abyss);color:var(--foam);
+    font-family:var(--body);
+    background-image:
+      radial-gradient(90% 50% at 52% -8%,rgba(143,240,226,.22),transparent 60%),
+      radial-gradient(70% 40% at 50% 108%,rgba(17,120,116,.2),transparent 62%),
+      linear-gradient(180deg,#0a474b 0%,#073639 34%,#042327 64%,#041114 100%);
+  }
+  .rock{position:absolute;inset:0;pointer-events:none}
+  .rock path{fill:rgba(1,9,11,.9)}
+  .ray{position:absolute;top:-10%;height:78%;width:150px;background:linear-gradient(180deg,rgba(190,255,245,.22),transparent 74%);filter:blur(20px);transform:skewX(-13deg)}
+  .ray.a{left:26%}.ray.b{left:56%;width:230px;opacity:.7}
+  .bub{position:absolute;border-radius:50%;border:1px solid rgba(220,252,246,.28);background:radial-gradient(circle at 34% 30%,#fff,rgba(143,240,226,.2) 52%,transparent 72%)}
+  .rail{position:fixed;left:0;top:0;bottom:0;width:56px;z-index:4;background:linear-gradient(90deg,#0a1d20,#071618);border-right:1px solid rgba(47,179,172,.4);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 0 30px}
+  .rail .anchor{width:24px;height:24px;color:var(--aqua)}
+  .rail .word{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--label);font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted)}
+  .stage{margin-left:56px;height:900px;display:grid;grid-template-columns:480px minmax(0,1fr);gap:60px;padding:46px 62px 34px 60px}
+  .intro{display:flex;flex-direction:column;min-width:0}
+  .seal{position:relative;width:132px;height:132px;display:grid;place-items:center;margin-bottom:26px}
+  .seal:before{content:"";position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,rgba(143,240,226,.28),transparent 66%);filter:blur(14px)}
+  .seal:after{content:"";position:absolute;inset:-12px;border:1px solid rgba(143,240,226,.35);border-radius:50%;box-shadow:inset 0 0 30px rgba(47,179,172,.16)}
+  .seal .arc{position:absolute;inset:-20px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 292deg,rgba(143,240,226,.75) 358deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0)}
+  .seal img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 34px rgba(0,0,0,.6))}
+  h1{margin:0;font-family:var(--label);font-weight:400;font-size:46px;line-height:.94;text-transform:uppercase;letter-spacing:.005em}
+  h1 .aqua{display:block;color:var(--glow)}
+  h1 .second{display:block;margin-top:12px;font-size:23px;line-height:1.1;color:var(--foam)}
+  p.lede{max-width:38ch;margin:22px 0 0;color:var(--muted);font-size:19px;line-height:1.5}
+  .gauge{margin-top:auto;border-top:1px solid var(--edge);padding-top:18px}
+  .gauge .head{display:flex;justify-content:space-between;font-family:var(--label);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .gauge .bar{position:relative;height:8px;margin-top:12px;border:1px solid var(--edge);background:rgba(0,0,0,.28)}
+  .gauge .fill{position:absolute;inset:0;width:28%;background:linear-gradient(90deg,var(--aqua),var(--glow))}
+  .gauge .ticks{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--label);font-size:8px;letter-spacing:.16em;color:var(--muted)}
+  .shaft{position:relative;height:100%;min-width:0;display:flex;flex-direction:column;justify-content:flex-start;gap:22px;padding:8px 96px 0 54px}
+  .chain{position:absolute;left:24px;top:0;bottom:0;width:2px;background:repeating-linear-gradient(180deg,rgba(180,210,204,.5) 0 7px,transparent 7px 13px)}
+  .tickscale{position:absolute;right:6px;top:6px;bottom:6px;width:74px;border-left:1px solid rgba(200,240,232,.14);display:flex;flex-direction:column;justify-content:space-between;padding-left:12px}
+  .tickscale span{font-family:var(--label);font-size:8px;letter-spacing:.16em;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .tickscale span:before{content:"";width:14px;height:1px;background:rgba(200,240,232,.3)}
+  .plate{position:relative;background:
+      linear-gradient(180deg,rgba(214,240,234,.22) 0 1px,transparent 1px),
+      radial-gradient(110% 90% at 8% 0%,rgba(47,179,172,.12),transparent 56%),
+      linear-gradient(158deg,rgba(22,50,54,.82),rgba(9,28,31,.9) 62%,rgba(4,16,19,.94));
+    border:1px solid rgba(200,240,232,.28);clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%)}
+  .plate:before{content:"";position:absolute;top:0;right:0;width:34px;height:1px;background:var(--aqua);transform:rotate(45deg);transform-origin:top right;opacity:.8}
+  .rivets{position:absolute;inset:9px;pointer-events:none;opacity:.55;background-image:
+      radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px),
+      radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px),radial-gradient(circle,rgba(214,240,234,.8) 0 1.4px,transparent 1.9px);
+    background-size:8px 8px;background-position:0 0,100% 0,0 100%,100% 100%;background-repeat:no-repeat}
+  .plate.open{min-height:320px;padding:24px 26px 0;display:flex;flex-direction:column}
+  .plate.open .top{display:flex;align-items:center;gap:14px}
+  .emblem{width:44px;height:44px;flex:none;border:1px solid rgba(143,240,226,.5);border-radius:50%;display:grid;place-items:center;color:var(--glow);box-shadow:inset 0 0 18px rgba(47,179,172,.18)}
+  .emblem svg{width:24px;height:24px}
+  .kicker{font-family:var(--label);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua)}
+  .plate h2{margin:3px 0 0;font-family:var(--label);font-weight:400;font-size:38px;line-height:.9;text-transform:uppercase}
+  .cond{margin:7px 0 0;font-family:var(--label);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .plate .line{margin:14px 0 0;max-width:40ch;color:var(--muted);font-size:16px;line-height:1.4}
+  .modes{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--edge)}
+  .mode{position:relative;padding:15px 46px 16px 16px;display:flex;flex-direction:column;gap:4px}
+  .mode+.mode{border-left:1px solid var(--edge)}
+  .mode .tag{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--aqua)}
+  .mode.multi .tag{color:var(--foam)}
+  .mode .name{font-family:var(--label);font-size:19px;text-transform:uppercase}
+  .mode .sub{font-family:var(--label);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .mode svg{position:absolute;right:14px;top:18px;width:26px;color:var(--aqua)}
+  .mode.multi svg{color:var(--foam)}
+  .plate.sealed{min-height:104px;padding:18px 22px;display:flex;align-items:center;gap:14px;border-style:dashed;border-color:rgba(200,240,232,.16);background:rgba(4,16,19,.5);opacity:.7}
+  .plate.sealed .emblem{width:34px;height:34px;border-color:rgba(200,240,232,.25);color:var(--muted)}
+  .plate.sealed h3{margin:0;font-family:var(--label);font-weight:400;font-size:20px;text-transform:uppercase;color:#cfe4de}
+  .plate.sealed .cond{margin-top:4px}
+  .plate.sealed .note{margin-left:auto;font-family:var(--label);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--coral)}
+  .waterline{position:absolute;left:54px;right:96px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(143,240,226,.5),transparent)}
+</style>
+</head>
+<body>
+  <svg class="rock" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0h420c-26 54-92 74-150 96-64 24-96 66-156 88C70 202 34 196 0 244Z"/>
+    <path d="M1440 0h-380c24 60 84 82 142 104 70 26 94 72 160 96 44 16 70 8 78 30Z"/>
+    <path d="M0 900V680c44 18 70 54 120 74 40 16 70 44 84 78 8 22 8 46 4 68Z"/>
+    <path d="M1440 900V660c-56 12-88 52-138 78-46 24-78 56-92 96-6 20-6 42-2 66Z"/>
+  </svg>
+  <span class="ray a"></span><span class="ray b"></span>
+  <span class="bub" style="left:31%;top:24%;width:10px;height:10px;opacity:.6"></span>
+  <span class="bub" style="left:72%;top:38%;width:6px;height:6px;opacity:.5"></span>
+  <span class="bub" style="left:61%;top:70%;width:14px;height:14px;opacity:.4"></span>
+  <span class="bub" style="left:88%;top:22%;width:7px;height:7px;opacity:.6"></span>
+
+  <aside class="rail">
+    <svg class="anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2.4"/><path d="M12 7.5V21M5 13h14M4.5 16.5c1.6 3.2 4.2 4.5 7.5 4.5s5.9-1.3 7.5-4.5"/></svg>
+    <span class="word">Cubierta</span>
+  </aside>
+
+  <main class="stage">
+    <section class="intro">
+      <div class="seal"><span class="arc"></span><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#08282b" stroke="#8ff0e2" stroke-width="2"/><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(143,240,226,.4)"/><path d="M60 24l8 28 28 8-28 8-8 28-8-28-28-8 28-8z" fill="none" stroke="#8ff0e2" stroke-width="2.4"/><circle cx="60" cy="60" r="5" fill="#8ff0e2"/></svg></div>
+      <h1>Has caído en el casillero<span class="aqua">de Davy D. Jones.</span><span class="second">Prepárate para algo impactante.</span></h1>
+      <p class="lede">El fondo no perdona a los que dudan. Elige un reto y demuestra que mereces volver a la superficie.</p>
+      <div class="gauge">
+        <div class="head"><span>Profundidad</span><span>72 brazas</span></div>
+        <div class="bar"><span class="fill"></span></div>
+        <div class="ticks"><span>Superficie</span><span>1 abierto · 1 sellado</span><span>Abismo</span></div>
+      </div>
+    </section>
+
+    <section class="shaft" aria-label="Retos del casillero">
+      <span class="chain"></span>
+      <div class="tickscale"><span>40</span><span>60</span><span>80</span><span>100</span><span>120</span></div>
+
+      <article class="plate open">
+        <span class="rivets"></span>
+        <div class="top">
+          <span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="8.4"/><path d="m12 4.8 1.9 5.3 5.3 1.9-5.3 1.9L12 19.2l-1.9-5.3L4.8 12l5.3-1.9Z"/></svg></span>
+          <div><span class="kicker">Reto 01 · Abierto</span><h2>Quiz</h2><p class="cond">15 preguntas · 3 vidas · dificultad creciente</p></div>
+        </div>
+        <p class="line">Cada acierto te acerca a la superficie. Cada fallo te hunde.</p>
+        <div class="modes">
+          <div class="mode"><span class="tag">Solo</span><span class="name">Jugar solo</span><span class="sub">1 jugador</span><svg viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 8h29M22 1.5 29.5 8 22 14.5"/></svg></div>
+          <div class="mode multi"><span class="tag">Multijugador</span><span class="name">Reta a tu tripulación</span><span class="sub">Duelo 1 vs 1</span><svg viewBox="0 0 32 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 8h29M22 1.5 29.5 8 22 14.5"/></svg></div>
+        </div>
+      </article>
+
+      <article class="plate sealed">
+        <span class="rivets"></span>
+        <span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="5" y="10" width="14" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+        <div><h3>El siguiente reto</h3><p class="cond">Próximamente · Davy D. Jones aún no ha abierto esta puerta</p></div>
+        <span class="note">Sellado</span>
+      </article>
+
+      <span class="waterline"></span>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>La Puerta del Casillero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --abyss:#040d10;--deep:#061a1c;--sea:#0b3538;--steel:#0e2124;--steel2:#1b3a3e;
+    --edge:rgba(214,240,234,.2);--aqua:#2fb3ac;--glow:#8ff0e2;--foam:#f4fbf7;
+    --muted:#93b6af;--coral:#d96f8e;--label:"Special Elite",monospace;--body:"Cormorant Garamond",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{width:1440px;height:900px;overflow:hidden;background:var(--abyss);color:var(--foam);font-family:var(--body);
+    background-image:
+      radial-gradient(85% 55% at 62% -10%,rgba(143,240,226,.2),transparent 60%),
+      radial-gradient(70% 45% at 50% 112%,rgba(17,120,116,.2),transparent 64%),
+      linear-gradient(180deg,#0a474b 0%,#073639 34%,#042327 64%,#041114 100%);}
+  .rock{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .rock path{fill:rgba(1,9,11,.92)}
+  .ray{position:absolute;top:-8%;height:76%;width:150px;background:linear-gradient(180deg,rgba(190,255,245,.2),transparent 72%);filter:blur(22px);transform:skewX(-12deg)}
+  .ray.a{left:24%}.ray.b{left:52%;width:240px;opacity:.7}
+  .bub{position:absolute;border-radius:50%;border:1px solid rgba(220,252,246,.28);background:radial-gradient(circle at 34% 30%,#fff,rgba(143,240,226,.2) 52%,transparent 72%)}
+  .rail{position:fixed;left:0;top:0;bottom:0;width:56px;z-index:5;background:linear-gradient(90deg,#0a1d20,#071618);border-right:1px solid rgba(47,179,172,.4);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 0 30px}
+  .rail .anchor{width:24px;height:24px;color:var(--aqua)}
+  .rail .word{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--label);font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted)}
+  .stage{margin-left:56px;height:900px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;padding:52px 58px 36px 58px;position:relative;z-index:1}
+  .intro{display:flex;flex-direction:column;justify-content:center;min-width:0;padding-right:22px}
+  .brand{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+  .brand .ring{position:relative;width:112px;height:112px;flex:none;display:grid;place-items:center}
+  .brand .ring:before{content:"";position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(circle,rgba(143,240,226,.26),transparent 66%);filter:blur(13px)}
+  .brand .ring:after{content:"";position:absolute;inset:-11px;border:1px solid rgba(143,240,226,.35);border-radius:50%}
+  .brand .ring .arc{position:absolute;inset:-19px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 292deg,rgba(143,240,226,.8) 358deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 0)}
+  .brand img{position:relative;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 32px rgba(0,0,0,.6))}
+  .brand .name{font-family:var(--label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;line-height:1.4;color:#cfe4de}
+  .brand .name small{display:block;font-size:9px;letter-spacing:.24em;color:var(--aqua)}
+  h1{margin:0;font-family:var(--label);font-weight:400;font-size:50px;line-height:.94;text-transform:uppercase;letter-spacing:.004em}
+  h1 .aqua{display:block;color:var(--glow)}
+  h1 .second{display:block;margin-top:14px;font-size:22px;line-height:1.12;color:var(--foam)}
+  p.lede{max-width:40ch;margin:20px 0 0;color:var(--muted);font-size:19px;line-height:1.55}
+  .meta{margin-top:30px;border-top:1px solid var(--edge);padding-top:16px;display:flex;gap:26px;flex-wrap:wrap}
+  .meta div{display:flex;flex-direction:column;gap:4px}
+  .meta .k{font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .meta .v{font-family:var(--label);font-size:16px;text-transform:uppercase;color:var(--foam)}
+  .meta .v.aqua{color:var(--glow)}
+  .sealed-mini{margin-top:20px;display:flex;align-items:center;gap:12px;border:1px dashed rgba(200,240,232,.18);padding:12px 14px;color:var(--muted);opacity:.8}
+  .sealed-mini svg{width:20px;height:20px;color:var(--muted);flex:none}
+  .sealed-mini b{display:block;font-family:var(--label);font-weight:400;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#cfe4de}
+  .sealed-mini span{font-family:var(--label);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral)}
+
+  .doorframe{position:relative;min-width:0;display:flex;align-items:center;justify-content:center;padding:8px 0}
+  .frame{position:absolute;inset:0;border-radius:6px 6px 0 0;
+    background:linear-gradient(160deg,#20393c,#0c1f22 40%,#071416 100%);
+    box-shadow:inset 0 0 0 1px rgba(214,240,234,.16),inset 0 30px 70px rgba(0,0,0,.45),0 40px 100px rgba(0,0,0,.55)}
+  .frame:before{content:"";position:absolute;inset:16px;border:1px solid rgba(214,240,234,.12);border-radius:3px 3px 0 0}
+  .bolt{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#d9e8e3,#58716e 55%,#22383a);box-shadow:0 1px 2px rgba(0,0,0,.7)}
+  .door{position:absolute;inset:44px 40px 0;display:flex;flex-direction:column;
+    background:
+      linear-gradient(100deg,rgba(255,255,255,.08) 0 2px,transparent 2px 100%),
+      repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 6px),
+      linear-gradient(165deg,#2a4a4d 0%,#17363a 30%,#0d2528 62%,#0a1c1f 100%);
+    border:1px solid rgba(214,240,234,.22);border-bottom:0;border-radius:3px 3px 0 0;
+    box-shadow:inset 0 2px 0 rgba(214,240,234,.28),inset 0 -40px 80px rgba(0,0,0,.5),0 0 60px rgba(0,0,0,.4)}
+  .door:before{content:"";position:absolute;inset:14px;border:1px solid rgba(10,26,28,.7);border-radius:2px 2px 0 0;box-shadow:inset 0 0 0 1px rgba(214,240,234,.06)}
+  .hinge{position:absolute;left:14px;width:30px;height:74px;border-radius:3px;background:linear-gradient(90deg,#0a1a1c,#28464a 55%,#0a1a1c);box-shadow:inset 0 0 0 1px rgba(214,240,234,.16)}
+  .hinge.top{top:92px}.hinge.bottom{bottom:130px}
+  .portal{position:relative;margin:54px auto 0;width:230px;height:230px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle,#0b2b2e 0%,#061618 72%,#031013 100%);
+    box-shadow:0 0 0 14px #1d3a3d,0 0 0 15px rgba(214,240,234,.35),0 0 0 26px #12282b,0 0 0 27px rgba(214,240,234,.14),inset 0 0 50px rgba(47,179,172,.25),0 22px 44px rgba(0,0,0,.55)}
+  .portal .sweep{position:absolute;inset:6px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 296deg,rgba(143,240,226,.28) 340deg,rgba(184,255,240,.75) 358deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 0)}
+  .portal img{width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 14px 30px rgba(0,0,0,.7))}
+  .plate-name{margin:34px auto 0;padding:12px 26px;border:1px solid rgba(214,240,234,.28);background:linear-gradient(180deg,#173236,#0c2023);box-shadow:inset 0 1px 0 rgba(214,240,234,.2);
+    font-family:var(--label);font-size:20px;letter-spacing:.2em;text-transform:uppercase;color:#dff1ec}
+  .engrave{margin:22px auto 0;text-align:center;font-family:var(--label);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);line-height:1.9}
+  .engrave b{color:var(--glow);font-weight:400}
+  .levers{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(214,240,234,.18)}
+  .lever{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:24px 24px 26px;text-decoration:none;color:var(--foam)}
+  .lever+.lever{border-left:1px solid rgba(214,240,234,.18)}
+  .lever .tag{font-family:var(--label);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua)}
+  .lever.multi .tag{color:var(--foam)}
+  .lever .name{font-family:var(--label);font-size:23px;line-height:1;text-transform:uppercase}
+  .lever .sub{font-family:var(--label);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .lever .handle{position:absolute;right:22px;top:22px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 40% 32%,#34575a,#12282b 60%,#08181a);box-shadow:0 0 0 1px rgba(214,240,234,.26),inset 0 0 14px rgba(0,0,0,.6),0 8px 18px rgba(0,0,0,.5);color:var(--aqua)}
+  .lever.multi .handle{color:var(--foam)}
+  .lever .handle svg{width:24px;height:24px}
+  .water{position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(0deg,rgba(47,179,172,.16),transparent);pointer-events:none}
+  .status{position:absolute;left:44px;bottom:18px;font-family:var(--label);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--aqua);z-index:2}
+</style>
+</head>
+<body>
+  <svg class="rock" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0h360c-20 50-84 70-140 92-60 24-88 62-146 84C44 192 20 190 0 232Z"/>
+    <path d="M1440 0h-300c20 56 74 78 130 100 66 26 88 68 150 94 26 10 42 6 50 26Z"/>
+    <path d="M0 900V700c40 16 66 50 112 70 38 16 66 42 80 74 8 20 8 38 4 56Z"/>
+    <path d="M1440 900V690c-52 12-82 48-130 72-44 24-74 54-88 92-6 18-6 32-2 46Z"/>
+  </svg>
+  <span class="ray a"></span><span class="ray b"></span>
+  <span class="bub" style="left:34%;top:20%;width:9px;height:9px;opacity:.6"></span>
+  <span class="bub" style="left:46%;top:64%;width:6px;height:6px;opacity:.5"></span>
+  <span class="bub" style="left:90%;top:30%;width:12px;height:12px;opacity:.4"></span>
+  <span class="bub" style="left:78%;top:76%;width:7px;height:7px;opacity:.55"></span>
+  <span class="bub" style="left:8%;top:58%;width:8px;height:8px;opacity:.4"></span>
+
+  <aside class="rail">
+    <svg class="anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2.4"/><path d="M12 7.5V21M5 13h14M4.5 16.5c1.6 3.2 4.2 4.5 7.5 4.5s5.9-1.3 7.5-4.5"/></svg>
+    <span class="word">Cubierta</span>
+  </aside>
+
+  <main class="stage">
+    <section class="intro">
+      <div class="brand">
+        <span class="ring"><span class="arc"></span><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#08282b" stroke="#8ff0e2" stroke-width="2"/><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(143,240,226,.4)"/><path d="M60 24l8 28 28 8-28 8-8 28-8-28-28-8 28-8z" fill="none" stroke="#8ff0e2" stroke-width="2.4"/><circle cx="60" cy="60" r="5" fill="#8ff0e2"/></svg></span>
+        <span class="name">El Casillero<small>de Davy D. Jones</small></span>
+      </div>
+      <h1>Has caído en el casillero<span class="aqua">de Davy D. Jones.</span><span class="second">Prepárate para algo impactante.</span></h1>
+      <p class="lede">El fondo no perdona a los que dudan. Elige un reto y demuestra que mereces volver a la superficie.</p>
+      <div class="meta">
+        <div><span class="k">Retos abiertos</span><span class="v aqua">01</span></div>
+        <div><span class="k">Sellados</span><span class="v">01</span></div>
+        <div><span class="k">Acceso</span><span class="v">Sin cuenta</span></div>
+      </div>
+      <div class="sealed-mini">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="5" y="10" width="14" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <div><b>El siguiente reto</b><span>Sellado por Davy D. Jones</span></div>
+      </div>
+    </section>
+
+    <section class="doorframe" aria-label="Retos del casillero">
+      <div class="frame">
+        <span class="bolt" style="left:26px;top:26px"></span><span class="bolt" style="right:26px;top:26px"></span>
+        <span class="bolt" style="left:26px;bottom:26px"></span><span class="bolt" style="right:26px;bottom:26px"></span>
+      </div>
+      <div class="door">
+        <span class="hinge top"></span><span class="hinge bottom"></span>
+        <div class="portal"><span class="sweep"></span><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" fill="#08282b" stroke="#8ff0e2" stroke-width="2"/><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(143,240,226,.4)"/><path d="M60 24l8 28 28 8-28 8-8 28-8-28-28-8 28-8z" fill="none" stroke="#8ff0e2" stroke-width="2.4"/><circle cx="60" cy="60" r="5" fill="#8ff0e2"/></svg></div>
+        <div class="plate-name">Davy D. Jones</div>
+        <p class="engrave">Reto 01 · <b>Quiz</b><br>15 preguntas · 3 vidas · dificultad creciente</p>
+        <div class="levers">
+          <a class="lever" href="#">
+            <span class="tag">Solo</span><span class="name">Jugar solo</span><span class="sub">1 jugador</span>
+            <span class="handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3v13M6.5 10 12 16l5.5-6"/><path d="M4 21h16"/></svg></span>
+          </a>
+          <a class="lever multi" href="#">
+            <span class="tag">Multijugador</span><span class="name">Reta a tu tripulación</span><span class="sub">Duelo 1 vs 1</span>
+            <span class="handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="9" r="2.6"/><circle cx="16" cy="9" r="2.6"/><path d="M3.5 19c.7-2.7 2.4-4 4.5-4s3.8 1.3 4.5 4M11.5 19c.7-2.7 2.4-4 4.5-4s3.8 1.3 4.5 4"/></svg></span>
+          </a>
+        </div>
+        <span class="water"></span>
+      </div>
+      <span class="status">1 abierto · 1 sellado</span>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "title": "Elige la composición de la home",
+  "question": "Tres formas de entrar al casillero de Davy D. Jones. Mismo mundo, misma paleta, misma base marina; cambia cómo se presenta el reto. Elige una para construirla.",
+  "options": [
+    {
+      "id": "descenso",
+      "kind": "assigned",
+      "label": "El Descenso",
+      "kicker": "THE ROLL",
+      "lineage": "el casillero como un pozo que baja hasta el fondo",
+      "thesis": "La home es un descenso por el casillero: cada reto es un peldaño metálico y el Quiz es el primero que se puede pisar.",
+      "palette": ["#040d10", "#0b3538", "#2fb3ac", "#f4fbf7", "#d96f8e"],
+      "materials": ["acero remachado", "roca de cueva", "agua abisal"],
+      "viewport": "Riel de cubierta a la izquierda; el titular arriba; a la derecha, un pozo vertical con el peldaño abierto del Quiz y sus dos puertas Solo/Multijugador, y un peldaño sellado debajo.",
+      "risk": "Obliga a leer en vertical; si el pozo no se ancla bien, el reto queda por debajo del primer viewport.",
+      "html": ".impeccable/mocks/decision/descenso.html"
+    },
+    {
+      "id": "puerta",
+      "kind": "dealt",
+      "label": "La Puerta del Casillero",
+      "lineage": "el casillero de Davy Jones como puerta metálica sumergida",
+      "thesis": "Una puerta de acero enorme ocupa el escenario: el Quiz está grabado en la hoja y las dos palancas, Solo y Multijugador, son los dos modos de abrirla.",
+      "palette": ["#040d10", "#12262a", "#2fb3ac", "#f4fbf7", "#d96f8e"],
+      "materials": ["acero electrosoldado", "tornillos", "sello de portal"],
+      "viewport": "Izquierda: logo, titular y condiciones del reto. Derecha: la puerta con ventana redonda, placa DAVY D. JONES y dos palancas de acero. Abajo, una escotilla sellada.",
+      "risk": "La metáfora de la puerta puede tapar la elección si las palancas no se leen como acciones.",
+      "html": ".impeccable/mocks/decision/puerta.html"
+    },
+    {
+      "id": "muro",
+      "kind": "dealt",
+      "label": "El Muro de Retos",
+      "lineage": "los retos como placas de acero clavadas en la roca",
+      "thesis": "La home es el muro de placas del casillero: una placa grande encendida para el Quiz y una placa sellada, con las dos puertas en la placa viva.",
+      "palette": ["#040d10", "#1b3a3e", "#2fb3ac", "#f4fbf7", "#d96f8e"],
+      "materials": ["placas atornilladas", "hierro fundido", "piedra húmeda"],
+      "viewport": "Titular a la izquierda; a la derecha, un muro de placas: la del Quiz más grande y viva, con Solo y Multijugador, y una placa sellada al lado; calibre de profundidad abajo.",
+      "risk": "Si las placas no marcan jerarquía, se lee como una parrilla de juegos falsos.",
+      "html": ".impeccable/mocks/decision/muro.html"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "steer": true,
+  "buildPath": { "value": "code" }
+}

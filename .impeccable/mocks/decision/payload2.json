@@ -1,0 +1,46 @@
+{
+  "title": "Elige la composición de la home",
+  "question": "Segunda mano: tres formas nuevas de entrar al casillero. Mismo mundo y misma paleta; cambia cómo se presenta el reto. Elige una para construirla.",
+  "options": [
+    {
+      "id": "mesa",
+      "kind": "assigned",
+      "label": "La Mesa del Duelo",
+      "kicker": "THE ROLL",
+      "lineage": "la mesa de mando de un capitán pirata, tallada en acero",
+      "thesis": "La home es una mesa de mando: el Quiz vive en una placa de acero y las dos palancas de la mesa, Solo y Multijugador, son las dos formas de jugar.",
+      "palette": ["#040d10", "#0b3538", "#2fb3ac", "#f4fbf7", "#d96f8e"],
+      "materials": ["acero cepillado", "placas grabadas", "roca de cueva"],
+      "viewport": "Riel de cubierta a la izquierda; a la izquierda del tablero, sello, titular y estado; a la derecha, la mesa de acero con la placa del Quiz, sus condiciones y dos palancas grandes, con un cajón sellado debajo.",
+      "risk": "La mesa puede pesar demasiado si las palancas no se leen como los dos botones principales.",
+      "html": ".impeccable/mocks/decision/mesa.html"
+    },
+    {
+      "id": "tablon",
+      "kind": "dealt",
+      "label": "El Tablón",
+      "lineage": "la pasarela sobre el abismo, con el reto al final",
+      "thesis": "Un tablón metálico cruza el abismo hacia la plataforma del Quiz: el visitante ve el reto al final del tablón y las dos puertas que lo abren.",
+      "palette": ["#040d10", "#12262a", "#2fb3ac", "#f4fbf7", "#d96f8e"],
+      "materials": ["plancha de acero", "cadena", "abismo húmedo"],
+      "viewport": "Titular y sello arriba a la izquierda; abajo, un tablón de acero cruza el abismo hacia una plataforma iluminada con el Quiz, sus condiciones y las puertas Solo/Multijugador; una escotilla sellada al fondo.",
+      "risk": "El tablón puede leerse como decoración si la plataforma del reto no domina el final del recorrido.",
+      "html": ".impeccable/mocks/decision/tablon.html"
+    },
+    {
+      "id": "puertas",
+      "kind": "dealt",
+      "label": "Dos Puertas",
+      "lineage": "el umbral del casillero partido en dos hojas",
+      "thesis": "El primer viewport es la elección: dos puertas de acero, Solo y Multijugador, bajo un dintel que graba el Quiz y sus condiciones.",
+      "palette": ["#040d10", "#1b3a3e", "#2fb3ac", "#f4fbf7", "#d96f8e"],
+      "materials": ["acero remachado", "bisagras", "luz de portal"],
+      "viewport": "Dintel superior con marca, titular y condiciones; debajo, dos puertas de acero a toda altura con sus tiradores y rótulos; una escotilla sellada en el zócalo.",
+      "risk": "Dos puertas iguales pueden tapar qué es el reto; el dintel tiene que llevar el Quiz y sus condiciones.",
+      "html": ".impeccable/mocks/decision/puertas.html"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "steer": true,
+  "buildPath": { "value": "code" }
+}
