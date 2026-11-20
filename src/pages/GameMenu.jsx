@@ -6,7 +6,6 @@ import GameSelector from '../components/GameSelector';
 import { fetchLeaderboard, fetchPlayerStats, getArcadeIdentity } from '../lib/arcade';
 import { formatBounty } from '../lib/quizRoom';
 import { GAMES } from '../lib/games';
-import { ART_SLOTS, useGameArt } from '../lib/gameArt';
 import './GameMenu.css';
 
 const samePlayer = (row, name) => (
@@ -141,7 +140,6 @@ const GameMenu = ({ navigate }) => {
   const [statsState, setStatsState] = useState({ name: null, game: null, status: 'idle', data: null });
   const [identity, setIdentity] = useState(getArcadeIdentity);
   const [gameId, setGameId] = useState(GAMES[0]?.id || 'quiz');
-  const [shotKey, setShotKey] = useState('casillero');
 
   const game = GAMES.find((item) => item.id === gameId) || GAMES[0];
   const displayName = identity?.username || null;
@@ -152,31 +150,6 @@ const GameMenu = ({ navigate }) => {
   const mySolo = stats?.soloRow || null;
   const soloPath = game?.modes.find((mode) => mode.id === 'solo')?.to || '/quiz';
   const duelPath = game?.modes.find((mode) => mode.id === 'duel')?.to || '/sala?game=quiz';
-
-  const art = useGameArt(['casillero', 'quiz-solo', 'quiz-multijugador']);
-
-  const shots = [
-    {
-      key: 'casillero',
-      label: ART_SLOTS.casillero.label,
-      src: art.casillero || '/assets/referencias/referencia.webp',
-      alt: 'Davy D. Jones sonríe con el pulgar arriba frente a su casillero abierto'
-    },
-    {
-      key: 'quiz-solo',
-      label: ART_SLOTS['quiz-solo'].label,
-      src: art['quiz-solo'],
-      alt: ART_SLOTS['quiz-solo'].alt
-    },
-    {
-      key: 'quiz-multijugador',
-      label: ART_SLOTS['quiz-multijugador'].label,
-      src: art['quiz-multijugador'],
-      alt: ART_SLOTS['quiz-multijugador'].alt
-    }
-  ].filter((shot) => shot.src);
-
-  const shot = shots.find((item) => item.key === shotKey) || shots[0];
 
   const chooseGame = (id) => {
     if (id === gameId) return;
@@ -282,55 +255,8 @@ const GameMenu = ({ navigate }) => {
           </p>
         </section>
 
-        <GameSelector navigate={navigate} value={gameId} onChange={chooseGame} />
-
-        <div className="home__deck-wrap">
-          <section className="home__deck" aria-labelledby="deck-title">
-            <header className="home__deck-head">
-              <h2 id="deck-title">Dentro del casillero</h2>
-              <p>Lo que el fondo no se llevó.</p>
-            </header>
-
-            <div className="home__deck-grid">
-              <div className="home__deck-thumbs" role="group" aria-label="Vistas del casillero">
-                {shots.map((item, index) => (
-                  <button
-                    key={item.key}
-                    type="button"
-                    className={`home__thumb${item.key === shot?.key ? ' is-current' : ''}`}
-                    aria-pressed={item.key === shot?.key}
-                    aria-label={`Ver ${item.label}`}
-                    onClick={() => setShotKey(item.key)}
-                  >
-                    <img src={item.src} alt="" loading="lazy" decoding="async" />
-                    <span className="home__thumb-index" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </button>
-                ))}
-              </div>
-
-              <figure className="home__shot">
-                {shot && (
-                  <img
-                    key={shot.src}
-                    className="home__shot-img"
-                    src={shot.src}
-                    alt={shot.alt}
-                    decoding="async"
-                  />
-                )}
-                <figcaption className="home__shot-cap">
-                  <span>{shot?.label}</span>
-                  <span className="home__shot-count">
-                    {String(shots.findIndex((item) => item.key === shot?.key) + 1).padStart(2, '0')}
-                    {' / '}
-                    {String(shots.length).padStart(2, '0')}
-                  </span>
-                </figcaption>
-              </figure>
-            </div>
-          </section>
+        <div className="home__stage">
+          <GameSelector navigate={navigate} value={gameId} onChange={chooseGame} />
 
           <BoardPanel
             solo={solo}

@@ -5,8 +5,7 @@ import { findAsset } from './assets';
 // Si subes un .webp (o .png/.jpg) con ese nombre, sustituye al SVG de ejemplo.
 export const ART_SLOTS = {
   'quiz-solo': { file: 'quiz-solo', label: 'Quiz · Solo', alt: 'Un solo farol sobre el abismo' },
-  'quiz-multijugador': { file: 'quiz-multijugador', label: 'Quiz · Multijugador', alt: 'Dos faroles frente a frente' },
-  casillero: { file: 'casillero', label: 'El casillero', alt: 'El casillero abierto en la cueva' }
+  'quiz-multijugador': { file: 'quiz-multijugador', label: 'Quiz · Multijugador', alt: 'Dos faroles frente a frente' }
 };
 
 const probes = new Map();

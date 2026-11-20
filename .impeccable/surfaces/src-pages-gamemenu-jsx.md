@@ -5,7 +5,7 @@ primary_target: "src/pages/GameMenu.jsx"
 related_targets: ["src/pages/QuizIntro.jsx"]
 ---
 
-> Nota 2026-11-19: la home pasó de pasarela/plataforma a retrato del casillero (galería de arte + tablón + cards de juego con arte). La navegación incluye barra superior fija y el botón del cajón móvil vive a la izquierda. DESIGN.md manda sobre este brief cuando difieran.
+> Nota 2026-11-19: la home pasó de pasarela/plataforma a retrato del casillero (dos cards de modo con arte + tablón; sin galería). La navegación incluye barra superior fija y el botón del cajón móvil vive a la izquierda. DESIGN.md manda sobre este brief cuando difieran.
 
 # Home surface
 

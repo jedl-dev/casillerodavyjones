@@ -7,7 +7,6 @@ decide dónde aparece:
 | ---------------------- | ---------------------------- |
 | `quiz-solo`            | Card «Solo» del Quiz         |
 | `quiz-multijugador`    | Card «Multijugador» del Quiz |
-| `casillero`            | Galería de la home           |
 
 Extensiones válidas, en orden de prioridad: `.webp`, `.png`, `.svg`, `.jpg`.
 Si subes `quiz-solo.webp` sustituye al `quiz-solo.svg` de ejemplo sin tocar código.

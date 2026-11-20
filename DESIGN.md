@@ -274,7 +274,7 @@ La tipografía hace el trabajo de identidad: Special Elite para el nombre, los t
 - Acentos en dos corrientes: aqua para la vida y la acción, espuma para el display; el coral solo para lo sellado y el rojo solo para errores.
 - Letra de máquina de escribir contra una lectura de garamond.
 - Barra superior fija de 56 px con la marca, el idioma y la cuenta; debajo, riel de navegación retráctil: 64 px en reposo, 200 px al hover o foco. Por debajo de 1080 px el riel es un cajón lateral que se abre con un botón flotante a la izquierda, del mismo lado del que sale el cajón.
-- La home es un retrato del casillero: galería de una imagen grande y tres miniaturas junto al tablón, y debajo dos cards de juego con arte propio. Nunca una parrilla de tarjetas iguales sin jerarquía.
+- La home es un retrato del casillero: el bloque de juego (dos cards de modo con arte propio) y el tablón comparten una retícula de dos columnas. Nunca una parrilla de tarjetas iguales sin jerarquía.
 - El ranking se lee de un golpe: podio de tres, tu posición y la tabla completa, con cifras del tablón en la cabecera.
 - La marca en la home es el cartel de madera colgado del casillero; el logo del nav sigue siendo la ?nica marca circular.
 - Roca de cueva como forma del mundo, con coral y algas en los bordes; la flora pertenece a la escena.
@@ -342,7 +342,7 @@ Paleta de abismo: cuatro turquesas de profundidad, una familia de espuma, cuatro
 
 Contenedor máximo de 1360 px con padding lateral fluido de 16 a 64 px. En escritorio (desde 1081 px) el armazón reserva un riel de 56 px a la izquierda; el panel de navegación mide 232 px y se desliza sobre el contenido al hover o focus-within. Por debajo de 1080 px el armazón pasa a una columna, la navegación se convierte en un cajón lateral de 300 px oculto por defecto y un botón flotante de 44 px con el ancla abre y cierra el menú; no hay barra superior.
 
-La home es un retrato en tres tiempos. Arriba, el titular «Has caído en el casillero / de Davy D. Jones.», el lede y la acción de abrir cuenta. En medio, una galería de arte: una imagen grande con tres miniaturas a la izquierda que la intercambian, y a su derecha el tablón con el top 3 de Solo y Duelos, un conmutador y un enlace al ranking completo. Abajo, dos cards de juego con su arte, el dato del modo y la flecha de avance. El tablón completo vive en `/ranking`; la home no repite la lista entera.
+La home es un retrato en dos tiempos. Arriba, el titular «Has caído en el casillero / de Davy D. Jones.», el lede y la acción de abrir cuenta. Debajo, una retícula de 1,35 / 0,8: a la izquierda el bloque de juego con las dos cards de modo y su arte; a la derecha el tablón con el top 3 de Solo y Duelos, un conmutador y un enlace al ranking completo. El tablón completo vive en `/ranking`; la home no repite la lista entera.
 
 El Quiz individual usa un briefing centrado en dos columnas: título, lede, condiciones y aviso a la izquierda; formulario de nombre y acción a la derecha. Colapsa a una columna en 900 px. Sala mantiene su retícula 0.9 / 1.1 que colapsa a una columna en 900 px. El ritmo vertical usa 12, 18, 28 y 44 px; más aire sobre un título que debajo. Los cambios de ruta pasan por una cortina de carga de 1,2 s.
 
@@ -391,7 +391,7 @@ Barra superior fija de 56 px: la marca a la izquierda (logo circular de 30 px co
 Debajo, riel fijo a la izquierda con fondo de placas y borde aqua. En reposo enseña 64 px: el ancla, una línea de agarre y la palabra vertical «Cubierta»; las pestañas se revelan al hover o focus-within hasta 200 px. Al desplegarse ocupa 200 px sobre el contenido y muestra tres pestañas (Juegos, Ranking, Salas) con icono y etiqueta. La pestaña activa sube a espuma, dibuja una línea aqua y recibe un fondo frío. Por debajo de 1080 px el riel se convierte en un cajón lateral de 264 px oculto con `visibility: hidden`; un botón flotante de 44 px en la esquina izquierda lo abre y cambia a aspa. El cajón se cierra con el botón, Escape, el fondo oscurecido, al elegir una pestaña o cuando cambia la ruta. La barra superior se compacta y el botón del cajón vive a la izquierda, del mismo lado del que sale el cajón.
 
 ### Signature Component: The Home Retrato
-La home se lee como el retrato del casillero, no como una landing de hero y tarjeta. Titular y lede en una sola columna a la izquierda; debajo, una retícula de 1,35 / 0,8: a la izquierda la galería (marco de 8 px, una imagen principal 16:9 y tres miniaturas de 106 px en columna), a la derecha el tablón. La imagen grande se cambia al pulsar una miniatura, con un fundido de 0,45 s y una leyenda inferior con el nombre y el contador `01 / 03`. La imagen por defecto es la ilustración del casillero; las otras dos son el arte de Solo y Multijugador. En móvil la galería pone las miniaturas en fila bajo la imagen y el tablón cae debajo.
+La home se lee como el retrato del casillero, no como una landing de hero y tarjeta. Titular y lede en una sola columna a la izquierda; debajo, una retícula de 1,35 / 0,8: a la izquierda el bloque de juego con las dos cards de modo (arte 16:8, dato, nombre y flecha), a la derecha el tablón. El bloque no se envuelve en un panel: la hairline superior lo separa del titular y las cards son la jerarquía. En móvil la retícula cae a una columna y el tablón va debajo de las cards. No hay galería ni visor de imágenes: todo lo que se ve en la home lleva a jugar o al ranking.
 
 ### Game Cards
 Dos cards a ancho completo en escritorio, una columna en 560 px. Cada card es un enlace completo con arte 16:8 (16:9 en móvil) recortado con `object-fit: cover`, un reflejo de agua que cruza el arte al hover, escala de 1,04, borde aqua y una flecha circular que avanza 4 px y se rellena de aqua. El pie lleva el dato del modo en mayúsculas aqua (20 preguntas · 3 vidas; por código · partida rápida), el nombre en Special Elite y la descripción en espuma tenue. La card nunca es una imagen sola con texto superpuesto: el arte y el pie se separan con una hairline.
@@ -420,7 +420,7 @@ Cortina fija de 1,2 s para cada cambio de ruta: fondo turquesa abisal, luz de cu
 ## Do's and Don'ts
 
 ### Do:
-- **Do** mantener la home como el retrato del casillero: titular, galería de arte con el tablón al costado y dos cards de juego con arte propio. Los juegos futuros añaden cards a esa fila, no una parrilla sin jerarquía.
+- **Do** mantener la home como el retrato del casillero: titular, dos cards de modo con arte propio y el tablón al costado. Los juegos futuros añaden cards a esa fila, no una parrilla sin jerarquía.
 - **Do** elegir el modo en las cards del Quiz: Solo abre el briefing individual y Multijugador abre Sala.
 - **Do** usar el turquesa como profundidad ordenada, el casco y el acero como estructura, el aqua para la vida y la acción, la espuma para el display y la lectura, y el coral solo para lo sellado.
 - **Do** dejar que el mar se vea entre las superficies; la transparencia es tonal, nunca blur.
@@ -432,13 +432,14 @@ Cortina fija de 1,2 s para cada cambio de ruta: fondo turquesa abisal, luz de cu
 - **Do** cerrar el cajón móvil con botón, Escape, fondo, pestaña o cambio de ruta, y bloquear el scroll del cuerpo mientras está abierto.
 - **Do** mostrar la dificultad con el sonar de cinco contactos en el juego y en la sala.
 - **Do** mantener el pie sin créditos de One Piece y con el bloque social apagado hasta tener URLs reales.
-- **Do** nombrar el arte de los juegos por archivo en `public/assets/juegos/` (`quiz-solo`, `quiz-multijugador`, `casillero`) y comprobar la asignación en `/admin` → «Arte de juegos».
+- **Do** nombrar el arte de los juegos por archivo en `public/assets/juegos/` (`quiz-solo`, `quiz-multijugador`) y comprobar la asignación en `/admin` → «Arte de juegos».
 
 ### Don't:
 - **Don't** volver a la madera, el latón, el dorado ni el café como superficie o como tinta: son la anti-referencia de esta versión.
 - **Don't** volver al hero centrado con tarjeta de imagen, barra de estadísticas y pies de tres columnas.
 - **Don't** devolver a la home las coordenadas, la etiqueta «One Piece Games», el riel de profundidad o la ficha de Modo/Registro/Jugadores.
-- **Don't** convertir la home en una parrilla de tarjetas del mismo tamaño ni en un hero plano con una tarjeta: la galería y el tablón son la jerarquía, y las cards de juego son dos, no una cuadrícula.
+- **Don't** convertir la home en una parrilla de tarjetas del mismo tamaño ni en un hero plano con una tarjeta: las cards de modo y el tablón son la jerarquía, y las cards de juego son dos, no una cuadrícula.
+- **Don't** añadir galerías, visores o carruseles decorativos en la home: si un control no lleva a jugar o al ranking, no existe.
 - **Don't** usar rojo para párrafos, acciones principales en reposo ni como relleno de superficies grandes; solo para errores y respuestas fallidas. El coral no reemplaza al rojo ni al aqua.
 - **Don't** anunciar retos ni juegos futuros que no existan.
 - **Don't** reintroducir Dela Gothic One ni Zen Kaku Gothic New en el armazón; el Quiz conserva su póster independiente.

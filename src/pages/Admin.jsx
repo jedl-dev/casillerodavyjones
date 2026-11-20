@@ -960,9 +960,8 @@ function SettingsPanel() {
 }
 
 const ART_HELP = {
-  'quiz-solo': 'Card «Solo» del Quiz y galería de la portada.',
-  'quiz-multijugador': 'Card «Multijugador» del Quiz y galería de la portada.',
-  casillero: 'Galería de la portada. Si falta, se usa la ilustración de referencia.'
+  'quiz-solo': 'Card «Solo» del Quiz.',
+  'quiz-multijugador': 'Card «Multijugador» del Quiz.'
 };
 
 function ArtPanel() {
