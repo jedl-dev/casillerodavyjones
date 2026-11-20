@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="Dos faroles frente a frente sobre el abismo">
+  <defs>
+    <linearGradient id="duo-sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12656a"/>
+      <stop offset="0.44" stop-color="#06282c"/>
+      <stop offset="1" stop-color="#04171a"/>
+    </linearGradient>
+    <radialGradient id="duo-lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f0fffb" stop-opacity="0.95"/>
+      <stop offset="0.32" stop-color="#5fe6d2" stop-opacity="0.48"/>
+      <stop offset="1" stop-color="#2fb3ac" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="duo-lamp-foam" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"/>
+      <stop offset="0.32" stop-color="#cfe4de" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#9ff0e4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="duo-halo" cx="0.5" cy="0" r="0.85">
+      <stop offset="0" stop-color="#9ff0e4" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#9ff0e4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="duo-beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8fff0" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#b8fff0" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="duo-vignette" cx="0.5" cy="0.45" r="0.74">
+      <stop offset="0.45" stop-color="#02080b" stop-opacity="0"/>
+      <stop offset="1" stop-color="#02080b" stop-opacity="0.6"/>
+    </radialGradient>
+    <radialGradient id="duo-water" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5fe6d2" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#5fe6d2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="750" fill="url(#duo-sea)"/>
+  <rect width="1200" height="750" fill="url(#duo-halo)"/>
+
+  <g opacity="0.5">
+    <polygon points="250,0 330,0 420,600 160,600" fill="url(#duo-beam)"/>
+    <polygon points="870,0 950,0 1040,600 780,600" fill="url(#duo-beam)" opacity="0.72"/>
+  </g>
+
+  <path d="M0 0h190l-34 110 30 120-46 120 38 130-50 120 18 150H0Z" fill="#02080b" opacity="0.92"/>
+  <path d="M1200 0h-190l34 110-30 120 46 120-38 130 50 120-18 150h156Z" fill="#02080b" opacity="0.92"/>
+  <path d="M0 750V606l150 24 120-38 150 42 160-54 150 58 170-38 150 18 100-8v140Z" fill="#010608" opacity="0.9"/>
+
+  <path d="M330 0v268" stroke="#16474e" stroke-width="3"/>
+  <path d="M870 0v268" stroke="#16474e" stroke-width="3"/>
+  <g stroke="#1e4247" stroke-width="3" fill="none">
+    <ellipse cx="330" cy="58" rx="9" ry="13"/>
+    <ellipse cx="330" cy="104" rx="9" ry="13"/>
+    <ellipse cx="870" cy="58" rx="9" ry="13"/>
+    <ellipse cx="870" cy="104" rx="9" ry="13"/>
+  </g>
+  <path d="M330 282q270 118 540 0" fill="none" stroke="#1f7f77" stroke-width="2" stroke-dasharray="7 9" opacity="0.7"/>
+
+  <ellipse cx="330" cy="282" rx="240" ry="170" fill="url(#duo-lamp)" opacity="0.88"/>
+  <ellipse cx="870" cy="282" rx="240" ry="170" fill="url(#duo-lamp-foam)" opacity="0.72"/>
+  <polygon points="330,282 196,540 464,540" fill="url(#duo-beam)" opacity="0.62"/>
+  <polygon points="870,282 736,540 1004,540" fill="url(#duo-beam)" opacity="0.48"/>
+
+  <circle cx="330" cy="282" r="26" fill="#b8fff0" opacity="0.16"/>
+  <circle cx="330" cy="282" r="12" fill="#eafff9"/>
+  <circle cx="870" cy="282" r="26" fill="#f4fbf7" opacity="0.16"/>
+  <circle cx="870" cy="282" r="12" fill="#ffffff"/>
+
+  <ellipse cx="330" cy="536" rx="160" ry="22" fill="url(#duo-water)"/>
+  <ellipse cx="870" cy="536" rx="160" ry="22" fill="url(#duo-water)"/>
+
+  <g fill="#02080b" stroke="#1f7f77" stroke-width="2">
+    <path d="M254 528q76 26 152 0l-12 28q-64 18-128 0Z"/>
+    <line x1="330" y1="388" x2="330" y2="528" stroke-width="4"/>
+    <path d="M330 394 392 500h-62Z" fill="#04171a"/>
+    <path d="M318 400 264 500h54Z" fill="#04171a"/>
+
+    <path d="M794 528q76 26 152 0l-12 28q-64 18-128 0Z"/>
+    <line x1="870" y1="388" x2="870" y2="528" stroke-width="4"/>
+    <path d="M870 394 932 500h-62Z" fill="#04171a"/>
+    <path d="M858 400 804 500h54Z" fill="#04171a"/>
+  </g>
+
+  <line x1="600" y1="120" x2="600" y2="600" stroke="#9ff0e4" stroke-opacity="0.16" stroke-width="1.5" stroke-dasharray="3 12"/>
+
+  <g fill="none" stroke="#b8fff0" stroke-opacity="0.32">
+    <circle cx="512" cy="640" r="4"/>
+    <circle cx="556" cy="596" r="2.5"/>
+    <circle cx="642" cy="662" r="3"/>
+    <circle cx="706" cy="620" r="4"/>
+    <circle cx="432" cy="580" r="2.5"/>
+    <circle cx="762" cy="676" r="2.5"/>
+    <circle cx="206" cy="612" r="3"/>
+    <circle cx="1010" cy="622" r="3.5"/>
+  </g>
+
+  <rect width="1200" height="750" fill="url(#duo-vignette)"/>
+</svg>

@@ -14,6 +14,7 @@ import {
   updateQuestion
 } from '../lib/quizApi';
 import { ALL } from '../lib/questionFilters';
+import { ART_SLOTS, resolveArt } from '../lib/gameArt';
 
 const DIFFICULTIES = ['Muy Fácil', 'Fácil', 'Intermedia', 'Difícil', 'Muy Difícil', 'Imposible'];
 
@@ -311,7 +312,8 @@ function Panel({ navigate, onLogout }) {
           {[
             { key: 'preguntas', label: 'Preguntas' },
             { key: 'reportes', label: 'Reportes' },
-            { key: 'ajustes', label: 'Ajustes del quiz' }
+            { key: 'ajustes', label: 'Ajustes del quiz' },
+            { key: 'arte', label: 'Arte de juegos' }
           ].map((item) => (
             <button
               key={item.key}
@@ -326,6 +328,8 @@ function Panel({ navigate, onLogout }) {
         </nav>
 
         {section === 'ajustes' && <SettingsPanel />}
+
+        {section === 'arte' && <ArtPanel />}
 
         {section === 'reportes' && (
           <ReportsPanel
@@ -952,6 +956,68 @@ function SettingsPanel() {
         {saved && <span className="op-admin-meta">Guardado</span>}
       </div>
     </form>
+  );
+}
+
+const ART_HELP = {
+  'quiz-solo': 'Card «Solo» del Quiz y galería de la portada.',
+  'quiz-multijugador': 'Card «Multijugador» del Quiz y galería de la portada.',
+  casillero: 'Galería de la portada. Si falta, se usa la ilustración de referencia.'
+};
+
+function ArtPanel() {
+  const [found, setFound] = useState(null);
+
+  useEffect(() => {
+    let alive = true;
+    Promise.all(Object.keys(ART_SLOTS).map(async (key) => [key, await resolveArt(key)]))
+      .then((entries) => {
+        if (alive) setFound(Object.fromEntries(entries));
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  return (
+    <section className="op-card op-card--wide op-card--admin">
+      <div className="op-admin-card-head">
+        <h2 className="op-title-sm">Arte de los juegos</h2>
+        <span className="op-admin-badge">Carpeta</span>
+      </div>
+
+      <p className="op-note">
+        Sube las imágenes a <code>public/assets/juegos/</code>. El nombre del archivo decide
+        en qué juego y modo aparece; un <code>.webp</code> con ese nombre gana sobre el SVG de ejemplo.
+      </p>
+
+      <div className="op-art-grid">
+        {Object.entries(ART_SLOTS).map(([key, slot]) => (
+          <article className="op-art-card" key={key}>
+            <div className="op-art-card__shot">
+              {found?.[key] ? (
+                <img src={found[key]} alt="" />
+              ) : (
+                <span className="op-art-card__empty">
+                  {found ? 'Falta la imagen' : 'Buscando...'}
+                </span>
+              )}
+            </div>
+
+            <div className="op-art-card__meta">
+              <h3>{slot.label}</h3>
+              <p>{ART_HELP[key]}</p>
+              <code className="op-art-path">
+                /assets/juegos/{slot.file}.webp · .png · .svg · .jpg
+              </code>
+              <span className={`op-art-state${found?.[key] ? ' is-live' : ''}`}>
+                {found?.[key] ? `Activo: ${found[key]}` : 'Sin archivo todavía'}
+              </span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="Un farol solitario sobre el abismo">
+  <defs>
+    <linearGradient id="solo-sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12656a"/>
+      <stop offset="0.42" stop-color="#06282c"/>
+      <stop offset="1" stop-color="#04171a"/>
+    </linearGradient>
+    <radialGradient id="solo-lamp" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f0fffb" stop-opacity="0.95"/>
+      <stop offset="0.32" stop-color="#5fe6d2" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#2fb3ac" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="solo-halo" cx="0.5" cy="0" r="0.85">
+      <stop offset="0" stop-color="#9ff0e4" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#9ff0e4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="solo-beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8fff0" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#b8fff0" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="solo-vignette" cx="0.5" cy="0.45" r="0.72">
+      <stop offset="0.45" stop-color="#02080b" stop-opacity="0"/>
+      <stop offset="1" stop-color="#02080b" stop-opacity="0.6"/>
+    </radialGradient>
+    <radialGradient id="solo-water" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#5fe6d2" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#5fe6d2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="750" fill="url(#solo-sea)"/>
+  <rect width="1200" height="750" fill="url(#solo-halo)"/>
+
+  <g opacity="0.5">
+    <polygon points="470,0 560,0 640,600 380,600" fill="url(#solo-beam)"/>
+    <polygon points="640,0 700,0 860,600 700,600" fill="url(#solo-beam)" opacity="0.5"/>
+  </g>
+
+  <path d="M0 0h250l-42 120 38 130-58 120 46 140-62 130 24 110H0Z" fill="#02080b" opacity="0.92"/>
+  <path d="M1200 0H950l42 120-38 130 58 120-46 140 62 130-24 110h96Z" fill="#02080b" opacity="0.92"/>
+  <path d="M0 750V600l150 26 120-40 150 44 160-58 150 62 170-40 150 20 150-10v146Z" fill="#010608" opacity="0.9"/>
+
+  <line x1="600" y1="0" x2="600" y2="286" stroke="#16474e" stroke-width="3"/>
+  <g stroke="#1e4247" stroke-width="3" fill="none">
+    <ellipse cx="600" cy="70" rx="9" ry="14"/>
+    <ellipse cx="600" cy="120" rx="9" ry="14"/>
+    <ellipse cx="600" cy="170" rx="9" ry="14"/>
+    <ellipse cx="600" cy="220" rx="9" ry="14"/>
+  </g>
+
+  <ellipse cx="600" cy="300" rx="260" ry="180" fill="url(#solo-lamp)" opacity="0.9"/>
+  <polygon points="600,300 470,560 730,560" fill="url(#solo-beam)" opacity="0.7"/>
+  <circle cx="600" cy="300" r="34" fill="#b8fff0" opacity="0.2"/>
+  <circle cx="600" cy="300" r="12" fill="#eafff9"/>
+
+  <ellipse cx="600" cy="556" rx="180" ry="26" fill="url(#solo-water)"/>
+
+  <g fill="#02080b" stroke="#1f7f77" stroke-width="2">
+    <path d="M512 548q88 30 176 0l-14 30q-74 20-148 0Z"/>
+    <line x1="600" y1="404" x2="600" y2="548" stroke-width="4"/>
+    <path d="M600 410 668 520H600Z" fill="#04171a"/>
+    <path d="M588 418 528 520h60Z" fill="#04171a"/>
+  </g>
+
+  <g fill="none" stroke="#b8fff0" stroke-opacity="0.35">
+    <circle cx="404" cy="640" r="4"/>
+    <circle cx="438" cy="592" r="2.5"/>
+    <circle cx="500" cy="664" r="3"/>
+    <circle cx="712" cy="628" r="5"/>
+    <circle cx="758" cy="676" r="2.5"/>
+    <circle cx="342" cy="560" r="3"/>
+    <circle cx="836" cy="596" r="2"/>
+    <circle cx="896" cy="650" r="4"/>
+  </g>
+
+  <rect width="1200" height="750" fill="url(#solo-vignette)"/>
+</svg>

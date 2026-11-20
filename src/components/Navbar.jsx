@@ -325,6 +325,7 @@ const Navbar = ({ current, navigate }) => {
                 onClick={() => setMenu((value) => !value)}
                 aria-expanded={menu}
                 aria-haspopup="menu"
+                aria-label={`Cuenta de ${identity.username}`}
               >
                 <Avatar
                   username={identity.username}
@@ -333,6 +334,9 @@ const Navbar = ({ current, navigate }) => {
                   size="sm"
                 />
                 <span className="nav-profile__name">{identity.username}</span>
+                <svg className="nav-profile__caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
               </button>
 
               {menu && (

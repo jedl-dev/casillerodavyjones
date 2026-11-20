@@ -5,8 +5,8 @@ export const GAMES = [
     name: 'Quiz del casillero',
     short: 'el quiz',
     modes: [
-      { id: 'solo', name: 'Solo', detail: 'Tú contra el casillero.', to: '/quiz' },
-      { id: 'duel', name: 'Multijugador', detail: 'Duelo 1 vs 1.', to: '/sala?game=quiz' }
+      { id: 'solo', name: 'Solo', detail: 'Tú contra el casillero.', meta: '20 preguntas · 3 vidas', to: '/quiz', art: 'quiz-solo' },
+      { id: 'duel', name: 'Multijugador', detail: 'Duelo 1 vs 1.', meta: 'Por código · partida rápida', to: '/sala?game=quiz', art: 'quiz-multijugador' }
     ]
   }
 ];

@@ -26,10 +26,14 @@
 
 .games__head {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 8px 16px;
+  gap: 10px 20px;
   flex-wrap: wrap;
+}
+
+.games__intro {
+  min-width: 0;
 }
 
 .games__head h2 {
@@ -41,114 +45,188 @@
 }
 
 .games__hint {
-  margin: 0;
+  margin: 2px 0 0;
   font-family: var(--font-work);
   font-size: 0.74rem;
   color: var(--foam-muted);
 }
 
-.games__body {
-  display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-  gap: 8px;
-}
-
 .games__list {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .games__game {
   appearance: none;
   display: flex;
   align-items: center;
-  min-height: 56px;
-  padding: 10px 14px;
+  min-height: 40px;
+  padding: 8px 14px;
   border: 1px solid var(--chart-line-strong);
-  border-left: 2px solid transparent;
   border-radius: 2px;
   background: rgba(10, 22, 29, 0.4);
   color: var(--foam-dim);
   font-family: var(--font-work);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   text-align: left;
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
 .games__game:hover {
   color: var(--foam);
   background: rgba(111, 208, 196, 0.06);
+  transform: translateY(-1px);
 }
 
 .games__game.is-selected {
-  border-left-color: var(--aqua-chart);
-  background: rgba(111, 208, 196, 0.07);
+  border-color: var(--aqua-chart);
+  background: rgba(111, 208, 196, 0.1);
   color: var(--foam);
 }
 
 .games__modes {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
 }
 
+/* La card: el arte manda y el pie lleva el nombre, el dato y la acción. */
 .games__mode {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 56px;
-  padding: 10px 16px;
+  flex-direction: column;
+  overflow: hidden;
   border: 1px solid var(--chart-line-strong);
   border-radius: 2px;
   background: rgba(10, 22, 29, 0.4);
   color: var(--foam);
   text-decoration: none;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .games__mode:hover,
 .games__mode:focus-visible {
   border-color: var(--aqua-chart);
-  background: rgba(111, 208, 196, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.games__mode-art {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+  background: linear-gradient(160deg, #12656a, #04171a 70%);
+}
+
+.games__mode-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+}
+
+.games__mode:hover .games__mode-art img,
+.games__mode:focus-visible .games__mode-art img {
+  transform: scale(1.04);
+  filter: brightness(1.1);
+}
+
+.games__mode-art-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(60% 70% at 50% 40%, rgba(95, 230, 210, 0.18), transparent 70%),
+    repeating-linear-gradient(115deg, rgba(198, 236, 232, 0.05) 0 1px, transparent 1px 8px);
+}
+
+/* Un reflejo de agua cruza el arte al pasar el cursor. */
+.games__mode-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(184, 255, 240, 0.16) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.games__mode:hover .games__mode-shine,
+.games__mode:focus-visible .games__mode-shine {
+  transform: translateX(120%);
+}
+
+.games__mode-go {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(184, 255, 240, 0.5);
+  border-radius: 50%;
+  background: rgba(2, 10, 12, 0.72);
+  color: var(--aqua-chart);
+  font-size: 1rem;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease, color 0.2s ease;
+}
+
+.games__mode:hover .games__mode-go,
+.games__mode:focus-visible .games__mode-go {
+  transform: translateX(4px);
+  background: var(--lum-bright);
+  color: var(--hull-deep);
+}
+
+.games__mode-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--chart-line);
+}
+
+.games__mode-meta {
+  color: var(--aqua-chart);
+  font-family: var(--font-work);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .games__mode-name {
   display: block;
   font-family: var(--font-title);
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   line-height: 1.2;
 }
 
 .games__mode-detail {
   display: block;
-  margin-top: 2px;
   color: var(--foam-muted);
   font-family: var(--font-work);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
 }
 
-.games__mode-go {
-  flex: none;
-  color: var(--aqua-chart);
-  font-size: 1.05rem;
-}
-
-@media (max-width: 900px) {
-  .games__body {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
+@media (max-width: 720px) {
+  .games__head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .games__list {
-    flex-direction: row;
-    flex-wrap: wrap;
+    width: 100%;
   }
 
   .games__game {
-    flex: 1 1 200px;
+    flex: 1 1 auto;
+    justify-content: center;
   }
 }
 
@@ -157,7 +235,21 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .games__mode {
-    min-height: 60px;
+  .games__mode-art {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .games__mode:hover,
+  .games__mode:focus-visible,
+  .games__game:hover {
+    transform: none;
+  }
+
+  .games__mode-art img,
+  .games__mode-shine,
+  .games__mode-go {
+    transition: none;
   }
 }

@@ -24,7 +24,7 @@ Se usa en navegador de escritorio o móvil. Las salas se comparten por código. 
 
 ## Capabilities and Constraints
 
-- Quiz individual: partida de 15 preguntas, 3 vidas y dificultad ascendente.
+- Quiz individual: partida de 20 preguntas, 3 vidas y dificultad ascendente.
 - Multijugador: duelo 1 vs 1, crear sala, unirse por código y partida rápida.
 - Resultados como cartel de se busca con la recompensa en Berries, compartible como imagen o texto.
 - Modo solo con puntuaci?n en Berries (dificultad x racha x marea), 9 comodines de One Piece (Filo de Zoro, Ruta de Nami, Alma de Brook, Ancla de Franky, Ojo de Robin, Log Pose doble, Fruta del Diablo, Maldici?n Yami Yami y Trampa de Buggy), tr?o fijo al zarpar y ruleta en cada cambio de marea.
@@ -40,9 +40,9 @@ Se usa en navegador de escritorio o móvil. Las salas se comparten por código. 
 - El fondo es una cueva abisal turquesa con luz desde arriba, part?culas y roca. La home es el interior del casillero: roca h?meda, un casillero met?lico oxidado con cartel de madera, un cofre, coral, algas y burbujas. La madera, el ?xido y el coral son material leg?timo; nada de acero limpio, cristal decorativo ni interfaz tecnol?gica.
 - La home se lee como el casillero de Davy D. Jones dentro de una cueva: el casillero oxidado con la puerta entreabierta y un cartel colgado con el nombre, el titular ?Has ca?do en el casillero de Davy D. Jones. Prep?rate para algo impactante.? y dos compuertas de roca y metal para descender solo o retar a un rival. Debajo, el estante de lo que guarda el casillero: el Quiz abierto y un cofre sellado.
 - La paleta sale de la ilustraci?n de referencia: abismo negro-verdoso, agua turquesa con luz desde arriba, roca h?meda, ?xido y madera del casillero y el cofre, coral rosado y espuma para leer. El coral queda para lo sellado; el rojo se reserva para errores y respuestas fallidas. Sin acero cepillado ni dorado.
-- La navegación es un riel retráctil en escritorio y un cajón lateral oculto por debajo de 1080 px que se abre con un botón flotante.
+- La navegación es una barra superior fija con la marca y la cuenta, y un riel retráctil en escritorio; por debajo de 1080 px el riel es un cajón lateral oculto que se abre con un botón flotante a la izquierda.
 - Tipografía: Special Elite para marca, títulos, acciones y etiquetas; Cormorant Garamond para lectura y textos largos.
-- La home muestra una plataforma de reto abierta, el Quiz, con las condiciones del reto (15 preguntas, 3 vidas, dificultad creciente) y las dos compuertas para jugar: Solo y Multijugador. En su base queda una escotilla sellada, sin prometer un juego concreto.
+- La home muestra una plataforma de reto abierta, el Quiz, con las condiciones del reto (20 preguntas, 3 vidas, dificultad creciente) y las dos compuertas para jugar: Solo y Multijugador. En su base queda una escotilla sellada, sin prometer un juego concreto.
 - La pantalla individual es un briefing de reto centrado: título, condiciones, aviso y formulario de nombre.
 - La dificultad se comunica con un sonar de cinco contactos; no se usan barras tipo Wi-Fi.
 - El pie de página no muestra créditos de One Piece: lleva la marca, los enlaces Inicio, Quiz y Sala y un bloque social apagado hasta tener URLs reales.
@@ -52,6 +52,7 @@ Se usa en navegador de escritorio o móvil. Las salas se comparten por código. 
 
 - Banco de preguntas de ejemplo en `supabase/seed.sql`.
 - Logo oficial en `public/assets/logos/logobase.png`; referencia de paleta en `public/assets/referencias/referencia.webp`.
+- Arte de juegos en `public/assets/juegos/`: un SVG de ejemplo por modo (`quiz-solo`, `quiz-multijugador`) que se sustituye subiendo un `.webp`, `.png` o `.jpg` con el mismo nombre base.
 - No hay testimonios, métricas de uso ni clientes reales; no inventarlos.
 
 ## Product Principles

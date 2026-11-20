@@ -273,8 +273,9 @@ La tipografía hace el trabajo de identidad: Special Elite para el nombre, los t
 - Estructura en tres materiales: roca h?meda, metal oxidado del casillero y madera del cartel y del cofre. El coral y el alga son flora, no decoraci?n geom?trica.
 - Acentos en dos corrientes: aqua para la vida y la acción, espuma para el display; el coral solo para lo sellado y el rojo solo para errores.
 - Letra de máquina de escribir contra una lectura de garamond.
-- Riel de navegación retráctil: 56 px en reposo, 232 px al hover o foco. Por debajo de 1080 px, cajón lateral oculto que se abre con un botón flotante.
-- Una sola plataforma de reto abierta en la home, alcanzada por un tablón; dos compuertas y una escotilla sellada. Nunca una parrilla de tarjetas iguales.
+- Barra superior fija de 56 px con la marca, el idioma y la cuenta; debajo, riel de navegación retráctil: 64 px en reposo, 200 px al hover o foco. Por debajo de 1080 px el riel es un cajón lateral que se abre con un botón flotante a la izquierda, del mismo lado del que sale el cajón.
+- La home es un retrato del casillero: galería de una imagen grande y tres miniaturas junto al tablón, y debajo dos cards de juego con arte propio. Nunca una parrilla de tarjetas iguales sin jerarquía.
+- El ranking se lee de un golpe: podio de tres, tu posición y la tabla completa, con cifras del tablón en la cabecera.
 - La marca en la home es el cartel de madera colgado del casillero; el logo del nav sigue siendo la ?nica marca circular.
 - Roca de cueva como forma del mundo, con coral y algas en los bordes; la flora pertenece a la escena.
 - Un solo gesto de hover: el agua que sube dentro de cada compuerta de la plataforma y la luz que recorre el tablón.
@@ -341,7 +342,7 @@ Paleta de abismo: cuatro turquesas de profundidad, una familia de espuma, cuatro
 
 Contenedor máximo de 1360 px con padding lateral fluido de 16 a 64 px. En escritorio (desde 1081 px) el armazón reserva un riel de 56 px a la izquierda; el panel de navegación mide 232 px y se desliza sobre el contenido al hover o focus-within. Por debajo de 1080 px el armazón pasa a una columna, la navegación se convierte en un cajón lateral de 300 px oculto por defecto y un botón flotante de 44 px con el ancla abre y cierra el menú; no hay barra superior.
 
-La home es un descenso en dos tiempos. Arriba, el logo grande en la penumbra de la cueva junto al titular «Has caído en el casillero / de Davy D. Jones.», el lede y una placa partida en diagonal: una mitad desciende solo, la otra reta a un rival. Abajo, el tablón: top 5 de marcas del solo y top 5 de duelos ganados, con tu nombre resaltado. Por debajo de 620 px la placa se apila en dos filas.
+La home es un retrato en tres tiempos. Arriba, el titular «Has caído en el casillero / de Davy D. Jones.», el lede y la acción de abrir cuenta. En medio, una galería de arte: una imagen grande con tres miniaturas a la izquierda que la intercambian, y a su derecha el tablón con el top 3 de Solo y Duelos, un conmutador y un enlace al ranking completo. Abajo, dos cards de juego con su arte, el dato del modo y la flecha de avance. El tablón completo vive en `/ranking`; la home no repite la lista entera.
 
 El Quiz individual usa un briefing centrado en dos columnas: título, lede, condiciones y aviso a la izquierda; formulario de nombre y acción a la derecha. Colapsa a una columna en 900 px. Sala mantiene su retícula 0.9 / 1.1 que colapsa a una columna en 900 px. El ritmo vertical usa 12, 18, 28 y 44 px; más aire sobre un título que debajo. Los cambios de ruta pasan por una cortina de carga de 1,2 s.
 
@@ -385,13 +386,21 @@ Radios de 2 px en controles y 3 px en placas. La firma es el corte de 28 px en l
 - **Internal Padding:** 22–32 px.
 
 ### Navigation
-Riel fijo a la izquierda con fondo de placas y borde aqua. En reposo enseña 56 px: el ancla, una línea de agarre y la palabra vertical «Cubierta»; el logo y las pestañas se ocultan con opacidad hasta hover o focus-within. Al desplegarse ocupa 232 px sobre el contenido y muestra el logo circular, el nombre y tres pestañas (Inicio, Quiz, Sala). Las pestañas son label en mayúsculas, color foam-muted; la activa sube a espuma, dibuja una línea aqua y recibe un fondo frío solo con el panel desplegado. Por debajo de 1080 px el riel se convierte en un cajón lateral de 300 px oculto con `visibility: hidden` para no dejar foco atrapado; un botón flotante de 44 px con el ancla lo abre y cambia a aspa para cerrarlo. El cajón se cierra con el botón, Escape, el fondo oscurecido, al elegir una pestaña o cuando cambia la ruta. No hay barra superior. En dispositivos sin hover el panel queda desplegado.
+Barra superior fija de 56 px: la marca a la izquierda (logo circular de 30 px con anillo aqua y wordmark de dos líneas), el idioma y la cuenta a la derecha con `margin-left: auto`. El botón de cuenta lleva avatar, el nombre completo (hasta 16 caracteres) y una flecha que gira al abrir; el nombre no se recorta en escritorio ni en móvil: en pantallas muy estrechas cede primero el wordmark y después el logo. El menú de cuenta y el de idioma se despliegan desde la esquina superior derecha con una entrada de 0,2 s (opacidad, traslación y escala) y sus opciones entran escalonadas.
 
-### Signature Component: The Quiz Platform
-Plataforma de acero de 350–420 px de alto mínimo, con corte de 28 px y hairline aqua, línea de luz superior, cepillado tenue y remaches en las cuatro esquinas. Cabecera con brújula aqua, «Quiz» en espuma, la línea de condiciones en espuma tenue y una pastilla de estado «Abierto» en aqua. Debajo, el lede y dos compuertas separadas por una hairline: Solo (aqua) y Multijugador (espuma). Cada compuerta sube su agua desde el borde inferior al hover o foco, con una cresta de 1 px; la flecha avanza 5 px. La plataforma no es un enlace completo: las dos compuertas son las acciones. En la base, una escotilla sellada con borde discontinuo y estado en coral. El tablón que llega desde la izquierda es el segundo gesto: una pasarela de acero con juntas, cadena y una línea de luz que respira.
+Debajo, riel fijo a la izquierda con fondo de placas y borde aqua. En reposo enseña 64 px: el ancla, una línea de agarre y la palabra vertical «Cubierta»; las pestañas se revelan al hover o focus-within hasta 200 px. Al desplegarse ocupa 200 px sobre el contenido y muestra tres pestañas (Juegos, Ranking, Salas) con icono y etiqueta. La pestaña activa sube a espuma, dibuja una línea aqua y recibe un fondo frío. Por debajo de 1080 px el riel se convierte en un cajón lateral de 264 px oculto con `visibility: hidden`; un botón flotante de 44 px en la esquina izquierda lo abre y cambia a aspa. El cajón se cierra con el botón, Escape, el fondo oscurecido, al elegir una pestaña o cuando cambia la ruta. La barra superior se compacta y el botón del cajón vive a la izquierda, del mismo lado del que sale el cajón.
+
+### Signature Component: The Home Retrato
+La home se lee como el retrato del casillero, no como una landing de hero y tarjeta. Titular y lede en una sola columna a la izquierda; debajo, una retícula de 1,35 / 0,8: a la izquierda la galería (marco de 8 px, una imagen principal 16:9 y tres miniaturas de 106 px en columna), a la derecha el tablón. La imagen grande se cambia al pulsar una miniatura, con un fundido de 0,45 s y una leyenda inferior con el nombre y el contador `01 / 03`. La imagen por defecto es la ilustración del casillero; las otras dos son el arte de Solo y Multijugador. En móvil la galería pone las miniaturas en fila bajo la imagen y el tablón cae debajo.
+
+### Game Cards
+Dos cards a ancho completo en escritorio, una columna en 560 px. Cada card es un enlace completo con arte 16:8 (16:9 en móvil) recortado con `object-fit: cover`, un reflejo de agua que cruza el arte al hover, escala de 1,04, borde aqua y una flecha circular que avanza 4 px y se rellena de aqua. El pie lleva el dato del modo en mayúsculas aqua (20 preguntas · 3 vidas; por código · partida rápida), el nombre en Special Elite y la descripción en espuma tenue. La card nunca es una imagen sola con texto superpuesto: el arte y el pie se separan con una hairline.
+
+### Ranking
+Ancho máximo de 940 px. Cabecera con título y tres cifras del tablón (nombres, marca récord, media) separadas por hairlines. Controles de juego, tipo y periodo en píldoras. Podio de tres posiciones con el primero en el centro, avatar grande, nombre y marca; con una o dos filas el podio se centra y no deja huecos. Debajo, una tarjeta «Tu posición» con el puesto, la distancia al siguiente y la marca. La lista arranca en el cuarto puesto con una barra de fondo proporcional a la marca (variable `--fill`), resalta tu fila y mantiene una fila fijada si estás fuera de la tabla. El vacío y la carga usan el arte del casillero y esqueletos con brillo; el error ofrece reintentar.
 
 ### Challenge Briefing
-Pantalla individual centrada de dos columnas: a la izquierda, título en espuma con la segunda línea en aqua suave, lede, línea de condiciones (15 preguntas, 3 vidas con tres pips aqua, dificultad creciente) y un aviso en cursiva espuma tenue; a la derecha, un panel de casco con corte aqua que contiene el nombre y la acción «Empezar el descenso». En móvil se apila y se centra. Es la antesala del quiz, no una segunda home.
+Pantalla individual centrada de dos columnas: a la izquierda, título en espuma con la segunda línea en aqua suave, lede, línea de condiciones (20 preguntas, 3 vidas con tres pips aqua, dificultad creciente) y un aviso en cursiva espuma tenue; a la derecha, un panel de casco con corte aqua que contiene el nombre y la acción «Empezar el descenso». En móvil se apila y se centra. Es la antesala del quiz, no una segunda home.
 
 ### Administration
 `/admin` es un panel de desarrollo: solo se monta con `import.meta.env.DEV` y no se enlaza desde la navegación. Usa la misma paleta y tipografía, con tarjetas de 1080 px, barra de búsqueda, filtros por dificultad y categoría, y estados de carga, vacío y error. En producción la ruta cae en la home y el módulo no se incluye en la build.
@@ -411,30 +420,32 @@ Cortina fija de 1,2 s para cada cambio de ruta: fondo turquesa abisal, luz de cu
 ## Do's and Don'ts
 
 ### Do:
-- **Do** mantener la home como el tablón que lleva a la plataforma del Quiz: un tablón de acero, una plataforma abierta y una escotilla sellada. Los juegos futuros se añaden como nuevas plataformas o escotillas, no como una parrilla de tarjetas iguales.
-- **Do** elegir el modo dentro de la plataforma del Quiz: Solo abre el briefing individual y Multijugador abre Sala.
+- **Do** mantener la home como el retrato del casillero: titular, galería de arte con el tablón al costado y dos cards de juego con arte propio. Los juegos futuros añaden cards a esa fila, no una parrilla sin jerarquía.
+- **Do** elegir el modo en las cards del Quiz: Solo abre el briefing individual y Multijugador abre Sala.
 - **Do** usar el turquesa como profundidad ordenada, el casco y el acero como estructura, el aqua para la vida y la acción, la espuma para el display y la lectura, y el coral solo para lo sellado.
-- **Do** dejar que el mar se vea entre el tablón y la plataforma; la transparencia es tonal, nunca blur.
+- **Do** dejar que el mar se vea entre las superficies; la transparencia es tonal, nunca blur.
 - **Do** conservar el corte de esquina y el radio de 3 px en cualquier superficie nueva.
 - **Do** mantener el logo centrado dentro de su anillo de portal.
-- **Do** limitar la animación de marca a burbujas, olas, luz de cueva, el agua de las compuertas y la luz del tablón.
+- **Do** limitar la animación de marca a burbujas, olas, luz de cueva, el reflejo de las cards, la flecha de la cuenta y los menús.
 - **Do** respetar `prefers-reduced-motion` desactivando las animaciones ambientales.
 - **Do** usar el logo circular en la navegación y en la home, y mantener el archivo original en `public/assets/logos/logobase.png`.
 - **Do** cerrar el cajón móvil con botón, Escape, fondo, pestaña o cambio de ruta, y bloquear el scroll del cuerpo mientras está abierto.
 - **Do** mostrar la dificultad con el sonar de cinco contactos en el juego y en la sala.
 - **Do** mantener el pie sin créditos de One Piece y con el bloque social apagado hasta tener URLs reales.
+- **Do** nombrar el arte de los juegos por archivo en `public/assets/juegos/` (`quiz-solo`, `quiz-multijugador`, `casillero`) y comprobar la asignación en `/admin` → «Arte de juegos».
 
 ### Don't:
 - **Don't** volver a la madera, el latón, el dorado ni el café como superficie o como tinta: son la anti-referencia de esta versión.
 - **Don't** volver al hero centrado con tarjeta de imagen, barra de estadísticas y pies de tres columnas.
 - **Don't** devolver a la home las coordenadas, la etiqueta «One Piece Games», el riel de profundidad o la ficha de Modo/Registro/Jugadores.
-- **Don't** convertir la home en una parrilla de tarjetas del mismo tamaño ni en un hero plano con una tarjeta: el Quiz es la única plataforma abierta y se llega a ella por el tablón.
+- **Don't** convertir la home en una parrilla de tarjetas del mismo tamaño ni en un hero plano con una tarjeta: la galería y el tablón son la jerarquía, y las cards de juego son dos, no una cuadrícula.
 - **Don't** usar rojo para párrafos, acciones principales en reposo ni como relleno de superficies grandes; solo para errores y respuestas fallidas. El coral no reemplaza al rojo ni al aqua.
 - **Don't** anunciar retos ni juegos futuros que no existan.
 - **Don't** reintroducir Dela Gothic One ni Zen Kaku Gothic New en el armazón; el Quiz conserva su póster independiente.
 - **Don't** reintroducir Pirata One, Barlow, Cinzel o DM Sans en el armazón.
 - **Don't** dibujar plantas, algas ni coral en el fondo: la cueva es roca, agua y luz.
 - **Don't** usar glassmorphism, sombras duras ni degradados de texto.
-- **Don't** volver a la barra superior móvil: la navegación móvil es un cajón lateral con botón flotante.
+- **Don't** poner el botón del cajón móvil a la derecha: sale de la izquierda y el botón vive a la izquierda.
+- **Don't** recortar el nombre de la cuenta con puntos suspensivos mientras quede espacio: cede la marca primero.
 - **Don't** usar barras de cobertura, pips de altura creciente ni ningún medidor que parezca Wi-Fi para la dificultad; el sonar es la única forma.
 - **Don't** mostrar ni enlazar `/admin` en producción.
