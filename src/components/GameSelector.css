@@ -118,7 +118,7 @@
 .games__mode-art {
   position: relative;
   display: block;
-  aspect-ratio: 16 / 8;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: linear-gradient(160deg, #12656a, #04171a 70%);
 }
@@ -234,10 +234,6 @@
 @media (max-width: 560px) {
   .games__modes {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .games__mode-art {
-    aspect-ratio: 16 / 9;
   }
 }
 

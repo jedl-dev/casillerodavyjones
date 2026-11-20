@@ -421,6 +421,7 @@ const WantedQuiz = ({ navigate }) => {
   const tutorialRef = useRef(null);
   const questionAreaRef = useRef(null);
   const answeringRef = useRef(false);
+  const sailedRef = useRef(false);
   const timerDeadlineRef = useRef(0);
   const autoLeftRef = useRef(10);
   const handleAdvanceRef = useRef(null);
@@ -546,6 +547,7 @@ const WantedQuiz = ({ navigate }) => {
     setAutoLeft(10);
     setConfirmExit(false);
     answeringRef.current = false;
+    sailedRef.current = false;
     
     try {
       const identity = getArcadeIdentity();
@@ -594,6 +596,7 @@ const WantedQuiz = ({ navigate }) => {
       setStartOverlay(false);
       return;
     }
+    sailedRef.current = true;
     setStartBusy(true);
     try {
       const data = await beginSolo(sessionToken);
@@ -610,6 +613,8 @@ const WantedQuiz = ({ navigate }) => {
 
   const handleTutorialStart = () => {
     setShowTutorial(false);
+    // Reabrir las reglas a mitad de partida no debe relanzar la ruleta inicial.
+    if (sailedRef.current) return;
     if (startRoll.length) setStartOverlay(true);
     else finishStart();
   };
