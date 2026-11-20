@@ -78,8 +78,9 @@ const Ranking = ({ navigate }) => {
       })
       .catch((err) => {
         if (!alive) return;
+        console.error('No se pudo cargar el ranking:', err);
         setRows([]);
-        setError(err.message);
+        setError('No se pudo cargar el ranking. Vuelve a intentarlo.');
       })
       .finally(() => {
         if (alive) setLoading(false);
@@ -165,7 +166,7 @@ const Ranking = ({ navigate }) => {
 
           <dl className="ranking-figures">
             <div>
-              <dt>Nombres</dt>
+              <dt>En tabla</dt>
               <dd>{loading ? '—' : rows.length}</dd>
             </div>
             <div>
@@ -231,7 +232,7 @@ const Ranking = ({ navigate }) => {
 
         {error && !loading ? (
           <div className="ranking-empty" role="alert">
-            <p>No se pudo abrir el tablón. {error}</p>
+            <p>{error}</p>
             <button
               type="button"
               className="ranking-cta"

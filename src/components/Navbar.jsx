@@ -70,7 +70,8 @@ const Navbar = ({ current, navigate }) => {
 
   const close = () => setDrawer(false);
   const goLogin = () => {
-    const current = window.location.pathname === '/' ? '/home' : window.location.pathname;
+    const path = window.location.pathname === '/' ? '/home' : window.location.pathname;
+    const current = path === '/sala' ? `${path}${window.location.search}` : path;
     rememberNext(current);
     close();
   };

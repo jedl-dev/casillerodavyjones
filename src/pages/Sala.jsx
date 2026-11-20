@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Shell from '../components/Shell';
 import '../ui.css';
 import './Sala.css';
-import { createRoom, joinRoom, leaveRoom, quickMatch } from '../lib/quizApi';
+import { createRoom, joinRoom, quickMatch } from '../lib/quizApi';
 import { getClientId } from '../lib/user';
 import { getArcadeIdentity, getArcadePlayer, setArcadeIdentity, toIdentity } from '../lib/arcade';
 import { getPlayerSession, rememberNext } from '../lib/playerAuth';
@@ -81,12 +81,8 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom, initialCode = ''
     setError('');
     try {
       if (activeRoom) {
-        try {
-          await leaveRoom(activeRoom.code, activeRoom.token);
-        } catch {
-          // La sala anterior pudo caducar; no bloquea la nueva.
-        }
-        onLeaveRoom();
+        // onLeaveRoom ya llama a leave_room y limpia la sesión; no duplicar la RPC.
+        await onLeaveRoom();
       }
       onEnterRoom(await action(identity.token));
     } catch (err) {

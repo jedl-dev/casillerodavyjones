@@ -27,11 +27,6 @@ export function setPlayerName(name) {
   }
 }
 
-export function validName(name) {
-  const value = name.trim();
-  return value.length >= 1 && value.length <= 16;
-}
-
 export function resetClientId() {
   const storage = session();
   if (!storage) return 'no-storage';

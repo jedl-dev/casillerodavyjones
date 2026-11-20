@@ -422,6 +422,10 @@ const WantedQuiz = ({ navigate }) => {
   const questionAreaRef = useRef(null);
   const answeringRef = useRef(false);
   const sailedRef = useRef(false);
+  const bootedRef = useRef(false);
+  const startingRef = useRef(false);
+  const rulesPausedRef = useRef(false);
+  const pausedTimeRef = useRef(0);
   const timerDeadlineRef = useRef(0);
   const autoLeftRef = useRef(10);
   const handleAdvanceRef = useRef(null);
@@ -440,6 +444,9 @@ const WantedQuiz = ({ navigate }) => {
   };
 
   useEffect(() => {
+    // StrictMode monta el efecto dos veces en desarrollo: una sola sesión.
+    if (bootedRef.current) return;
+    bootedRef.current = true;
     if (!getArcadeIdentity()?.token) {
       navigate('/quiz');
       return;
@@ -501,6 +508,8 @@ const WantedQuiz = ({ navigate }) => {
   }, [timerActive, phase]);
 
   const startNewGame = async () => {
+    if (startingRef.current) return;
+    startingRef.current = true;
     setLoading(true);
     setError('');
     setGameOver(false);
@@ -548,6 +557,8 @@ const WantedQuiz = ({ navigate }) => {
     setConfirmExit(false);
     answeringRef.current = false;
     sailedRef.current = false;
+    rulesPausedRef.current = false;
+    pausedTimeRef.current = 0;
     
     try {
       const identity = getArcadeIdentity();
@@ -578,6 +589,7 @@ const WantedQuiz = ({ navigate }) => {
       console.error("Error cargando el quiz:", err);
       setError(err.message);
     } finally {
+      startingRef.current = false;
       setLoading(false);
     }
   };
@@ -613,10 +625,25 @@ const WantedQuiz = ({ navigate }) => {
 
   const handleTutorialStart = () => {
     setShowTutorial(false);
+    // Las reglas pausan el reloj, no solo la vista.
+    if (rulesPausedRef.current) {
+      rulesPausedRef.current = false;
+      timerDeadlineRef.current = Date.now() + pausedTimeRef.current;
+      setTimerActive(true);
+    }
     // Reabrir las reglas a mitad de partida no debe relanzar la ruleta inicial.
     if (sailedRef.current) return;
     if (startRoll.length) setStartOverlay(true);
     else finishStart();
+  };
+
+  const openRules = () => {
+    if (timerActive) {
+      pausedTimeRef.current = Math.max(0, timerDeadlineRef.current - Date.now());
+      rulesPausedRef.current = true;
+      setTimerActive(false);
+    }
+    setShowTutorial(true);
   };
 
   const saveScore = async (token) => {
@@ -939,7 +966,7 @@ const WantedQuiz = ({ navigate }) => {
   }, [phase, between]);
 
   useEffect(() => {
-    if (phase !== 'between' || wildModal || advancing || betBusy) return undefined;
+    if (phase !== 'between' || showTutorial || wildModal || advancing || betBusy) return undefined;
     if (autoLeftRef.current <= 0) return undefined;
 
     const deadline = Date.now() + autoLeftRef.current * 1000;
@@ -956,7 +983,7 @@ const WantedQuiz = ({ navigate }) => {
     const id = setInterval(tick, 250);
     tick();
     return () => clearInterval(id);
-  }, [phase, between, wildModal, advancing, betBusy]);
+  }, [phase, between, showTutorial, wildModal, advancing, betBusy]);
 
   useEffect(() => {
     if (phase === 'finished') return undefined;
@@ -1330,7 +1357,7 @@ const WantedQuiz = ({ navigate }) => {
         <button
           type="button"
           className="btn-rules-top"
-          onClick={() => setShowTutorial(true)}
+          onClick={openRules}
         >
           REGLAS
         </button>

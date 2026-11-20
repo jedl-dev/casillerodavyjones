@@ -12,8 +12,14 @@ const QuizIntro = ({ navigate }) => {
 
   useEffect(() => {
     const sync = () => setIdentity(getArcadeIdentity());
+    window.addEventListener('focus', sync);
+    window.addEventListener('storage', sync);
     window.addEventListener('opq:identity', sync);
-    return () => window.removeEventListener('opq:identity', sync);
+    return () => {
+      window.removeEventListener('focus', sync);
+      window.removeEventListener('storage', sync);
+      window.removeEventListener('opq:identity', sync);
+    };
   }, []);
 
   useEffect(() => {

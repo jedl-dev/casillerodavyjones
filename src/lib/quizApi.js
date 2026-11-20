@@ -23,9 +23,6 @@ export const beginSolo = (token) => rpc('begin_solo', { p_token: token });
 export const placeBet = (token, active) =>
   rpc('place_bet', { p_token: token, p_active: active });
 
-export const getSoloState = (token) =>
-  rpc('get_solo_state', { p_token: token });
-
 export const useWildcard = (token, type, category = null) =>
   rpc('use_wildcard', { p_token: token, p_type: type, p_category: category });
 

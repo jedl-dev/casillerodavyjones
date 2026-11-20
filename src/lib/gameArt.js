@@ -4,8 +4,8 @@ import { findAsset } from './assets';
 // Arte de juegos: deja el archivo en public/assets/juegos con el mismo nombre base.
 // Si subes un .webp (o .png/.jpg) con ese nombre, sustituye al SVG de ejemplo.
 export const ART_SLOTS = {
-  'quiz-solo': { file: 'quiz-solo', label: 'Quiz · Solo', alt: 'Un solo farol sobre el abismo' },
-  'quiz-multijugador': { file: 'quiz-multijugador', label: 'Quiz · Multijugador', alt: 'Dos faroles frente a frente' }
+  'quiz-solo': { file: 'quiz-solo', label: 'Quiz · Solo' },
+  'quiz-multijugador': { file: 'quiz-multijugador', label: 'Quiz · Multijugador' }
 };
 
 const probes = new Map();

@@ -1,19 +1,21 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 
-import GameMenu from './pages/GameMenu';
-import QuizIntro from './pages/QuizIntro';
-import Auth from './pages/Auth';
-import WantedQuiz from './pages/WantedQuiz';
-import Sala from './pages/Sala';
-import Ranking from './pages/Ranking';
-import Room from './pages/Room';
 import RouteLoader from './components/RouteLoader';
+import RouteBoundary from './components/RouteBoundary';
 import { supabaseConfigured } from './lib/supabase';
 import { leaveRoom } from './lib/quizApi';
 import { getTabId, resetClientId, resetTabId } from './lib/user';
 import { clearArcadeIdentity, getArcadeIdentity, getArcadePlayer, setArcadeIdentity, toIdentity } from './lib/arcade';
 import { getPlayerSession, onPlayerAuthChange } from './lib/playerAuth';
 
+// Cada ruta carga su trozo: la home no arrastra el quiz, las salas ni html2canvas.
+const GameMenu = lazy(() => import('./pages/GameMenu'));
+const QuizIntro = lazy(() => import('./pages/QuizIntro'));
+const Auth = lazy(() => import('./pages/Auth'));
+const WantedQuiz = lazy(() => import('./pages/WantedQuiz'));
+const Sala = lazy(() => import('./pages/Sala'));
+const Ranking = lazy(() => import('./pages/Ranking'));
+const Room = lazy(() => import('./pages/Room'));
 const Admin = import.meta.env.DEV ? lazy(() => import('./pages/Admin')) : null;
 
 const ROOM_KEY = 'opq:room';
@@ -160,7 +162,7 @@ function App() {
       if (hash) timers.current.push(setTimeout(scrollToHash, 140));
       setTransition({ destination, leaving: true });
       timers.current.push(setTimeout(() => setTransition(null), 320));
-    }, 900));
+    }, 600));
   };
 
   useEffect(() => () => clearTimers(), []);
@@ -244,6 +246,8 @@ function App() {
       setTransition(null);
       setSearch(window.location.search || '');
       setPath(cleanPath(window.location.pathname));
+      const hash = window.location.hash.replace('#', '');
+      if (hash) window.setTimeout(() => revealHash(hash), 160);
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -289,7 +293,7 @@ function App() {
           Copia <code>.env.example</code> a <code>.env</code> y completa{' '}
           <code>VITE_SUPABASE_URL</code> y <code>VITE_SUPABASE_ANON_KEY</code>.
         </p>
-        <button className="op-btn" onClick={() => navigate('/home')}>Volver al inicio</button>
+        <button className="op-btn" onClick={() => window.location.reload()}>Ya configuré, reintentar</button>
       </div>
     </div>
   );
@@ -303,7 +307,7 @@ function App() {
     );
   }
 
-  if (!supabaseConfigured && path !== '/') return configNotice;
+  if (!supabaseConfigured) return configNotice;
 
   const isRoom = path.startsWith('/sala/');
   const roomCode = isRoom ? path.slice(6).toUpperCase() : '';
@@ -357,7 +361,11 @@ function App() {
 
   return (
     <div className="app-container" aria-busy={Boolean(transition)}>
-      {content}
+      <RouteBoundary key={path}>
+        <Suspense fallback={<RouteLoader destination={labelFor(path)} />}>
+          {content}
+        </Suspense>
+      </RouteBoundary>
       {transition && (
         <RouteLoader destination={transition.destination} leaving={transition.leaving} />
       )}

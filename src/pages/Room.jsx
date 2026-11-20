@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import html2canvas from 'html2canvas';
 import MareaGauge from '../components/MareaGauge';
 import '../ui.css';
 import './WantedQuiz.css';
@@ -372,6 +371,8 @@ const Room = ({ session, onExit }) => {
 
     const text = shareText(room, players);
     try {
+      // html2canvas pesa: solo se descarga si el jugador comparte el resultado.
+      const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(resultRef.current, {
         scale: 2,
         backgroundColor: '#021013',
