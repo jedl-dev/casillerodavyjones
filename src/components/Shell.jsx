@@ -5,12 +5,10 @@ import Link from './Link';
 import SeaBackground from './SeaBackground';
 
 const FOOTER_LINKS = [
-  { label: 'Inicio', to: '/home' },
-  { label: 'Quiz', to: '/quiz' },
-  { label: 'Sala', to: '/sala' }
+  { label: 'Juegos', to: '/home#juegos' },
+  { label: 'Ranking', to: '/ranking' },
+  { label: 'Salas', to: '/sala' }
 ];
-
-const SOCIALS = ['X', 'Instagram', 'TikTok', 'Discord'];
 
 const Shell = ({ current, navigate, className = '', children }) => (
   <div className={`shell ${className}`.trim()}>
@@ -32,18 +30,11 @@ const Shell = ({ current, navigate, className = '', children }) => (
             <Link key={link.to} to={link.to} navigate={navigate}>{link.label}</Link>
           ))}
         </nav>
-
-        <div className="shell-legal__social" aria-label="Redes sociales, próximamente">
-          <span className="shell-legal__social-label">Redes</span>
-          {SOCIALS.map((social) => (
-            <span key={social} className="shell-legal__social-slot">{social}</span>
-          ))}
-        </div>
       </div>
 
       <div className="shell-legal__base">
-        <span>El Casillero de Davy D. Jones · 2026</span>
-        <span>Sin cuenta, sin descargas.</span>
+        <span>© 2026</span>
+        <span>Proyecto de fans · Necesitas cuenta para jugar</span>
       </div>
     </footer>
   </div>

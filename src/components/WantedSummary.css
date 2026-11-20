@@ -1,0 +1,138 @@
+.wanted-poster {
+  position: relative;
+  width: min(360px, 84vw);
+  aspect-ratio: 772 / 1154;
+  container-type: inline-size;
+  transform: rotate(var(--wanted-rotate, -1.2deg));
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.55));
+  color: #3b220c;
+  isolation: isolate;
+}
+
+.wanted-poster__template {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: url('/assets/quiz/one-piece-wanted.webp') center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.wanted-poster__photo {
+  position: absolute;
+  top: 22.1%;
+  left: 10.1%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 81.5%;
+  height: 41.2%;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 60% at 50% 30%, rgba(214, 190, 150, 0.45), transparent 70%),
+    linear-gradient(180deg, #cbb48c, #a8916c);
+}
+
+.wanted-poster__photo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.wanted-poster__photo-initial {
+  font-family: 'Scheherazade New', 'Special Elite', serif;
+  font-size: 16cqw;
+  line-height: 1;
+  color: #3b220c;
+  opacity: 0.85;
+}
+
+.wanted-poster__stamp {
+  position: absolute;
+  top: 7.5%;
+  right: 5%;
+  z-index: 4;
+  padding: 2px 8px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transform: rotate(-9deg);
+  mix-blend-mode: multiply;
+  background: rgba(244, 233, 210, 0.35);
+}
+
+.wanted-poster__stamp.is-win { color: #1f7f5c; }
+.wanted-poster__stamp.is-loss { color: #8e3f3f; }
+
+.wanted-poster__pin {
+  position: absolute;
+  top: -3%;
+  left: 50%;
+  z-index: 5;
+  width: 9%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(circle at 35% 30%, #c9794a, #6a3a1c 60%, #2c1a0d);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+
+.wanted-poster__name-wrap {
+  position: absolute;
+  top: 71.58%;
+  left: 11.27%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75.9%;
+  height: 9.88%;
+  overflow: hidden;
+}
+
+.wanted-poster__name {
+  display: inline-block;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  transform-origin: center;
+  font-family: 'Scheherazade New', 'Special Elite', serif;
+  font-size: 14.5cqw;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  color: #3b220c;
+}
+
+.wanted-poster__bounty {
+  position: absolute;
+  top: 83%;
+  left: 10.62%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18em;
+  width: 76.7%;
+  height: 7.37%;
+  font-family: 'Courier Prime', var(--font-display);
+  font-size: 6.8cqw;
+  font-weight: 700;
+  color: #3b220c;
+  font-variant-numeric: tabular-nums;
+}
+
+.wanted-poster__bounty img {
+  width: auto;
+  height: 1.5em;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wanted-poster { transform: none; }
+}

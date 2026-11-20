@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Avatar de ejemplo 01">
+  <rect width="64" height="64" fill="#0a3a40"/>
+  <circle cx="32" cy="25" r="11" fill="#8fe6da" opacity="0.55"/>
+  <path d="M12 58c2-11 10-17 20-17s18 6 20 17Z" fill="#8fe6da" opacity="0.32"/>
+  <text x="32" y="35" text-anchor="middle" font-family="monospace" font-size="12" fill="#8fe6da" opacity="0.85">01</text>
+</svg>

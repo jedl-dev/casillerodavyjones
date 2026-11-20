@@ -18,12 +18,8 @@ const WAVE =
 
 const SeaBackground = () => (
   <div className="sea-bg" aria-hidden="true">
-    <svg className="sea-cave" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-      <path className="sea-rock" d="M0 0h560c-28 46-74 72-132 88-78 22-112 58-176 78-70 22-134 12-252 92Z" />
-      <path className="sea-rock" d="M1440 0H920c22 42 70 66 126 82 84 22 116 62 182 82 76 22 138 10 212 78Z" />
-      <path className="sea-rock" d="M0 900V690c54 10 92 42 134 78 28 24 50 38 86 42 38 4 62-8 96 20 22 18 30 44 26 70Z" />
-      <path className="sea-rock" d="M1440 900V700c-48 8-84 38-124 72-30 26-54 40-92 44-38 4-62-8-96 20-18 14-26 38-24 64Z" />
-      <g fill="none" stroke="rgba(159, 240, 228, 0.06)" strokeWidth="1">
+    <svg className="sea-contours" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <g fill="none" stroke="rgba(143, 200, 210, 0.06)" strokeWidth="1">
         <path d="M-60 260 C 240 170 380 360 680 300 S 1180 170 1500 280" />
         <path d="M-60 330 C 220 250 400 430 700 370 S 1180 250 1500 350" />
         <path d="M-60 420 C 260 340 420 520 740 450 S 1200 330 1500 440" />

@@ -6,11 +6,14 @@ import {
   createQuestion,
   deleteQuestion,
   getGameSettings,
+  listQuestionCategories,
+  listQuestionReports,
   listQuestions,
+  resolveQuestionReport,
   updateGameSettings,
   updateQuestion
 } from '../lib/quizApi';
-import { ALL, categoriesOf, filterQuestions } from '../lib/questionFilters';
+import { ALL } from '../lib/questionFilters';
 
 const DIFFICULTIES = ['Muy Fácil', 'Fácil', 'Intermedia', 'Difícil', 'Muy Difícil', 'Imposible'];
 
@@ -55,7 +58,7 @@ function Admin({ navigate }) {
         <div className="op-card">
           <h1 className="op-title-sm">Sin permisos</h1>
           <p className="op-subtitle">
-            La cuenta {session.user?.email} no tiene el rol admin en app_metadata.
+            Esta cuenta no tiene permisos de administración.
           </p>
           <button className="op-btn" onClick={() => signOutAdmin()}>Cerrar sesión</button>
         </div>
@@ -63,7 +66,7 @@ function Admin({ navigate }) {
     );
   }
 
-  return <Panel email={session.user.email} navigate={navigate} onLogout={() => signOutAdmin()} />;
+  return <Panel navigate={navigate} onLogout={() => signOutAdmin()} />;
 }
 
 function Login({ onLogin, navigate }) {
@@ -95,7 +98,7 @@ function Login({ onLogin, navigate }) {
           <span className="op-admin-badge">Solo en desarrollo</span>
         </div>
         <p className="op-subtitle">
-          Panel local para editar el banco de preguntas. Acceso restringido a cuentas con rol admin.
+          Preguntas, reportes y ajustes del quiz. Acceso restringido a cuentas con rol admin.
         </p>
         <p className="op-note">La cuenta necesita <code>app_metadata.role = "admin"</code>.</p>
 
@@ -132,7 +135,7 @@ function Login({ onLogin, navigate }) {
   );
 }
 
-function Panel({ email, navigate, onLogout }) {
+function Panel({ navigate, onLogout }) {
   const [questions, setQuestions] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [filters, setFilters] = useState(EMPTY_FILTERS);
@@ -140,27 +143,53 @@ function Panel({ email, navigate, onLogout }) {
   const [formError, setFormError] = useState('');
   const [listError, setListError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [section, setSection] = useState('preguntas');
+  const [questionView, setQuestionView] = useState('banco');
+  const [total, setTotal] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [categories, setCategories] = useState([]);
 
-  const visible = useMemo(() => filterQuestions(questions, filters), [questions, filters]);
-  const categories = useMemo(() => categoriesOf(questions), [questions]);
+  const visible = questions;
   const filtersActive = filters.search.trim() !== ''
     || filters.difficulty !== ALL
     || filters.category !== ALL;
+  const PAGE_SIZE = 20;
 
-  const refresh = async () => {
-    setLoading(true);
+  const loadQuestions = async ({ append = false } = {}) => {
+    if (append) setLoadingMore(true);
+    else setLoading(true);
+
     try {
-      setQuestions(await listQuestions());
+      const { rows, total: count } = await listQuestions({
+        search: filters.search.trim(),
+        difficulty: filters.difficulty === ALL ? '' : filters.difficulty,
+        category: filters.category === ALL ? '' : filters.category,
+        from: append ? questions.length : 0,
+        size: PAGE_SIZE
+      });
+
+      setQuestions((current) => (append ? [...current, ...rows] : rows));
+      setTotal(count);
       setListError('');
     } catch (err) {
       setListError(err.message);
     } finally {
-      setLoading(false);
+      if (append) setLoadingMore(false);
+      else setLoading(false);
     }
   };
 
   useEffect(() => {
-    refresh();
+    const timer = setTimeout(() => {
+      loadQuestions();
+    }, filters.search ? 260 : 0);
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters.search, filters.difficulty, filters.category]);
+
+  useEffect(() => {
+    listQuestionCategories().then(setCategories).catch(() => setCategories([]));
   }, []);
 
   const setField = (field, value) => setForm((current) => ({ ...current, [field]: value }));
@@ -185,6 +214,7 @@ function Panel({ email, navigate, onLogout }) {
   const edit = (question) => {
     setForm({ ...question, options: [...question.options], image_file: question.image_file || '' });
     setFormError('');
+    setQuestionView('editor');
     focusForm();
   };
 
@@ -200,6 +230,7 @@ function Panel({ email, navigate, onLogout }) {
       image_file: question.image_file || ''
     });
     setFormError('');
+    setQuestionView('editor');
     focusForm();
   };
 
@@ -240,7 +271,8 @@ function Panel({ email, navigate, onLogout }) {
       if (form.id) await updateQuestion(form.id, payload);
       else await createQuestion(payload);
       reset();
-      await refresh();
+      await loadQuestions();
+      setQuestionView('banco');
     } catch (err) {
       setFormError(err.message);
     } finally {
@@ -254,7 +286,7 @@ function Panel({ email, navigate, onLogout }) {
     try {
       await deleteQuestion(question.id);
       if (form.id === question.id) reset();
-      await refresh();
+      await loadQuestions();
     } catch (err) {
       setListError(err.message);
     }
@@ -265,8 +297,8 @@ function Panel({ email, navigate, onLogout }) {
       <div className="op-admin-shell">
         <div className="op-admin-head">
           <div>
-            <h1 className="op-title">Preguntas</h1>
-            <p className="op-subtitle">{email}</p>
+            <h1 className="op-title">Administración</h1>
+            <p className="op-subtitle">Preguntas, reportes y ajustes del quiz.</p>
           </div>
           <div className="op-actions">
             <span className="op-admin-badge">Solo en desarrollo</span>
@@ -275,8 +307,60 @@ function Panel({ email, navigate, onLogout }) {
           </div>
         </div>
 
-        <SettingsPanel />
+        <nav className="admin-nav" aria-label="Secciones de administración">
+          {[
+            { key: 'preguntas', label: 'Preguntas' },
+            { key: 'reportes', label: 'Reportes' },
+            { key: 'ajustes', label: 'Ajustes del quiz' }
+          ].map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              className={`admin-nav__tab${section === item.key ? ' is-current' : ''}`}
+              aria-pressed={section === item.key}
+              onClick={() => setSection(item.key)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
 
+        {section === 'ajustes' && <SettingsPanel />}
+
+        {section === 'reportes' && (
+          <ReportsPanel
+            onEditQuestion={(questionId) => {
+              const target = questions.find((question) => question.id === questionId);
+              if (!target) return;
+              edit(target);
+              setSection('preguntas');
+              setQuestionView('editor');
+            }}
+          />
+        )}
+
+        {section === 'preguntas' && (
+          <>
+            <div className="admin-subnav" role="group" aria-label="Vista de preguntas">
+              <button
+                type="button"
+                className={`admin-subnav__tab${questionView === 'banco' ? ' is-current' : ''}`}
+                aria-pressed={questionView === 'banco'}
+                onClick={() => setQuestionView('banco')}
+              >
+                Banco ({questions.length})
+              </button>
+              <button
+                type="button"
+                className={`admin-subnav__tab${questionView === 'editor' ? ' is-current' : ''}`}
+                aria-pressed={questionView === 'editor'}
+                onClick={() => setQuestionView('editor')}
+              >
+                {form.id ? 'Editando' : 'Nueva pregunta'}
+              </button>
+            </div>
+
+        {questionView === 'editor' && (
         <form className="op-card op-card--wide op-card--admin" onSubmit={save}>
           <div className="op-admin-card-head">
             <h2 className="op-title-sm">{form.id ? 'Editar pregunta' : 'Nueva pregunta'}</h2>
@@ -376,11 +460,13 @@ function Panel({ email, navigate, onLogout }) {
             </button>
           </div>
         </form>
+        )}
 
+        {questionView === 'banco' && (
         <section className="op-card op-card--wide op-card--admin">
           <div className="op-admin-card-head">
-            <h2 className="op-title-sm">Guardadas</h2>
-            <span className="op-admin-count">{questions.length} preguntas</span>
+            <h2 className="op-title-sm">Banco de preguntas</h2>
+            <span className="op-admin-count">{total} preguntas</span>
           </div>
 
           <div className="op-admin-toolbar" role="search">
@@ -436,7 +522,7 @@ function Panel({ email, navigate, onLogout }) {
           </div>
 
           <p className="op-admin-meta" aria-live="polite">
-            Mostrando {visible.length} de {questions.length}
+            Mostrando {visible.length} de {total}
           </p>
 
           {listError && <p className="op-error" role="alert">{listError}</p>}
@@ -466,14 +552,238 @@ function Panel({ email, navigate, onLogout }) {
           ) : (
             <div className="op-admin-empty">
               <p>{questions.length ? 'Ninguna pregunta coincide con el filtro.' : 'No hay preguntas todavía.'}</p>
-              {questions.length
+              {total
                 ? <button className="op-btn op-btn--ghost" onClick={() => setFilters(EMPTY_FILTERS)}>Limpiar filtros</button>
-                : <p className="op-subtitle">Crea la primera arriba.</p>}
+                : <p className="op-subtitle">Crea la primera en el editor.</p>}
             </div>
           )}
+
+          {visible.length < total && (
+            <button
+              type="button"
+              className="op-btn op-admin-more"
+              onClick={() => loadQuestions({ append: true })}
+              disabled={loadingMore}
+            >
+              {loadingMore ? 'Cargando...' : `Cargar ${Math.min(PAGE_SIZE, total - visible.length)} más`}
+            </button>
+          )}
         </section>
+        )}
+          </>
+        )}
       </div>
     </div>
+  );
+}
+
+const REPORT_REASONS = {
+  respuesta: 'Respuesta incorrecta',
+  dificultad: 'Dificultad mal puesta',
+  otro: 'Otro'
+};
+
+function ReportsPanel({ onEditQuestion }) {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [busyId, setBusyId] = useState(null);
+  const [filters, setFilters] = useState({
+    search: '',
+    reason: ALL,
+    difficulty: ALL,
+    category: ALL,
+    showResolved: false
+  });
+
+  const load = async () => {
+    setLoading(true);
+    try {
+      setReports(await listQuestionReports());
+      setError('');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const categories = useMemo(() => {
+    const found = reports.map((report) => report.questions?.category).filter(Boolean);
+    return [...new Set(found)].sort();
+  }, [reports]);
+
+  const visible = reports.filter((report) => {
+    const question = report.questions || {};
+    if (!filters.showResolved && report.resolved_at) return false;
+    if (filters.reason !== ALL && report.reason !== filters.reason) return false;
+    if (filters.difficulty !== ALL && question.difficulty !== filters.difficulty) return false;
+    if (filters.category !== ALL && question.category !== filters.category) return false;
+    if (filters.search) {
+      const haystack = `${question.question_text || ''} ${report.note || ''}`.toLowerCase();
+      if (!haystack.includes(filters.search.toLowerCase())) return false;
+    }
+    return true;
+  });
+
+  const setFilter = (field, value) => setFilters((current) => ({ ...current, [field]: value }));
+
+  const toggle = async (report) => {
+    setBusyId(report.id);
+    try {
+      await resolveQuestionReport(report.id, !report.resolved_at);
+      await load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  return (
+    <section className="op-card op-card--wide op-card--admin">
+      <div className="op-admin-card-head">
+        <h2 className="op-title-sm">Preguntas reportadas</h2>
+        <span className="op-admin-count">{visible.length} de {reports.length}</span>
+      </div>
+
+      <div className="op-admin-toolbar" role="search">
+        <div className="op-admin-search">
+          <label className="op-label" htmlFor="report-search">Buscar</label>
+          <input
+            id="report-search"
+            className="op-input"
+            type="search"
+            value={filters.search}
+            onChange={(event) => setFilter('search', event.target.value)}
+            placeholder="Pregunta o nota"
+          />
+        </div>
+
+        <div className="op-admin-filter">
+          <label className="op-label" htmlFor="report-reason">Motivo</label>
+          <select
+            id="report-reason"
+            className="op-input"
+            value={filters.reason}
+            onChange={(event) => setFilter('reason', event.target.value)}
+          >
+            {[ALL, ...Object.keys(REPORT_REASONS)].map((reason) => (
+              <option key={reason} value={reason}>
+                {reason === ALL ? 'Todos' : REPORT_REASONS[reason]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="op-admin-filter">
+          <label className="op-label" htmlFor="report-difficulty">Dificultad</label>
+          <select
+            id="report-difficulty"
+            className="op-input"
+            value={filters.difficulty}
+            onChange={(event) => setFilter('difficulty', event.target.value)}
+          >
+            {[ALL, ...DIFFICULTIES].map((difficulty) => (
+              <option key={difficulty} value={difficulty}>
+                {difficulty === ALL ? 'Todas' : difficulty}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="op-admin-filter">
+          <label className="op-label" htmlFor="report-category">Categoría</label>
+          <select
+            id="report-category"
+            className="op-input"
+            value={filters.category}
+            onChange={(event) => setFilter('category', event.target.value)}
+          >
+            {[ALL, ...categories].map((category) => (
+              <option key={category} value={category}>
+                {category === ALL ? 'Todas' : category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <label className="op-admin-check">
+          <input
+            type="checkbox"
+            checked={filters.showResolved}
+            onChange={(event) => setFilter('showResolved', event.target.checked)}
+          />
+          Ver revisados
+        </label>
+      </div>
+
+      {error && <p className="op-error" role="alert">{error}</p>}
+
+      {loading ? (
+        <p className="op-admin-empty">Cargando reportes...</p>
+      ) : visible.length ? (
+        <ul className="admin-reports">
+          {visible.map((report) => {
+            const question = report.questions || {};
+            return (
+              <li key={report.id} className={report.resolved_at ? 'is-resolved' : ''}>
+                <div className="admin-reports__body">
+                  <div className="admin-reports__chips">
+                    <span className="op-diff">{question.difficulty || 'Sin dificultad'}</span>
+                    <span className="op-admin-category">{question.category || 'General'}</span>
+                    <span className="admin-reports__reason">{REPORT_REASONS[report.reason] || report.reason}</span>
+                    {report.resolved_at && <span className="admin-reports__done">Revisado</span>}
+                  </div>
+                  <p className="admin-reports__question">
+                    {question.question_text || 'La pregunta ya no existe'}
+                  </p>
+                  {question.correct_answer && (
+                    <small className="admin-reports__answer">Correcta: {question.correct_answer}</small>
+                  )}
+                  {report.note && <p className="admin-reports__note">“{report.note}”</p>}
+                  <span className="admin-reports__date">
+                    {new Date(report.created_at).toLocaleString('es-ES')}
+                  </span>
+                </div>
+
+                <div className="op-actions">
+                  {question.id && (
+                    <button
+                      type="button"
+                      className="op-btn op-btn--ghost"
+                      onClick={() => onEditQuestion(question.id)}
+                    >
+                      Editar
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className={`op-btn${report.resolved_at ? ' op-btn--ghost' : ''}`}
+                    onClick={() => toggle(report)}
+                    disabled={busyId === report.id}
+                  >
+                    {report.resolved_at ? 'Reabrir' : 'Marcar revisado'}
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <div className="op-admin-empty">
+          <p>
+            {reports.length
+              ? 'Ningún reporte coincide con el filtro.'
+              : 'Nadie ha reportado preguntas todavía.'}
+          </p>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -488,20 +798,20 @@ const SETTINGS_GROUPS = [
   {
     title: 'Rondas por marea',
     fields: [
-      { key: 'rounds_facil', label: 'F?cil' },
+      { key: 'rounds_facil', label: 'Fácil' },
       { key: 'rounds_intermedia', label: 'Intermedia' },
-      { key: 'rounds_dificil', label: 'Dif?cil' },
-      { key: 'rounds_muy_dificil', label: 'Muy Dif?cil' },
+      { key: 'rounds_dificil', label: 'Difícil' },
+      { key: 'rounds_muy_dificil', label: 'Muy Difícil' },
       { key: 'rounds_imposible', label: 'Imposible' }
     ]
   },
   {
     title: 'Puntos por acierto',
     fields: [
-      { key: 'points_facil', label: 'F?cil' },
+      { key: 'points_facil', label: 'Fácil' },
       { key: 'points_intermedia', label: 'Intermedia' },
-      { key: 'points_dificil', label: 'Dif?cil' },
-      { key: 'points_muy_dificil', label: 'Muy Dif?cil' },
+      { key: 'points_dificil', label: 'Difícil' },
+      { key: 'points_muy_dificil', label: 'Muy Difícil' },
       { key: 'points_imposible', label: 'Imposible' }
     ]
   },
@@ -519,17 +829,38 @@ const SETTINGS_GROUPS = [
   {
     title: 'Bonus final',
     fields: [
-      { key: 'bonus_unused_wildcard', label: 'Comod?n sin usar' },
+      { key: 'bonus_unused_wildcard', label: 'Comodín sin usar' },
       { key: 'bonus_life', label: 'Vida restante' }
+    ]
+  },
+  {
+    title: 'Tiempo',
+    fields: [
+      { key: 'question_seconds', label: 'Segundos base' },
+      { key: 'question_seconds_step', label: 'Extra por marea' },
+      { key: 'time_bonus_per_second', label: 'Bonus por segundo' }
+    ]
+  },
+  {
+    title: 'Apuestas',
+    fields: [
+      { key: 'bets_per_run', label: 'Apuestas por partida' }
     ]
   },
   {
     title: 'Ruleta',
     fields: [
-      { key: 'roulette_start_min', label: 'Inicio m?nimo' },
-      { key: 'roulette_start_max', label: 'Inicio m?ximo' },
-      { key: 'roulette_mid_min', label: 'Mitad m?nimo' },
-      { key: 'roulette_mid_max', label: 'Mitad m?ximo' }
+      { key: 'roulette_good', label: 'Peso bueno (%)' },
+      { key: 'roulette_neutral', label: 'Peso neutral (%)' },
+      { key: 'roulette_bad', label: 'Peso maldici\u00f3n (%)' },
+      { key: 'roulette_per_tide', label: 'Tiradas por bandera' }
+    ]
+  },
+  {
+    title: 'Comodines',
+    fields: [
+      { key: 'wildcards_max', label: 'Tope en mano' },
+      { key: 'yami_life_cost', label: 'Vidas que quita Yami' }
     ]
   }
 ];
@@ -590,7 +921,7 @@ function SettingsPanel() {
         Valores que usan las partidas nuevas. Las partidas en curso conservan los suyos.
       </p>
 
-      <div className="op-grid-2">
+      <div className="op-settings-grid">
         {SETTINGS_GROUPS.map((group) => (
           <fieldset key={group.title} className="op-settings-group">
             <legend className="op-label">{group.title}</legend>
@@ -600,6 +931,7 @@ function SettingsPanel() {
                 <input
                   className="op-input"
                   type="number"
+                  inputMode="numeric"
                   min="0"
                   step={field.step || '1'}
                   value={settings[field.key] ?? ''}

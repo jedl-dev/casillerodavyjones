@@ -222,3 +222,28 @@
   border-radius: 3px;
   background: rgba(3, 21, 27, 0.6);
 }
+
+
+.sala-player {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(206, 235, 228, 0.16);
+  background: rgba(4, 14, 16, 0.5);
+}
+
+.sala-player strong {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--foam);
+}
+
+.sala-player__note {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--foam-muted);
+  text-align: right;
+}

@@ -10,11 +10,21 @@ const session = () => {
 };
 
 export function getPlayerName() {
-  return session()?.getItem(NAME_KEY) || '';
+  try {
+    return window.localStorage.getItem(NAME_KEY) || session()?.getItem(NAME_KEY) || '';
+  } catch {
+    return session()?.getItem(NAME_KEY) || '';
+  }
 }
 
 export function setPlayerName(name) {
-  session()?.setItem(NAME_KEY, name.trim());
+  const value = String(name || '').trim();
+  session()?.setItem(NAME_KEY, value);
+  try {
+    window.localStorage.setItem(NAME_KEY, value);
+  } catch {
+    // Sin almacenamiento persistente.
+  }
 }
 
 export function validName(name) {

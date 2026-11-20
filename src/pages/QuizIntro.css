@@ -205,3 +205,37 @@
     padding: 20px 18px;
   }
 }
+
+
+.briefing-player {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(206, 235, 228, 0.14);
+  background: rgba(4, 14, 16, 0.5);
+}
+
+.briefing-player__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.briefing-player__name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--foam);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.briefing-player__note {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--foam-muted);
+}

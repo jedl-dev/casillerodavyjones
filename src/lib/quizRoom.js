@@ -128,6 +128,20 @@ export function entryClass(seed) {
   return `ask-enter--${ENTRY_CLASSES[index]}`;
 }
 
+export function ownedWildcards(wildcards) {
+  return Object.entries(wildcards || {})
+    .filter(([, count]) => Number(count) > 0)
+    .map(([key]) => key);
+}
+
+export function formatBounty(value) {
+  return new Intl.NumberFormat('en-US').format(Math.max(0, Math.floor(Number(value) || 0)));
+}
+
+export function validUsername(name) {
+  return /^[0-9A-Za-zÀ-ÖØ-öø-ÿ_]{3,16}$/.test(String(name || '').trim());
+}
+
 export function bestStreakOf(answers) {
   let best = 0;
   let run = 0;

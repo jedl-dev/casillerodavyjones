@@ -6,17 +6,20 @@ import {
   canAnswer,
   feedbackForRound,
   feedbackKey,
+  formatBounty,
   resultIdentity,
   duelStatsFor,
   entryClass,
   hostAway,
   initials,
   modeLabel,
+  ownedWildcards,
   rankPlayers,
   shareText,
   sideLayout,
   teamTotals,
   timeoutDue,
+  validUsername,
   winnerOf
 } from './quizRoom.js';
 
@@ -350,4 +353,29 @@ test('bestStreakOf mide la mejor racha de aciertos', () => {
     { isCorrect: false },
     { isCorrect: true }
   ]), 2);
+});
+
+test('validUsername acepta solo letras, numeros y guion bajo de 3 a 16', () => {
+  assert.equal(validUsername('Luffy_01'), true);
+  assert.equal(validUsername('Namiña'), true);
+  assert.equal(validUsername('José'), true);
+  assert.equal(validUsername('ab'), false);
+  assert.equal(validUsername('a b'), false);
+  assert.equal(validUsername('nami!'), false);
+  assert.equal(validUsername('x'.repeat(17)), false);
+  assert.equal(validUsername(''), false);
+});
+
+test('formatBounty separa los miles con comas', () => {
+  assert.equal(formatBounty(0), '0');
+  assert.equal(formatBounty(22300000), '22,300,000');
+  assert.equal(formatBounty(-5), '0');
+});
+
+test('ownedWildcards deja solo los que tienen cantidad', () => {
+  assert.deepEqual(
+    ownedWildcards({ filo: 2, ruta: 0, alma: 1, ancla: 0 }),
+    ['filo', 'alma']
+  );
+  assert.deepEqual(ownedWildcards(null), []);
 });

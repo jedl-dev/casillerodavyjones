@@ -46,6 +46,23 @@
   --font-body: 'Cormorant Garamond', Georgia, serif;
   --font-ui: 'Special Elite', 'Courier New', monospace;
 
+  /* Armazón: la carta de navegación (home, barra, pie). El juego conserva
+     --font-display/--font-ui para no cambiar su piel. */
+  --ink: #05080b;
+  --ink-hull: #070d12;
+  --ink-deck: #0a161d;
+  --chart-deep: #0b202b;
+  --chart-sea: #0d2a36;
+  --chart-line: rgba(198, 236, 232, 0.08);
+  --chart-line-strong: rgba(198, 236, 232, 0.16);
+  --aqua-chart: #6fd0c4;
+  --error-red: #d97b86;
+  --font-title: 'Special Elite', 'Courier New', monospace;
+  --font-work: 'Special Elite', 'Courier New', monospace;
+  --nav-h: 64px;
+  --topbar-h: 56px;
+  --rail-w: 64px;
+
   --text-primary: var(--foam);
   --text-secondary: var(--foam-dim);
   --text-muted: var(--foam-muted);
@@ -75,6 +92,15 @@ body {
 
 body.nav-locked {
   overflow: hidden;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Durante la transición la pantalla vieja no debe aceptar clics. */
+.app-container[aria-busy='true'] .shell {
+  pointer-events: none;
 }
 
 ::placeholder {

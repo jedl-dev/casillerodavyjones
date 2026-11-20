@@ -26,7 +26,10 @@ Se usa en navegador de escritorio o móvil. Las salas se comparten por código. 
 
 - Quiz individual: partida de 15 preguntas, 3 vidas y dificultad ascendente.
 - Multijugador: duelo 1 vs 1, crear sala, unirse por código y partida rápida.
-- Resultados compartibles como imagen o texto.
+- Resultados como cartel de se busca con la recompensa en Berries, compartible como imagen o texto.
+- Modo solo con puntuaci?n en Berries (dificultad x racha x marea), 9 comodines de One Piece (Filo de Zoro, Ruta de Nami, Alma de Brook, Ancla de Franky, Ojo de Robin, Log Pose doble, Fruta del Diablo, Maldici?n Yami Yami y Trampa de Buggy), tr?o fijo al zarpar y ruleta en cada cambio de marea.
+- Arcade sin cuentas: el jugador elige un nombre ?nico (3?16 letras, n?meros o guion bajo) que se guarda en su navegador; el nombre reserva sus marcas.
+- Rankings por nombre: mejor marca del solo y victorias de duelos, con hist?rico y semana.
 - Panel de administración de preguntas, solo en desarrollo: crear, editar, duplicar, borrar, buscar y filtrar por dificultad o categoría.
 - Requiere `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`; sin ellas la app muestra un aviso de configuración.
 - No hay backend propio: la lógica de juego son funciones RPC de Supabase.

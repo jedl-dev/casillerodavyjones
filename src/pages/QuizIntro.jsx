@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Shell from '../components/Shell';
 import Link from '../components/Link';
+import Avatar from '../components/Avatar';
 import '../ui.css';
-import { getPlayerName, setPlayerName, validName } from '../lib/user';
+import { getArcadeIdentity } from '../lib/arcade';
+import { getPlayerSession, rememberNext } from '../lib/playerAuth';
 import './QuizIntro.css';
 
 const QuizIntro = ({ navigate }) => {
-  const [name, setName] = useState(getPlayerName());
-  const [error, setError] = useState('');
+  const [identity, setIdentity] = useState(getArcadeIdentity);
+
+  useEffect(() => {
+    const sync = () => setIdentity(getArcadeIdentity());
+    window.addEventListener('opq:identity', sync);
+    return () => window.removeEventListener('opq:identity', sync);
+  }, []);
+
+  useEffect(() => {
+    const toLogin = () => {
+      rememberNext('/quiz');
+      navigate('/login');
+    };
+    getPlayerSession().then(({ data }) => {
+      if (!data.session || !getArcadeIdentity()?.token) toLogin();
+    }).catch(toLogin);
+  }, []);
 
   const start = (event) => {
     event.preventDefault();
-    if (!validName(name)) {
-      setError('Escribe un nombre de 1 a 16 caracteres.');
+    if (!identity?.token) {
+      rememberNext('/quiz');
+      navigate('/login');
       return;
     }
-    setPlayerName(name);
     navigate('/quiz/jugar');
   };
 
@@ -28,11 +45,11 @@ const QuizIntro = ({ navigate }) => {
           </h1>
 
           <p className="briefing-lede">
-            El fondo no perdona a los que dudan. Escribe tu nombre y empieza el descenso.
+            El fondo no perdona a los que dudan. Tu nombre ya está en el tablón.
           </p>
 
           <p className="briefing-facts">
-            <span>15 preguntas</span>
+            <span>20 preguntas</span>
             <span className="briefing-facts__lives">
               3 vidas
               <span className="briefing-pips" aria-hidden="true"><i /><i /><i /></span>
@@ -44,25 +61,29 @@ const QuizIntro = ({ navigate }) => {
         </div>
 
         <form className="briefing-panel" onSubmit={start}>
-          <label className="op-label" htmlFor="solo-name">
-            Tu nombre
-            <span className="op-label-note">(solo para tu resultado; no hay cuenta)</span>
-          </label>
-          <input
-            id="solo-name"
-            className="op-input"
-            value={name}
-            maxLength={16}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="Ej. Mugiwara"
-            autoComplete="nickname"
-          />
-          {error && <p className="op-error" role="alert">{error}</p>}
-          <button className="btn-foam briefing-submit" type="submit">
+          <div className="briefing-player">
+            {identity && (
+              <Avatar
+                username={identity.username}
+                avatarKey={identity.avatar_key}
+                frameKey={identity.frame_key}
+                size="md"
+              />
+            )}
+            <div className="briefing-player__copy">
+              <span className="op-label">Jugando como</span>
+              <strong className="briefing-player__name">{identity?.username || '...'}</strong>
+              <span className="briefing-player__note">
+                Tu cuenta guarda marcas y racha. El nombre se cambia desde tu perfil.
+              </span>
+            </div>
+          </div>
+
+          <button className="btn-foam briefing-submit" type="submit" disabled={!identity?.token}>
             Empezar el descenso
           </button>
           <Link className="briefing-switch" to="/sala" navigate={navigate}>
-            Jugar con tripulación
+            Retar a un rival (1 vs 1)
           </Link>
         </form>
       </section>

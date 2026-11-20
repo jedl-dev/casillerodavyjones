@@ -2,13 +2,17 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 
 import GameMenu from './pages/GameMenu';
 import QuizIntro from './pages/QuizIntro';
+import Auth from './pages/Auth';
 import WantedQuiz from './pages/WantedQuiz';
 import Sala from './pages/Sala';
+import Ranking from './pages/Ranking';
 import Room from './pages/Room';
 import RouteLoader from './components/RouteLoader';
 import { supabaseConfigured } from './lib/supabase';
 import { leaveRoom } from './lib/quizApi';
 import { getTabId, resetClientId, resetTabId } from './lib/user';
+import { clearArcadeIdentity, getArcadeIdentity, getArcadePlayer, setArcadeIdentity, toIdentity } from './lib/arcade';
+import { getPlayerSession, onPlayerAuthChange } from './lib/playerAuth';
 
 const Admin = import.meta.env.DEV ? lazy(() => import('./pages/Admin')) : null;
 
@@ -43,12 +47,12 @@ const announceTab = () => {
       at: Date.now()
     }));
   } catch {
-    // Sin almacenamiento: la detecci?n de copia queda desactivada.
+    // Sin almacenamiento: la detección de copia queda desactivada.
   }
 };
 
-// Si otra pesta?a viva comparte este tabId, esta es una copia: se le da
-// identidad nueva y se descarta la sesi?n heredada antes de pintar nada.
+// Si otra pestaña viva comparte este tabId, esta es una copia: se le da
+// identidad nueva y se descarta la sesión heredada antes de pintar nada.
 const bootstrapTab = () => {
   try {
     const raw = localStorage.getItem(LIVE_KEY);
@@ -71,18 +75,33 @@ const bootstrapTab = () => {
 
 const cleanPath = (path) => path.replace(/\/+$/, '') || '/';
 
+// Lleva a un ancla y la marca un instante: pushState no dispara :target.
+const revealHash = (hash) => {
+  if (!hash) return;
+  const node = document.getElementById(hash);
+  if (!node) return;
+  node.classList.remove('is-targeted');
+  void node.offsetWidth;
+  node.classList.add('is-targeted');
+  window.setTimeout(() => node.classList.remove('is-targeted'), 1100);
+  node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
 const TITLES = {
   '/': 'Inicio',
   '/home': 'Inicio',
   '/quiz': 'Quiz',
+  '/login': 'Entrar',
   '/quiz/jugar': 'Partida',
-  '/sala': 'Sala'
+  '/sala': 'Sala',
+  '/ranking': 'Ranking'
 };
 
 const labelFor = (path) => (path.startsWith('/sala/') ? 'Sala' : TITLES[path] || 'Inicio');
 
 function App() {
   const [path, setPath] = useState(() => cleanPath(window.location.pathname));
+  const [search, setSearch] = useState(() => window.location.search || '');
   const [roomSession, setRoomSession] = useState(() => {
     bootstrapTab();
     return readRoom();
@@ -96,23 +115,98 @@ function App() {
   };
 
   const navigate = (to) => {
-    const next = cleanPath(to || '/');
-    if (cleanPath(window.location.pathname) === next) return;
+    // Query (?mode=register) y hash (#juegos) viajan en la URL pero no en `path`:
+    // el router decide por pathname.
+    const [rawTarget, rawHash = ''] = String(to || '/').split('#');
+    const [rawPath, rawQuery = ''] = rawTarget.split('?');
+    const next = cleanPath(rawPath);
+    const query = rawQuery ? `?${rawQuery}` : '';
+    const hash = rawHash ? `#${rawHash}` : '';
+
+    const scrollToHash = () => {
+      if (!rawHash) return;
+      revealHash(rawHash);
+    };
+
+    const samePath = cleanPath(window.location.pathname) === next;
+    const currentQuery = window.location.search || '';
+
+    if (samePath && currentQuery !== query) {
+      clearTimers();
+      setTransition(null);
+      window.history.pushState({}, '', next + query + hash);
+      setSearch(query);
+      window.scrollTo({ top: 0 });
+      if (hash) revealHash(rawHash);
+      return;
+    }
+
+    if (samePath && currentQuery === query) {
+      if (hash) window.history.replaceState({}, '', next + query + hash);
+      if (hash) scrollToHash();
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
     clearTimers();
     const destination = labelFor(next);
     setTransition({ destination, leaving: false });
 
     timers.current.push(setTimeout(() => {
-      window.history.pushState({}, '', next);
+      window.history.pushState({}, '', next + query + hash);
       setPath(next);
+      setSearch(query);
       window.scrollTo({ top: 0 });
+      if (hash) timers.current.push(setTimeout(scrollToHash, 140));
       setTransition({ destination, leaving: true });
       timers.current.push(setTimeout(() => setTransition(null), 320));
     }, 900));
   };
 
   useEffect(() => () => clearTimers(), []);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) return undefined;
+    const timer = setTimeout(() => revealHash(hash), 120);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    let alive = true;
+
+    const sync = async (session) => {
+      if (!alive) return;
+      if (!session) {
+        if (getArcadeIdentity()?.token) clearArcadeIdentity();
+        return;
+      }
+
+      try {
+        const before = getArcadeIdentity();
+        const player = await getArcadePlayer();
+        if (!alive) return;
+        if (!player?.exists) {
+          // No borrar una identidad recién creada mientras la consulta estaba en vuelo.
+          if (before?.token && getArcadeIdentity()?.token === before.token) {
+            clearArcadeIdentity();
+          }
+          return;
+        }
+        setArcadeIdentity(toIdentity(player, before));
+      } catch {
+        // Sin conexión: la identidad local se resolverá al entrar al quiz.
+      }
+    };
+
+    getPlayerSession().then(({ data }) => sync(data.session)).catch(() => {});
+    const { data } = onPlayerAuthChange((session) => sync(session));
+
+    return () => {
+      alive = false;
+      data.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof BroadcastChannel === 'undefined') return undefined;
@@ -148,6 +242,7 @@ function App() {
     const onPop = () => {
       clearTimers();
       setTransition(null);
+      setSearch(window.location.search || '');
       setPath(cleanPath(window.location.pathname));
     };
     window.addEventListener('popstate', onPop);
@@ -223,8 +318,14 @@ function App() {
     case '/quiz':
       content = <QuizIntro navigate={navigate} />;
       break;
+    case '/login':
+      content = <Auth key={`${path}|${search}`} navigate={navigate} />;
+      break;
     case '/quiz/jugar':
       content = <WantedQuiz navigate={navigate} />;
+      break;
+    case '/ranking':
+      content = <Ranking navigate={navigate} />;
       break;
     case '/sala':
       content = (
@@ -246,6 +347,7 @@ function App() {
               onEnterRoom={enterRoom}
               activeRoom={roomSession}
               onLeaveRoom={leaveActiveRoom}
+              initialCode={roomCode}
             />
           );
       } else {

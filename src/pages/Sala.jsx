@@ -1,33 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Shell from '../components/Shell';
 import '../ui.css';
 import './Sala.css';
 import { createRoom, joinRoom, leaveRoom, quickMatch } from '../lib/quizApi';
-import { getClientId, getPlayerName, setPlayerName, validName } from '../lib/user';
+import { getClientId } from '../lib/user';
+import { getArcadeIdentity, getArcadePlayer, setArcadeIdentity, toIdentity } from '../lib/arcade';
+import { getPlayerSession, rememberNext } from '../lib/playerAuth';
+import { GAMES } from '../lib/games';
 
 const MODE = {
   short: 'Duelo 1 vs 1',
   players: '2 jugadores',
   description: 'Mismas preguntas para los dos. El primero que toca la carta responde; si falla, la hereda el rival.'
 };
-const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
-  const [name, setName] = useState(getPlayerName());
-  const [code, setCode] = useState('');
+const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom, initialCode = '' }) => {
+  const [code, setCode] = useState(() => initialCode.toUpperCase());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [identity, setIdentity] = useState(getArcadeIdentity);
 
-  const ensureName = () => {
-    if (!validName(name)) {
-      setError('Escribe un nombre de 1 a 16 caracteres.');
-      return false;
-    }
-    setPlayerName(name);
-    setError('');
-    return true;
-  };
+  const requestedGame = new URLSearchParams(window.location.search).get('game');
+  const game = GAMES.find((item) => item.id === requestedGame) || GAMES[0];
+  const gameKey = game?.id || 'quiz';
+  const nextPath = initialCode
+    ? `/sala/${initialCode.toUpperCase()}`
+    : (requestedGame ? `/sala?game=${gameKey}` : '/sala');
+
+  useEffect(() => {
+    if (initialCode) setCode(initialCode.toUpperCase());
+  }, [initialCode]);
+
+  useEffect(() => {
+    let alive = true;
+    const sync = () => setIdentity(getArcadeIdentity());
+    window.addEventListener('opq:identity', sync);
+    window.addEventListener('storage', sync);
+
+    getPlayerSession().then(async ({ data }) => {
+      if (!alive) return;
+      if (!data.session) {
+        rememberNext(nextPath);
+        navigate('/login');
+        return;
+      }
+      if (getArcadeIdentity()?.token) return;
+
+      try {
+        const player = await getArcadePlayer();
+        if (!alive) return;
+        if (player?.exists) {
+          setArcadeIdentity(toIdentity(player, getArcadeIdentity()));
+        } else {
+          rememberNext(nextPath);
+          navigate('/login');
+        }
+      } catch {
+        rememberNext(nextPath);
+        navigate('/login');
+      }
+    }).catch(() => {
+      if (!alive) return;
+      rememberNext('/sala');
+      navigate('/login');
+    });
+
+    return () => {
+      alive = false;
+      window.removeEventListener('opq:identity', sync);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
 
   const run = async (action) => {
-    if (!ensureName()) return;
+    if (!identity?.token) {
+      rememberNext('/sala');
+      navigate('/login');
+      return;
+    }
     setBusy(true);
     setError('');
     try {
@@ -39,7 +88,7 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
         }
         onLeaveRoom();
       }
-      onEnterRoom(await action());
+      onEnterRoom(await action(identity.token));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -81,26 +130,15 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
         </div>
 
         <div className="sala-panel">
-          <label className="op-label" htmlFor="player-name">
-            Tu nombre
-            <span className="op-label-note">
-              (para tu high score y para compartir el resultado; es temporal)
-            </span>
-          </label>
-          <input
-            id="player-name"
-            className="op-input"
-            value={name}
-            maxLength={16}
-            disabled={busy}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="Ej. Mugiwara"
-            autoComplete="nickname"
-          />
+          <span className="op-label">Jugando como</span>
+          <div className="sala-player">
+            <strong>{identity?.username || 'Sin sesión'}</strong>
+            <span className="sala-player__note">El nombre se cambia desde tu perfil.</span>
+          </div>
 
-          <span className="op-label">Modo</span>
+          <span className="op-label">Juego y modo</span>
           <div className="sala-mode-fixed">
-            <span className="sala-mode__players">{MODE.players}</span>
+            <span className="sala-mode__players">{game?.name} · {MODE.players}</span>
             <span className="sala-mode__title">{MODE.short}</span>
             <span className="sala-mode__desc">{MODE.description}</span>
           </div>
@@ -110,7 +148,7 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
           <button
             className="op-btn op-btn--primary sala-create"
             disabled={busy}
-            onClick={() => run(() => createRoom(name, '1v1', getClientId()))}
+            onClick={() => run((token) => createRoom(identity.username, '1v1', getClientId(), token, gameKey))}
           >
             {busy ? 'Preparando...' : 'Crear sala'}
           </button>
@@ -125,7 +163,7 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
             <button
               className="op-btn"
               disabled={busy}
-              onClick={() => run(() => quickMatch(name, getClientId(), '1v1'))}
+              onClick={() => run((token) => quickMatch(identity.username, getClientId(), '1v1', token, gameKey))}
             >
               Buscar partida
             </button>
@@ -137,7 +175,7 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
             <input
               className="op-input"
               value={code}
-              onChange={(event) => setCode(event.target.value.toUpperCase())}
+              onChange={(event) => setCode(event.target.value.replace(/[^a-z0-9]/gi, '').toUpperCase())}
               placeholder="CÓDIGO"
               aria-label="Código de sala"
               maxLength={5}
@@ -145,8 +183,8 @@ const Sala = ({ navigate, onEnterRoom, activeRoom, onLeaveRoom }) => {
             />
             <button
               className="op-btn"
-              disabled={busy || code.trim().length < 4}
-              onClick={() => run(() => joinRoom(code.trim(), name, getClientId()))}
+              disabled={busy || code.length < 5}
+              onClick={() => run((token) => joinRoom(code.trim(), identity.username, getClientId(), token))}
             >
               Unirse
             </button>

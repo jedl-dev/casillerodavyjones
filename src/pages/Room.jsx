@@ -148,6 +148,7 @@ const Room = ({ session, onExit }) => {
   const channelRef = useRef(null);
   const readyRef = useRef(false);
   const claimTimer = useRef(null);
+  const serverSkew = useRef(0);
   const buzzTimer = useRef(null);
   const feedbackTimer = useRef(null);
   const pendingTimer = useRef(null);
@@ -165,6 +166,9 @@ const Room = ({ session, onExit }) => {
     const load = async () => {
       try {
         const next = await getRoomState(code);
+        if (next?.now) {
+          serverSkew.current = new Date(next.now).getTime() - Date.now();
+        }
         if (alive) setState(next);
       } catch (err) {
         if (alive) setError(err.message);
@@ -236,8 +240,11 @@ const Room = ({ session, onExit }) => {
   const players = state?.players || [];
   const me = players.find((player) => player.id === playerId);
   const isHost = Boolean(me?.is_host);
+  const serverNow = now + serverSkew.current;
   const deadline = room?.round_deadline ? new Date(room.round_deadline).getTime() : null;
-  const remaining = deadline ? Math.max(0, Math.ceil((deadline - now) / 1000)) : null;
+  const remaining = deadline ? Math.max(0, Math.ceil((deadline - serverNow) / 1000)) : null;
+  const buzzOpensAt = room?.buzz_opens_at ? new Date(room.buzz_opens_at).getTime() : 0;
+  const buzzOpen = room?.phase === 'question' && serverNow >= buzzOpensAt;
 
   useEffect(() => {
     const ready = isHost || readySelf;
@@ -249,12 +256,12 @@ const Room = ({ session, onExit }) => {
 
   useEffect(() => {
     if (!room || forcedDeadline.current === room.round_deadline) return;
-    if (!timeoutDue(room, now)) return;
+    if (!timeoutDue(room, serverNow)) return;
     forcedDeadline.current = room.round_deadline;
     forceTimeout(code, token).catch(() => {
       forcedDeadline.current = null;
     });
-  }, [now, room, code, token]);
+  }, [now, room, code, token, serverNow]);
 
   const handleStart = async () => {
     setError('');
@@ -428,7 +435,9 @@ const Room = ({ session, onExit }) => {
     const showAnswer = visibleFeedback?.round === room.current_round;
 
     const turnText = room.phase === 'question'
-      ? buzzMessage || 'Toca la carta para pedir el turno.'
+      ? buzzOpen
+        ? buzzMessage || 'Toca la carta para pedir el turno.'
+        : 'La carta se abre...'
       : room.phase === 'steal'
         ? iAmBlocked
           ? 'Ya fallaste esta ronda. Espera el robo del rival.'
@@ -546,8 +555,8 @@ const Room = ({ session, onExit }) => {
 
             <div
               key={room.current_round}
-              className={`duel-ask is-revealed ${entryClass(entrySeed)}${room.phase === 'question' ? ' duel-ask--live' : ''}`}
-              {...(room.phase === 'question'
+              className={`duel-ask is-revealed ${entryClass(entrySeed)}${buzzOpen ? ' duel-ask--live' : ''}`}
+              {...(buzzOpen
                 ? {
                     role: 'button',
                     tabIndex: 0,

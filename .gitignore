@@ -40,4 +40,5 @@ supabase/.temp/
 
 # Artefactos de herramientas
 .impeccable/review/
+.impeccable/critique/
 graphify-out/
